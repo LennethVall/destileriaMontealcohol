@@ -1,0 +1,2013 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<montealcohol>
+    <clientes>
+        <cliente nif="11730743F">
+            <nombre>Oier</nombre>
+            <apellido>Crispin</apellido>
+            <calle>C/ Porcelana</calle>
+            <numero>13</numero>
+            <piso>BA</piso>
+            <localidad>Irun</localidad>
+            <provincia>Gipuzkoa</provincia>
+            <email>oier.crispin@correo.es</email>
+        </cliente>
+        <cliente nif="16974082J">
+            <nombre>Inés</nombre>
+            <apellido>Fernandez</apellido>
+            <calle>Av. General</calle>
+            <numero>23</numero>
+            <piso>7A</piso>
+            <localidad>Bermeo</localidad>
+            <provincia>Bizkaia</provincia>
+            <telefono>747465821</telefono>
+            <email>ines.fernandez@correo.es</email>
+        </cliente>
+        <cliente nif="78546221P">
+            <nombre>Alberta</nombre>
+            <apellido>Fuentecilla</apellido>
+            <calle>Las Hermanas</calle>
+            <numero>23</numero>
+            <piso>0</piso>
+            <localidad>Lanuzca</localidad>
+            <provincia>Huesca</provincia>
+            <telefono>944562110</telefono>
+        </cliente>
+        <cliente nif="12345678A">
+            <nombre>Ana</nombre>
+            <apellido>García</apellido>
+            <calle>C/ Mayor</calle>
+            <numero>12</numero>
+            <piso>2B</piso>
+            <localidad>Bilbao</localidad>
+            <provincia>Bizkaia</provincia>
+            <telefono>600123456</telefono>
+        </cliente>
+        <cliente nif="54129726P">
+            <nombre>Álvaro</nombre>
+            <apellido>Jauregui</apellido>
+            <calle>Calle San Juan</calle>
+            <numero>11</numero>
+            <piso>4Izq</piso>
+            <localidad>Barakaldo</localidad>
+            <provincia>Bizkaia</provincia>
+            <email>alvaro.jauregui@correo.es</email>
+        </cliente>
+        <cliente nif="17465505H">
+            <nombre>Mario</nombre>
+            <apellido>Lira</apellido>
+            <calle>Av. Eguzkilore</calle>
+            <numero>23</numero>
+            <piso>5B</piso>
+            <localidad>Amurrio</localidad>
+            <provincia>Álava</provincia>
+            <telefono>638831521</telefono>
+        </cliente>
+        <cliente nif="11223344C">
+            <nombre>Marta</nombre>
+            <apellido>López</apellido>
+            <calle>C/ Arana</calle>
+            <numero>8</numero>
+            <localidad>Vitoria</localidad>
+            <provincia>Álava</provincia>
+            <telefono>699112233</telefono>
+        </cliente>
+        <cliente nif="52332160F">
+            <nombre>Anartz</nombre>
+            <apellido>Mamani</apellido>
+            <calle>C/ Bajounpu Ente</calle>
+            <numero>2</numero>
+            <piso>2Der</piso>
+            <localidad>Sopelana</localidad>
+            <provincia>Bizkaia</provincia>
+            <email>bujarrita43@gmail.com</email>
+        </cliente>
+        <cliente nif="87654321B">
+            <nombre>Luis</nombre>
+            <apellido>Martínez</apellido>
+            <calle>Av. Libertad</calle>
+            <numero>45</numero>
+            <piso>1A</piso>
+            <localidad>Donostia</localidad>
+            <provincia>Gipuzkoa</provincia>
+            <email>lmartinez@gmail.com</email>
+        </cliente>
+        <cliente nif="56096353C">
+            <nombre>Begoña</nombre>
+            <apellido>Moncalvillo</apellido>
+            <calle>C/ Trompetas</calle>
+            <numero>10</numero>
+            <piso>3C</piso>
+            <localidad>Mondragón</localidad>
+            <provincia>Gipuzkoa</provincia>
+            <telefono>654876231</telefono>
+        </cliente>
+        <cliente nif="74254668C">
+            <nombre>Alberta</nombre>
+            <apellido>Rodriguez</apellido>
+            <calle>La Santeña</calle>
+            <numero>45</numero>
+            <piso>2I</piso>
+            <localidad>Amurrio</localidad>
+            <provincia>Vizcaya</provincia>
+            <telefono>655844522</telefono>
+        </cliente>
+        <cliente nif="19163153J">
+            <nombre>Irati</nombre>
+            <apellido>Santobeña</apellido>
+            <calle>Artea</calle>
+            <numero>2</numero>
+            <piso>4B</piso>
+            <localidad>Bilbao</localidad>
+            <provincia>Bizakaia</provincia>
+            <telefono>653958468</telefono>
+            <email>iratipersonal@gmail.com</email>
+        </cliente>
+    </clientes>
+    <proveedores>
+        <proveedor nif="76607064K">
+            <nombre>Bebidas Norte</nombre>
+            <localidad>Bilbao</localidad>
+            <telefono>944123456</telefono>
+        </proveedor>
+        <proveedor nif="19961263T">
+            <nombre>Destilería Eibarresa</nombre>
+            <localidad>Eibar</localidad>
+            <email>contactanos@destileriaeibarresa.net</email>
+        </proveedor>
+        <proveedor nif="48496113S">
+            <nombre>Forja Liquida</nombre>
+            <localidad>Malaga</localidad>
+            <telefono>605351349</telefono>
+            <email>info@forjaliquida.es</email>
+        </proveedor>
+        <proveedor nif="64694667Z">
+            <nombre>Gran Reserva Aurea</nombre>
+            <localidad>Madrid</localidad>
+            <email>GRAcontacto@gmail.com</email>
+        </proveedor>
+        <proveedor nif="43970291H">
+            <nombre>La Cámara del Alquimista</nombre>
+            <localidad>Granada</localidad>
+            <email>contacto@alquimista.es</email>
+        </proveedor>
+        <proveedor nif="49315429W">
+            <nombre>La Destilería Montealcohol</nombre>
+            <localidad>Bilbao</localidad>
+            <telefono>727189541</telefono>
+            <email>info@montealcohol.es</email>
+        </proveedor>
+        <proveedor nif="55915694A">
+            <nombre>La Quinta Esencia</nombre>
+            <localidad>Alicante</localidad>
+            <telefono>717109417</telefono>
+        </proveedor>
+        <proveedor nif="85597644Q">
+            <nombre>Licores del Sur</nombre>
+            <localidad>Sevilla</localidad>
+            <telefono>955112233</telefono>
+        </proveedor>
+        <proveedor nif="36129978Z">
+            <nombre>Sierra Alquimia</nombre>
+            <localidad>Cordoba</localidad>
+            <email>sierralquimia@gmail.com</email>
+        </proveedor>
+    </proveedores>
+    <productos>
+        <producto codigo="F0109">
+            <nombre>Lobo de Malta</nombre>
+            <precio moneda="EUR">18.0</precio>
+            <stock>120</stock>
+            <tipo>Fermentadas</tipo>
+            <proveedor ref="64694667Z"/>
+            <imagen ruta="img/F0109.png"/>
+        </producto>
+        <producto codigo="F0116">
+            <nombre>Sidra del Norte</nombre>
+            <precio moneda="EUR">17.0</precio>
+            <stock>150</stock>
+            <tipo>Fermentadas</tipo>
+            <proveedor ref="76607064K"/>
+            <imagen ruta="img/F0116.png"/>
+        </producto>
+        <producto codigo="F0117">
+            <nombre>Sake de Mono</nombre>
+            <precio moneda="EUR">25.5</precio>
+            <stock>30</stock>
+            <tipo>Fermentadas</tipo>
+            <proveedor ref="43970291H"/>
+            <imagen ruta="img/F0117.png"/>
+        </producto>
+        <producto codigo="D0101">
+            <nombre>Whisky Roble</nombre>
+            <precio moneda="EUR">25.5</precio>
+            <stock>120</stock>
+            <tipo>Destiladas</tipo>
+            <proveedor ref="76607064K"/>
+            <imagen ruta="img/D0101.png"/>
+        </producto>
+        <producto codigo="D0102">
+            <nombre>Vodka Puro</nombre>
+            <precio moneda="EUR">18.9</precio>
+            <stock>200</stock>
+            <tipo>Destiladas</tipo>
+            <proveedor ref="19961263T"/>
+            <imagen ruta="img/D0102.png"/>
+        </producto>
+        <producto codigo="D0103">
+            <nombre>Ron Dorado</nombre>
+            <precio moneda="EUR">22.0</precio>
+            <stock>150</stock>
+            <tipo>Destiladas</tipo>
+            <proveedor ref="85597644Q"/>
+            <imagen ruta="img/D0103.png"/>
+        </producto>
+        <producto codigo="D0104">
+            <nombre>Ginebra Azul</nombre>
+            <precio moneda="EUR">30.0</precio>
+            <stock>80</stock>
+            <tipo>Destiladas</tipo>
+            <proveedor ref="48496113S"/>
+            <imagen ruta="img/D0104.png"/>
+        </producto>
+        <producto codigo="D0105">
+            <nombre>Alambique Arcano</nombre>
+            <precio moneda="EUR">23.5</precio>
+            <stock>90</stock>
+            <tipo>Destiladas</tipo>
+            <proveedor ref="36129978Z"/>
+            <imagen ruta="img/D0105.png"/>
+        </producto>
+        <producto codigo="D0107">
+            <nombre>Espíritu Rebelde</nombre>
+            <precio moneda="EUR">21.9</precio>
+            <stock>40</stock>
+            <tipo>Destiladas</tipo>
+            <proveedor ref="55915694A"/>
+            <imagen ruta="img/D0107.png"/>
+        </producto>
+        <producto codigo="D0108">
+            <nombre>Sombra &amp; Vapor</nombre>
+            <precio moneda="EUR">19.6</precio>
+            <stock>50</stock>
+            <tipo>Destiladas</tipo>
+            <proveedor ref="48496113S"/>
+            <imagen ruta="img/D0108.png"/>
+        </producto>
+        <producto codigo="D0110">
+            <nombre>Cuervo Dorado</nombre>
+            <precio moneda="EUR">27.0</precio>
+            <stock>200</stock>
+            <tipo>Destiladas</tipo>
+            <proveedor ref="85597644Q"/>
+            <imagen ruta="img/D0110.png"/>
+        </producto>
+        <producto codigo="D0111">
+            <nombre>Serpiente Blanca</nombre>
+            <precio moneda="EUR">30.0</precio>
+            <stock>180</stock>
+            <tipo>Destiladas</tipo>
+            <proveedor ref="85597644Q"/>
+            <imagen ruta="img/D0111.png"/>
+        </producto>
+        <producto codigo="D0112">
+            <nombre>Tequila Rosado</nombre>
+            <precio moneda="EUR">32.9</precio>
+            <stock>140</stock>
+            <tipo>Destiladas</tipo>
+            <proveedor ref="19961263T"/>
+            <imagen ruta="img/D0112.png"/>
+        </producto>
+        <producto codigo="D0118">
+            <nombre>Ginebra Roja</nombre>
+            <precio moneda="EUR">30.0</precio>
+            <stock>90</stock>
+            <tipo>Destiladas</tipo>
+            <proveedor ref="48496113S"/>
+            <imagen ruta="img/D0118.png"/>
+        </producto>
+        <producto codigo="E0113">
+            <nombre>Jerez 1912</nombre>
+            <precio moneda="EUR">28.0</precio>
+            <stock>100</stock>
+            <tipo>Encabezadas</tipo>
+            <proveedor ref="43970291H"/>
+            <imagen ruta="img/E0113.png"/>
+        </producto>
+        <producto codigo="L0106">
+            <nombre>Elixir de Fuego</nombre>
+            <precio moneda="EUR">48.0</precio>
+            <stock>100</stock>
+            <tipo>Licores</tipo>
+            <proveedor ref="36129978Z"/>
+            <imagen ruta="img/L0106.png"/>
+        </producto>
+        <producto codigo="L0114">
+            <nombre>Grand Marnier</nombre>
+            <precio moneda="EUR">28.0</precio>
+            <stock>70</stock>
+            <tipo>Licores</tipo>
+            <proveedor ref="64694667Z"/>
+            <imagen ruta="img/L0114.png"/>
+        </producto>
+        <producto codigo="L0115">
+            <nombre>Limoncello</nombre>
+            <precio moneda="EUR">16.5</precio>
+            <stock>190</stock>
+            <tipo>Licores</tipo>
+            <proveedor ref="76607064K"/>
+            <imagen ruta="img/L0115.png"/>
+        </producto>
+        <producto codigo="N0119">
+            <nombre>Reserva del Fundador</nombre>
+            <precio moneda="EUR">189.0</precio>
+            <stock>700</stock>
+            <tipo>NuestraSelección</tipo>
+            <proveedor ref="49315429W"/>
+            <imagen ruta="img/N0119.png"/>
+        </producto>
+        <producto codigo="N0120">
+            <nombre>Aguardiente de Montaña</nombre>
+            <precio moneda="EUR">64.0</precio>
+            <stock>670</stock>
+            <tipo>NuestraSelección</tipo>
+            <proveedor ref="49315429W"/>
+            <imagen ruta="img/N0120.png"/>
+        </producto>
+        <producto codigo="N0121">
+            <nombre>Gran Reserva Centenario</nombre>
+            <precio moneda="EUR">620.0</precio>
+            <stock>400</stock>
+            <tipo>NuestraSelección</tipo>
+            <proveedor ref="49315429W"/>
+            <imagen ruta="img/N0121.png"/>
+        </producto>
+        <producto codigo="N0122">
+            <nombre>Coñac Solera Especial</nombre>
+            <precio moneda="EUR">112.0</precio>
+            <stock>790</stock>
+            <tipo>NuestraSelección</tipo>
+            <proveedor ref="49315429W"/>
+            <imagen ruta="img/N0122.png"/>
+        </producto>
+        <producto codigo="N0123">
+            <nombre>Malt Single Barrel</nombre>
+            <precio moneda="EUR">245.0</precio>
+            <stock>520</stock>
+            <tipo>NuestraSelección</tipo>
+            <proveedor ref="49315429W"/>
+            <imagen ruta="img/N0123.png"/>
+        </producto>
+        <producto codigo="N0124">
+            <nombre>Ginebra Botánica Sierra</nombre>
+            <precio moneda="EUR">48.0</precio>
+            <stock>810</stock>
+            <tipo>NuestraSelección</tipo>
+            <proveedor ref="49315429W"/>
+            <imagen ruta="img/N0124.png"/>
+        </producto>
+        <producto codigo="N0125">
+            <nombre>Ron de Caña Tostada</nombre>
+            <precio moneda="EUR">78.0</precio>
+            <stock>630</stock>
+            <tipo>NuestraSelección</tipo>
+            <proveedor ref="49315429W"/>
+            <imagen ruta="img/N0125.png"/>
+        </producto>
+        <producto codigo="N0126">
+            <nombre>Vodka Alpino Cristal</nombre>
+            <precio moneda="EUR">42.0</precio>
+            <stock>600</stock>
+            <tipo>NuestraSelección</tipo>
+            <proveedor ref="49315429W"/>
+            <imagen ruta="img/N0126.png"/>
+        </producto>
+        <producto codigo="N0127">
+            <nombre>Aguardiente Centenario</nombre>
+            <precio moneda="EUR">120.0</precio>
+            <stock>450</stock>
+            <tipo>NuestraSelección</tipo>
+            <proveedor ref="85597644Q"/>
+            <imagen ruta="img/N0127.png"/>
+        </producto>
+        <producto codigo="N0128">
+            <nombre>Ginebra Botánica Alpina</nombre>
+            <precio moneda="EUR">75.5</precio>
+            <stock>410</stock>
+            <tipo>NuestraSelección</tipo>
+            <proveedor ref="76607064K"/>
+            <imagen ruta="img/N0128.png"/>
+        </producto>
+    </productos>
+    <pedidos>
+        <pedido numero="90">
+            <fecha_ped>2026-05-31</fecha_ped>
+            <fecha_ent>2026-06-05</fecha_ent>
+            <precio_total>245.0</precio_total>
+            <cliente ref="56096353C"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="N0123"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>245.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="89">
+            <fecha_ped>2026-05-29</fecha_ped>
+            <fecha_ent>2026-06-03</fecha_ent>
+            <precio_total>78.0</precio_total>
+            <cliente ref="11730743F"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="E0113"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>28.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="F0117"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>51.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="88">
+            <fecha_ped>2026-05-27</fecha_ped>
+            <fecha_ent>2026-06-01</fecha_ent>
+            <precio_total>112.0</precio_total>
+            <cliente ref="19163153J"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0104"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>60.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0114"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>28.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>24.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="87">
+            <fecha_ped>2026-05-25</fecha_ped>
+            <fecha_ent>2026-05-30</fecha_ent>
+            <precio_total>64.0</precio_total>
+            <cliente ref="52332160F"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="L0106"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>48.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>16.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="86">
+            <fecha_ped>2026-05-23</fecha_ped>
+            <fecha_ent>2026-05-28</fecha_ent>
+            <precio_total>189.0</precio_total>
+            <cliente ref="16974082J"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="N0119"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>189.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="85">
+            <fecha_ped>2026-05-21</fecha_ped>
+            <fecha_ent>2026-05-26</fecha_ent>
+            <precio_total>52.0</precio_total>
+            <cliente ref="17465505H"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0103"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>44.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>8.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="84">
+            <fecha_ped>2026-05-19</fecha_ped>
+            <fecha_ent>2026-05-24</fecha_ent>
+            <precio_total>134.5</precio_total>
+            <cliente ref="54129726P"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0112"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>32.9</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>23.6</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="N0125"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>78.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="83">
+            <fecha_ped>2026-05-17</fecha_ped>
+            <fecha_ent>2026-05-22</fecha_ent>
+            <precio_total>96.0</precio_total>
+            <cliente ref="87654321B"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="L0106"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>96.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="82">
+            <fecha_ped>2026-05-15</fecha_ped>
+            <fecha_ent>2026-05-20</fecha_ent>
+            <precio_total>41.8</precio_total>
+            <cliente ref="11223344C"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="F0116"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>34.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>7.8</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="81">
+            <fecha_ped>2026-05-13</fecha_ped>
+            <fecha_ent>2026-05-18</fecha_ent>
+            <precio_total>58.5</precio_total>
+            <cliente ref="12345678A"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0101"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>51.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>7.5</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="80">
+            <fecha_ped>2026-05-11</fecha_ped>
+            <fecha_ent>2026-05-16</fecha_ent>
+            <precio_total>189.0</precio_total>
+            <cliente ref="16974082J"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="N0119"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>189.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="79">
+            <fecha_ped>2026-05-09</fecha_ped>
+            <fecha_ent>2026-05-14</fecha_ent>
+            <precio_total>620.0</precio_total>
+            <cliente ref="11730743F"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="N0121"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>620.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="78">
+            <fecha_ped>2026-05-07</fecha_ped>
+            <fecha_ent>2026-05-12</fecha_ent>
+            <precio_total>48.0</precio_total>
+            <cliente ref="17465505H"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0103"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>44.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>4.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="77">
+            <fecha_ped>2026-05-05</fecha_ped>
+            <fecha_ent>2026-05-10</fecha_ent>
+            <precio_total>112.0</precio_total>
+            <cliente ref="19163153J"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0104"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>60.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="D0118"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>30.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>22.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="76">
+            <fecha_ped>2026-05-03</fecha_ped>
+            <fecha_ent>2026-05-08</fecha_ent>
+            <precio_total>78.0</precio_total>
+            <cliente ref="52332160F"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="L0106"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>48.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0114"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>28.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>2.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="75">
+            <fecha_ped>2026-05-01</fecha_ped>
+            <fecha_ent>2026-05-06</fecha_ent>
+            <precio_total>245.0</precio_total>
+            <cliente ref="54129726P"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="N0123"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>245.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="74">
+            <fecha_ped>2026-04-29</fecha_ped>
+            <fecha_ent>2026-05-04</fecha_ent>
+            <precio_total>96.0</precio_total>
+            <cliente ref="56096353C"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0102"/>
+                    <cantidad>3</cantidad>
+                    <precio_linea>56.7</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="F0109"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>36.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>3.3</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="73">
+            <fecha_ped>2026-04-27</fecha_ped>
+            <fecha_ent>2026-05-02</fecha_ent>
+            <precio_total>48.0</precio_total>
+            <cliente ref="11223344C"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="F0116"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>34.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>14.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="72">
+            <fecha_ped>2026-04-25</fecha_ped>
+            <fecha_ent>2026-04-30</fecha_ent>
+            <precio_total>112.0</precio_total>
+            <cliente ref="87654321B"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="N0122"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>112.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="71">
+            <fecha_ped>2026-04-23</fecha_ped>
+            <fecha_ent>2026-04-28</fecha_ent>
+            <precio_total>30.0</precio_total>
+            <cliente ref="12345678A"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="F0109"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>18.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>12.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="70">
+            <fecha_ped>2026-04-21</fecha_ped>
+            <fecha_ent>2026-04-26</fecha_ent>
+            <precio_total>245.0</precio_total>
+            <cliente ref="56096353C"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="N0123"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>245.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="69">
+            <fecha_ped>2026-04-19</fecha_ped>
+            <fecha_ent>2026-04-24</fecha_ent>
+            <precio_total>78.0</precio_total>
+            <cliente ref="11730743F"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="E0113"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>28.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="F0117"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>51.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="68">
+            <fecha_ped>2026-04-17</fecha_ped>
+            <fecha_ent>2026-04-22</fecha_ent>
+            <precio_total>112.0</precio_total>
+            <cliente ref="19163153J"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0104"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>60.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0114"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>28.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>24.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="67">
+            <fecha_ped>2026-04-15</fecha_ped>
+            <fecha_ent>2026-04-20</fecha_ent>
+            <precio_total>64.0</precio_total>
+            <cliente ref="52332160F"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="L0106"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>48.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>16.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="66">
+            <fecha_ped>2026-04-13</fecha_ped>
+            <fecha_ent>2026-04-18</fecha_ent>
+            <precio_total>189.0</precio_total>
+            <cliente ref="16974082J"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="N0119"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>189.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="65">
+            <fecha_ped>2026-04-11</fecha_ped>
+            <fecha_ent>2026-04-16</fecha_ent>
+            <precio_total>52.0</precio_total>
+            <cliente ref="17465505H"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0103"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>44.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>8.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="64">
+            <fecha_ped>2026-04-09</fecha_ped>
+            <fecha_ent>2026-04-14</fecha_ent>
+            <precio_total>134.5</precio_total>
+            <cliente ref="54129726P"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0112"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>32.9</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>23.6</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="N0125"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>78.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="63">
+            <fecha_ped>2026-04-07</fecha_ped>
+            <fecha_ent>2026-04-12</fecha_ent>
+            <precio_total>96.0</precio_total>
+            <cliente ref="87654321B"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="L0106"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>96.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="62">
+            <fecha_ped>2026-04-05</fecha_ped>
+            <fecha_ent>2026-04-10</fecha_ent>
+            <precio_total>41.8</precio_total>
+            <cliente ref="11223344C"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="F0116"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>34.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>7.8</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="61">
+            <fecha_ped>2026-04-03</fecha_ped>
+            <fecha_ent>2026-04-08</fecha_ent>
+            <precio_total>58.5</precio_total>
+            <cliente ref="12345678A"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0101"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>51.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>7.5</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="60">
+            <fecha_ped>2026-04-01</fecha_ped>
+            <fecha_ent>2026-04-06</fecha_ent>
+            <precio_total>189.0</precio_total>
+            <cliente ref="16974082J"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="N0119"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>189.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="59">
+            <fecha_ped>2026-03-30</fecha_ped>
+            <fecha_ent>2026-04-04</fecha_ent>
+            <precio_total>620.0</precio_total>
+            <cliente ref="11730743F"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="N0121"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>620.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="58">
+            <fecha_ped>2026-03-28</fecha_ped>
+            <fecha_ent>2026-04-02</fecha_ent>
+            <precio_total>48.0</precio_total>
+            <cliente ref="17465505H"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0103"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>44.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>4.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="57">
+            <fecha_ped>2026-03-26</fecha_ped>
+            <fecha_ent>2026-03-31</fecha_ent>
+            <precio_total>112.0</precio_total>
+            <cliente ref="19163153J"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0104"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>60.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="D0118"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>30.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>22.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="56">
+            <fecha_ped>2026-03-24</fecha_ped>
+            <fecha_ent>2026-03-29</fecha_ent>
+            <precio_total>78.0</precio_total>
+            <cliente ref="52332160F"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="L0106"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>48.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0114"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>28.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>2.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="55">
+            <fecha_ped>2026-03-22</fecha_ped>
+            <fecha_ent>2026-03-27</fecha_ent>
+            <precio_total>245.0</precio_total>
+            <cliente ref="54129726P"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="N0123"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>245.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="54">
+            <fecha_ped>2026-03-20</fecha_ped>
+            <fecha_ent>2026-03-25</fecha_ent>
+            <precio_total>96.0</precio_total>
+            <cliente ref="56096353C"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0102"/>
+                    <cantidad>3</cantidad>
+                    <precio_linea>56.7</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="F0109"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>36.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>3.3</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="53">
+            <fecha_ped>2026-03-18</fecha_ped>
+            <fecha_ent>2026-03-23</fecha_ent>
+            <precio_total>48.0</precio_total>
+            <cliente ref="11223344C"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="F0116"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>34.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>14.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="52">
+            <fecha_ped>2026-03-16</fecha_ped>
+            <fecha_ent>2026-03-21</fecha_ent>
+            <precio_total>112.0</precio_total>
+            <cliente ref="87654321B"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="N0122"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>112.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="51">
+            <fecha_ped>2026-03-14</fecha_ped>
+            <fecha_ent>2026-03-19</fecha_ent>
+            <precio_total>58.5</precio_total>
+            <cliente ref="12345678A"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0101"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>51.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>7.5</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="50">
+            <fecha_ped>2026-03-08</fecha_ped>
+            <fecha_ent>2026-03-13</fecha_ent>
+            <precio_total>189.0</precio_total>
+            <cliente ref="16974082J"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="N0119"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>189.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="49">
+            <fecha_ped>2026-03-01</fecha_ped>
+            <fecha_ent>2026-03-06</fecha_ent>
+            <precio_total>620.0</precio_total>
+            <cliente ref="11730743F"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="N0121"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>620.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="48">
+            <fecha_ped>2026-02-22</fecha_ped>
+            <fecha_ent>2026-02-27</fecha_ent>
+            <precio_total>48.0</precio_total>
+            <cliente ref="17465505H"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0103"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>44.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>4.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="47">
+            <fecha_ped>2026-02-15</fecha_ped>
+            <fecha_ent>2026-02-20</fecha_ent>
+            <precio_total>112.0</precio_total>
+            <cliente ref="19163153J"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0104"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>60.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="D0118"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>30.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>22.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="46">
+            <fecha_ped>2026-02-08</fecha_ped>
+            <fecha_ent>2026-02-13</fecha_ent>
+            <precio_total>78.0</precio_total>
+            <cliente ref="52332160F"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="L0106"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>48.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0114"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>28.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>2.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="45">
+            <fecha_ped>2026-02-01</fecha_ped>
+            <fecha_ent>2026-02-06</fecha_ent>
+            <precio_total>245.0</precio_total>
+            <cliente ref="54129726P"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="N0123"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>245.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="44">
+            <fecha_ped>2026-01-24</fecha_ped>
+            <fecha_ent>2026-01-29</fecha_ent>
+            <precio_total>96.0</precio_total>
+            <cliente ref="56096353C"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0102"/>
+                    <cantidad>3</cantidad>
+                    <precio_linea>56.7</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="F0109"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>36.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>3.3</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="43">
+            <fecha_ped>2026-01-17</fecha_ped>
+            <fecha_ent>2026-01-22</fecha_ent>
+            <precio_total>48.0</precio_total>
+            <cliente ref="11223344C"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="F0116"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>34.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>14.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="42">
+            <fecha_ped>2026-01-10</fecha_ped>
+            <fecha_ent>2026-01-15</fecha_ent>
+            <precio_total>112.0</precio_total>
+            <cliente ref="87654321B"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="N0122"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>112.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="41">
+            <fecha_ped>2026-01-03</fecha_ped>
+            <fecha_ent>2026-01-08</fecha_ent>
+            <precio_total>30.0</precio_total>
+            <cliente ref="12345678A"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="F0109"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>18.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>12.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="40">
+            <fecha_ped>2025-12-22</fecha_ped>
+            <fecha_ent>2025-12-27</fecha_ent>
+            <precio_total>245.0</precio_total>
+            <cliente ref="56096353C"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="N0123"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>245.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="39">
+            <fecha_ped>2025-12-15</fecha_ped>
+            <fecha_ent>2025-12-20</fecha_ent>
+            <precio_total>78.0</precio_total>
+            <cliente ref="11730743F"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="E0113"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>28.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="F0117"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>51.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="38">
+            <fecha_ped>2025-12-08</fecha_ped>
+            <fecha_ent>2025-12-13</fecha_ent>
+            <precio_total>112.0</precio_total>
+            <cliente ref="19163153J"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0104"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>60.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0114"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>28.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>24.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="37">
+            <fecha_ped>2025-12-01</fecha_ped>
+            <fecha_ent>2025-12-06</fecha_ent>
+            <precio_total>64.0</precio_total>
+            <cliente ref="52332160F"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="L0106"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>48.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>16.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="36">
+            <fecha_ped>2025-11-24</fecha_ped>
+            <fecha_ent>2025-11-29</fecha_ent>
+            <precio_total>189.0</precio_total>
+            <cliente ref="16974082J"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="N0119"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>189.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="35">
+            <fecha_ped>2025-11-17</fecha_ped>
+            <fecha_ent>2025-11-22</fecha_ent>
+            <precio_total>52.0</precio_total>
+            <cliente ref="17465505H"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0103"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>44.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>8.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="34">
+            <fecha_ped>2025-11-10</fecha_ped>
+            <fecha_ent>2025-11-15</fecha_ent>
+            <precio_total>134.5</precio_total>
+            <cliente ref="54129726P"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0112"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>32.9</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>23.6</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="N0125"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>78.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="33">
+            <fecha_ped>2025-11-03</fecha_ped>
+            <fecha_ent>2025-11-08</fecha_ent>
+            <precio_total>96.0</precio_total>
+            <cliente ref="87654321B"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="L0106"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>96.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="32">
+            <fecha_ped>2025-10-27</fecha_ped>
+            <fecha_ent>2025-11-01</fecha_ent>
+            <precio_total>41.8</precio_total>
+            <cliente ref="11223344C"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="F0116"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>34.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>7.8</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="31">
+            <fecha_ped>2025-10-20</fecha_ped>
+            <fecha_ent>2025-10-25</fecha_ent>
+            <precio_total>58.5</precio_total>
+            <cliente ref="12345678A"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0101"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>51.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>7.5</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="30">
+            <fecha_ped>2025-10-13</fecha_ped>
+            <fecha_ent>2025-10-18</fecha_ent>
+            <precio_total>189.0</precio_total>
+            <cliente ref="16974082J"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="N0119"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>189.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="29">
+            <fecha_ped>2025-10-06</fecha_ped>
+            <fecha_ent>2025-10-11</fecha_ent>
+            <precio_total>620.0</precio_total>
+            <cliente ref="11730743F"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="N0121"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>620.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="28">
+            <fecha_ped>2025-09-29</fecha_ped>
+            <fecha_ent>2025-10-04</fecha_ent>
+            <precio_total>48.0</precio_total>
+            <cliente ref="17465505H"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0103"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>44.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>4.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="27">
+            <fecha_ped>2025-09-22</fecha_ped>
+            <fecha_ent>2025-09-27</fecha_ent>
+            <precio_total>112.0</precio_total>
+            <cliente ref="19163153J"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0104"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>60.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="D0118"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>30.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>22.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="26">
+            <fecha_ped>2025-09-15</fecha_ped>
+            <fecha_ent>2025-09-20</fecha_ent>
+            <precio_total>78.0</precio_total>
+            <cliente ref="52332160F"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="L0106"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>48.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0114"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>28.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>2.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="25">
+            <fecha_ped>2025-09-08</fecha_ped>
+            <fecha_ent>2025-09-13</fecha_ent>
+            <precio_total>245.0</precio_total>
+            <cliente ref="54129726P"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="N0123"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>245.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="24">
+            <fecha_ped>2025-09-01</fecha_ped>
+            <fecha_ent>2025-09-06</fecha_ent>
+            <precio_total>96.0</precio_total>
+            <cliente ref="56096353C"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0102"/>
+                    <cantidad>3</cantidad>
+                    <precio_linea>56.7</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="F0109"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>36.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>3.3</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="23">
+            <fecha_ped>2025-08-24</fecha_ped>
+            <fecha_ent>2025-08-29</fecha_ent>
+            <precio_total>48.0</precio_total>
+            <cliente ref="11223344C"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="F0116"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>34.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>14.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="22">
+            <fecha_ped>2025-08-17</fecha_ped>
+            <fecha_ent>2025-08-22</fecha_ent>
+            <precio_total>112.0</precio_total>
+            <cliente ref="87654321B"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="N0122"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>112.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="21">
+            <fecha_ped>2025-08-10</fecha_ped>
+            <fecha_ent>2025-08-15</fecha_ent>
+            <precio_total>30.0</precio_total>
+            <cliente ref="12345678A"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="F0109"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>18.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>12.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="20">
+            <fecha_ped>2025-08-02</fecha_ped>
+            <fecha_ent>2025-08-07</fecha_ent>
+            <precio_total>620.0</precio_total>
+            <cliente ref="11730743F"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="N0121"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>620.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="19">
+            <fecha_ped>2025-07-26</fecha_ped>
+            <fecha_ent>2025-08-01</fecha_ent>
+            <precio_total>48.0</precio_total>
+            <cliente ref="17465505H"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0103"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>44.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>4.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="18">
+            <fecha_ped>2025-07-19</fecha_ped>
+            <fecha_ent>2025-07-25</fecha_ent>
+            <precio_total>112.0</precio_total>
+            <cliente ref="19163153J"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0104"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>60.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="D0118"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>30.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>22.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="17">
+            <fecha_ped>2025-07-12</fecha_ped>
+            <fecha_ent>2025-07-18</fecha_ent>
+            <precio_total>78.0</precio_total>
+            <cliente ref="52332160F"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="L0106"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>48.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0114"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>28.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>2.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="16">
+            <fecha_ped>2025-07-05</fecha_ped>
+            <fecha_ent>2025-07-10</fecha_ent>
+            <precio_total>134.5</precio_total>
+            <cliente ref="16974082J"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0104"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>30.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="D0112"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>32.9</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>23.6</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="N0124"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>48.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="15">
+            <fecha_ped>2025-06-29</fecha_ped>
+            <fecha_ent>2025-07-04</fecha_ent>
+            <precio_total>58.5</precio_total>
+            <cliente ref="56096353C"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0102"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>37.8</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>20.7</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="14">
+            <fecha_ped>2025-06-22</fecha_ped>
+            <fecha_ent>2025-06-27</fecha_ent>
+            <precio_total>96.0</precio_total>
+            <cliente ref="11223344C"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="F0109"/>
+                    <cantidad>3</cantidad>
+                    <precio_linea>54.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="F0116"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>34.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>8.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="13">
+            <fecha_ped>2025-06-15</fecha_ped>
+            <fecha_ent>2025-06-20</fecha_ent>
+            <precio_total>245.0</precio_total>
+            <cliente ref="54129726P"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="N0123"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>245.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="12">
+            <fecha_ped>2025-06-08</fecha_ped>
+            <fecha_ent>2025-06-14</fecha_ent>
+            <precio_total>189.0</precio_total>
+            <cliente ref="87654321B"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="N0119"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>189.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="11">
+            <fecha_ped>2025-06-01</fecha_ped>
+            <fecha_ent>2025-06-06</fecha_ent>
+            <precio_total>145.5</precio_total>
+            <cliente ref="12345678A"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0101"/>
+                    <cantidad>3</cantidad>
+                    <precio_linea>76.5</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="D0102"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>37.8</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>31.2</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="10">
+            <fecha_ped>2025-05-19</fecha_ped>
+            <fecha_ent>2025-05-25</fecha_ent>
+            <precio_total>78.0</precio_total>
+            <cliente ref="11730743F"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="E0113"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>28.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="F0117"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>51.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="9">
+            <fecha_ped>2025-05-11</fecha_ped>
+            <fecha_ent>2025-05-16</fecha_ent>
+            <precio_total>112.0</precio_total>
+            <cliente ref="19163153J"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0104"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>60.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0114"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>28.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>24.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="8">
+            <fecha_ped>2025-05-03</fecha_ped>
+            <fecha_ent>2025-05-09</fecha_ent>
+            <precio_total>64.0</precio_total>
+            <cliente ref="52332160F"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="L0106"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>48.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>16.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="7">
+            <fecha_ped>2025-04-25</fecha_ped>
+            <fecha_ent>2025-04-30</fecha_ent>
+            <precio_total>189.0</precio_total>
+            <cliente ref="16974082J"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="N0119"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>189.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="6">
+            <fecha_ped>2025-04-18</fecha_ped>
+            <fecha_ent>2025-04-23</fecha_ent>
+            <precio_total>52.0</precio_total>
+            <cliente ref="17465505H"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0103"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>44.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>8.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="5">
+            <fecha_ped>2025-04-10</fecha_ped>
+            <fecha_ent>2025-04-15</fecha_ent>
+            <precio_total>134.5</precio_total>
+            <cliente ref="54129726P"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0103"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>44.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="D0104"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>60.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="D0105"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>23.5</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>7.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="4">
+            <fecha_ped>2025-04-02</fecha_ped>
+            <fecha_ent>2025-04-07</fecha_ent>
+            <precio_total>96.0</precio_total>
+            <cliente ref="87654321B"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="L0106"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>96.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="3">
+            <fecha_ped>2025-03-20</fecha_ped>
+            <fecha_ent>2025-03-26</fecha_ent>
+            <precio_total>75.0</precio_total>
+            <cliente ref="56096353C"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0102"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>37.8</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="F0109"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>36.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>1.2</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="2">
+            <fecha_ped>2025-03-12</fecha_ped>
+            <fecha_ent>2025-03-17</fecha_ent>
+            <precio_total>41.8</precio_total>
+            <cliente ref="11223344C"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="F0116"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>34.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>7.5</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="1">
+            <fecha_ped>2025-03-05</fecha_ped>
+            <fecha_ent>2025-03-10</fecha_ent>
+            <precio_total>58.5</precio_total>
+            <cliente ref="12345678A"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="D0101"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>51.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0115"/>
+                    <cantidad>1</cantidad>
+                    <precio_linea>7.5</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+    </pedidos>
+</montealcohol>
