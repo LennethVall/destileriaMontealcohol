@@ -45,4 +45,3 @@ public class PanelMontealcohol extends JPanel {
         g2.drawRoundRect(1, 1, getWidth() - 2, getHeight() - 2, 20, 20);
     }
 }
-

@@ -1,3 +1,4 @@
+
 package dao;
 
 import java.sql.ResultSet;
@@ -24,5 +25,15 @@ public interface IPedidoDAO {
 	List<LineaPedido> buscarLineas(int numeroPedido) throws SQLException;
 	
 	Pedido mapearPedido(ResultSet rs) throws SQLException;
+
+	boolean modificarPedidoProcedimiento(
+	        int numPedido,
+	        String accion,
+	        String listaProductos,
+	        String listaCantidades,
+	        String nuevaCalle,
+	        String nuevoTelefono,
+	        String nuevoEmail
+	) throws SQLException;
 
 }

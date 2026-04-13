@@ -1,3 +1,4 @@
+
 package dao;
 
 import java.sql.SQLException;
@@ -19,4 +20,15 @@ public interface IProductoDAO {
 	
 	boolean eliminar(String codigo) throws SQLException;
 
+	boolean eliminarProductoProcedimiento(String codProducto) throws SQLException;
+
+	boolean crearProductoConStockInicial(
+	        String cod,
+	        String nombre,
+	        double precio,
+	        String tipo,
+	        String nifProveedor
+	) throws SQLException;
+
 }
+

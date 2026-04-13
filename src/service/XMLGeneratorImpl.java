@@ -1,3 +1,4 @@
+
 package service;
 
 import dao.ClienteDAO;
@@ -34,7 +35,6 @@ public class XMLGeneratorImpl implements XMLGenerator {
     private final ProductoDAO productoDAO = new ProductoDAO();
     private final PedidoDAO pedidoDAO = new PedidoDAO();
 
-    @Override
     public void generarXML() throws Exception {
 
         // Crear carpeta xml si no existe

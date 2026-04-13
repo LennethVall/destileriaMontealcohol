@@ -1,3 +1,4 @@
+
 package ui;
 
 import dao.ClienteDAO;
@@ -377,20 +378,31 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
             return;
         }
 
-        if (daoPedido.actualizar(p)) {
+     // Generar listas separadas por comas
+        String listaPro = daoPedido.generarListaProductos(p);
+        String listaCan = daoPedido.generarListaCantidades(p);
 
-            try {
-                xml.generarXML();   // ← AQUÍ, solo si se actualizó correctamente
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        // Llamar al procedimiento almacenado
+        daoPedido.modificarPedidoProcedimiento(
+                p.getNum_Pedido(),
+                "MODIFICAR",
+                listaPro,
+                listaCan,
+                "",   // nueva calle (si no la usas, pon "")
+                "",   // nuevo teléfono
+                ""    // nuevo email
+        );
 
-            info("Pedido actualizado correctamente.");
-            cargarTodos();
-
-        } else {
-            info("No existe pedido con ese número.");
+        // Si llega aquí, no hubo excepción
+        try {
+            xml.generarXML();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+        info("Pedido modificado correctamente.");
+        cargarTodos();
+
     }
 
 

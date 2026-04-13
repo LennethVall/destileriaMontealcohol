@@ -1,3 +1,4 @@
+
 package ui;
 
 import dao.ProductoDAO;
@@ -62,6 +63,9 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
     private final JButton btnEliminar  = crearBtn(" Eliminar",  new Color(200, 170, 120), "iconos/borrar.png");
     private final JButton btnListar    = crearBtn(" Listar todos", new Color(200, 170, 120),"iconos/cargarDatos.png");
     private final JButton btnLimpiar   = crearBtn(" Limpiar",   new Color(200, 170, 120), "iconos/limpiar.png");
+    private final JButton btnInsertarStockInicial =
+            crearBtn(" Insertar con stock inicial", new Color(200, 170, 120), "iconos/añadir.png");
+
 
     public ProductoPanel(VentanaMontealcohol ventana) {
         super(ventana);
@@ -189,8 +193,9 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
     private JPanel crearBotones() {
         JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 8));
         p.setBackground(MenuPrincipal.COLOR_FONDO);
-        for (JButton b : new JButton[]{btnInsertar, btnBuscar, btnActualizar,
-                                        btnEliminar, btnListar, btnLimpiar}) p.add(b);
+        for (JButton b : new JButton[]{btnInsertar, btnInsertarStockInicial, btnBuscar,
+                btnActualizar, btnEliminar, btnListar, btnLimpiar}) p.add(b);
+
         return p;
     }
 
@@ -201,6 +206,8 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
         btnEliminar.addActionListener(this);
         btnListar.addActionListener(this);
         btnLimpiar.addActionListener(this);
+        btnInsertarStockInicial.addActionListener(this);
+
     }
 
     // ── CRUD ──────────────────────────────────────────────────
@@ -266,29 +273,69 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
         }
 
         int op = DialogosMontealcohol.confirmar(
-        	    this,
-        	    "¿Eliminar el producto " + cod + "?"
-        	);
+                this,
+                "¿Eliminar el producto " + cod + " y todas sus líneas asociadas?"
+        );
 
-        	if (op != JOptionPane.YES_OPTION) return;
+        if (op != JOptionPane.YES_OPTION) return;
 
+        // LLAMADA AL PROCEDIMIENTO CON CURSOR
+        daoProducto.eliminarProductoProcedimiento(cod);
 
-        if (daoProducto.eliminar(cod)) {
-
-            try {
-                xml.generarXML();   // ← AQUÍ, solo si se eliminó correctamente
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            info("Producto eliminado.");
-            limpiar();
-            cargarTodos();
-
-        } else {
-            info("No existe producto con ese código.");
+        try {
+            xml.generarXML();   // ← solo si se eliminó correctamente
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+        info("Producto eliminado correctamente.");
+        limpiar();
+        cargarTodos();
     }
+
+    private void insertarConStockInicial() throws SQLException {
+        String cod     = txtCodigo.getText().trim();
+        String nombre  = txtNombre.getText().trim();
+        String precio  = txtPrecio.getText().trim();
+        Tipo tipoEnum  = (Tipo) cmbTipo.getSelectedItem();
+        String nifProv = getNifSeleccionado();
+
+        if (cod.isEmpty() || nombre.isEmpty() || precio.isEmpty()) {
+            error("Código, nombre y precio son obligatorios.");
+            return;
+        }
+
+        double p;
+        try {
+            p = Double.parseDouble(precio);
+            if (p <= 0) {
+                error("El precio debe ser mayor que 0.");
+                return;
+            }
+        } catch (NumberFormatException ex) {
+            error("El precio debe ser numérico.");
+            return;
+        }
+
+        daoProducto.crearProductoConStockInicial(
+                cod,
+                nombre,
+                p,
+                tipoEnum.getLabel(),
+                nifProv
+        );
+
+        try {
+            xml.generarXML();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        info("Producto creado con stock inicial correctamente.");
+        limpiar();
+        cargarTodos();
+    }
+
 
 
     private void cargarTodos()throws SQLException {
@@ -436,6 +483,9 @@ public void actionPerformed(ActionEvent e) {
 			cargarTodos();
 		else if (e.getSource() == btnLimpiar)
 			limpiar();
+		else if (e.getSource() == btnInsertarStockInicial)
+		    insertarConStockInicial();
+
 				
 	 } catch (SQLException ex) {
 		 error ("proceso fallido");

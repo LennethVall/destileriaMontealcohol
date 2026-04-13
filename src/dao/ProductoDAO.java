@@ -1,3 +1,4 @@
+
 package dao;
 
 import config.DatabaseConnection;
@@ -68,7 +69,7 @@ public class ProductoDAO implements IProductoDAO{
     // READ - Listar por tipo
     // -------------------------------------------------------
     public List<Producto> listarPorTipo(String tipo) throws SQLException {
-        String sql = "SELECT * FROM producto WHERE Tipo = ? ORDER BY codigo";
+        String sql = "SELECT * FROM producto WHERE Tipo = ? ORDER BY cod_Pro";
         List<Producto> lista = new ArrayList<>();
         try (PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(sql)) {
             ps.setString(1, tipo);
@@ -103,6 +104,45 @@ public class ProductoDAO implements IProductoDAO{
             ps.setString(1, codigo);
             return ps.executeUpdate() > 0;
         }
+    }
+    @Override
+    public boolean eliminarProductoProcedimiento(String codProducto) throws SQLException {
+
+        String sql = "{ CALL ELIMINAR_PRODUCTO(?) }";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             CallableStatement cs = conn.prepareCall(sql)) {
+
+            cs.setString(1, codProducto);
+            cs.execute();
+            return true;
+        }
+        
+        @Override
+        public boolean crearProductoConStockInicial(
+                String cod,
+                String nombre,
+                double precio,
+                String tipo,
+                String nifProveedor
+        ) throws SQLException {
+
+            String sql = "{ CALL CREAR_PRODUCTO_CON_STOCK_INICIAL(?, ?, ?, ?, ?) }";
+
+            try (Connection conn = DatabaseConnection.getConnection();
+                 CallableStatement cs = conn.prepareCall(sql)) {
+
+                cs.setString(1, cod);
+                cs.setString(2, nombre);
+                cs.setDouble(3, precio);
+                cs.setString(4, tipo);
+                cs.setString(5, nifProveedor);
+
+                cs.execute();
+                return true;
+            }
+        }
+    
     }
 
     // -------------------------------------------------------
