@@ -1,5 +1,5 @@
 package paraLosTeses;
 
-public class EnvioService {
-
+public interface EnvioService {
+    double obtenerCosteEnvio(String ciudad);
 }

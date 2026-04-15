@@ -35,4 +35,16 @@ public class ProductoOperaciones {
         return p.getPrecio() * cantidad;
     }
     
+
+public double pedidoConEnvio(Producto p, String ciudad, EnvioService servicio) {
+    if (p == null) {
+        throw new NullPointerException("Producto no puede ser null");
+    }
+    if (servicio == null) {
+        throw new NullPointerException("Servicio no puede ser null");
+    }
+
+    double coste = servicio.obtenerCosteEnvio(ciudad);
+    return p.getPrecio() + coste;
+}
 }

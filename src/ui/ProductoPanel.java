@@ -124,6 +124,21 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
         g.gridx = 4; g.weightx = 0; p.add(etiqueta("Cantidad a añadir *"), g);
         g.gridx = 5; g.weightx = 0.5; p.add(spnCantidad, g);
 
+        // ⭐ Estilizar el editor del spinner para que coincida con los JTextField
+        JComponent editor = spnCantidad.getEditor();
+        JFormattedTextField txtSpin = ((JSpinner.DefaultEditor) editor).getTextField();
+
+        txtSpin.setBackground(new Color(50, 35, 16));
+        txtSpin.setForeground(MenuPrincipal.COLOR_TEXTO);
+        txtSpin.setCaretColor(MenuPrincipal.COLOR_PRIMARIO);
+        txtSpin.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(120, 80, 30)),
+                BorderFactory.createEmptyBorder(3, 6, 3, 6)
+        ));
+        txtSpin.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        txtSpin.setCursor(getVentana().getTextoCur());
+
+
         // Fila 1 - Nombre
         g.gridx = 0; g.gridy = 1; g.weightx = 0; g.gridwidth = 1;
         p.add(etiqueta("Nombre *"), g);
@@ -157,19 +172,21 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
                 rellenarFormulario(tabla.getSelectedRow());
         });
 
-        // ⭐ Mostrar imagen al hacer clic en Código o Nombre
+     // ⭐ Mostrar imagen SOLO al hacer clic en el NOMBRE (columna 1)
         tabla.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
                 int fila = tabla.getSelectedRow();
                 int columna = tabla.getSelectedColumn();
 
-                if (fila >= 0 && (columna == 0 || columna == 1)) {
+                if (fila >= 0 && columna == 1) {   // SOLO nombre
                     String codProducto = modelo.getValueAt(fila, 0).toString();
                     mostrarDialogoImagenProducto(codProducto);
                 }
             }
         });
+
+
 
         JScrollPane sp = new JScrollPane(tabla);
         sp.setBorder(BorderFactory.createLineBorder(MenuPrincipal.COLOR_PRIMARIO));
@@ -210,9 +227,16 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
 
         String mensaje = daoProducto.añadirProductoProcedimiento(cod, cantidad);
 
+        try {
+            xml.generarXML();   // ⭐ GENERAR XML SIEMPRE QUE SE MODIFICA BD
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         info(mensaje);
         cargarTodos();
     }
+
 
     private void buscar() throws SQLException {
         String cod = txtCodigo.getText().trim();
@@ -339,8 +363,10 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
         cmbTipo.setSelectedItem(Tipo.fromLabel(valorOVacio(fila, 4)));
         seleccionarProveedor(valorOVacio(fila, 5));
 
-        // ⭐ BLOQUEAR CÓDIGO
+     // ⭐ BLOQUEAR CÓDIGO + ESTILO NO EDITABLE
         txtCodigo.setEditable(false);
+        estilizarNoEditable(txtCodigo);
+
     }
 
     private String valorOVacio(int fila, int columna) {
@@ -358,6 +384,8 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
 
         // ⭐ DESBLOQUEAR CÓDIGO
         txtCodigo.setEditable(true);
+        estilizar(txtCodigo);   // vuelve al estilo editable normal
+
 
         modelo.setRowCount(0);
         tabla.clearSelection();
@@ -418,25 +446,33 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
         }
         }
     private void mostrarDialogoImagenProducto(String codProducto) {
-        // 1. Intentamos cargar desde la carpeta de recursos
-        String ruta = "/img/" + codProducto + ".png"; // Nota la "/" inicial
-        java.net.URL imgURL = getClass().getResource(ruta);
 
-        if (imgURL == null) {
-            JOptionPane.showMessageDialog(this,
-                    "No se encontró la imagen del producto " + codProducto + " en la ruta: " + ruta,
-                    "Imagen no disponible",
-                    JOptionPane.WARNING_MESSAGE);
-            return;
+        // Probar primero con .png
+        String rutaPng = "img/" + codProducto + ".png";
+        ImageIcon icono = new ImageIcon(rutaPng);
+
+        // Si no existe, probar con .jpg
+        if (icono.getIconWidth() == -1) {
+            String rutaJpg = "img/" + codProducto + ".jpg";
+            icono = new ImageIcon(rutaJpg);
+
+            if (icono.getIconWidth() == -1) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "No se encontró la imagen del producto " + codProducto +
+                                " en img/" + codProducto + ".png ni en img/" + codProducto + ".jpg",
+                        "Imagen no disponible",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                return;
+            }
         }
 
-        ImageIcon icono = new ImageIcon(imgURL);
-
-        // 2. Reescalar la imagen de forma segura
+        // Escalar imagen
         Image img = icono.getImage().getScaledInstance(350, 350, Image.SCALE_SMOOTH);
         ImageIcon iconoEscalado = new ImageIcon(img);
 
-        // 3. Crear y configurar el diálogo
+        // Crear diálogo
         JDialog dialogo = new JDialog(
                 (Frame) SwingUtilities.getWindowAncestor(this),
                 "Imagen del producto " + codProducto,
@@ -445,12 +481,10 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
 
         dialogo.setLayout(new BorderLayout());
         dialogo.add(new JLabel(iconoEscalado), BorderLayout.CENTER);
-        dialogo.pack(); // Ajusta el tamaño automáticamente al contenido
+        dialogo.pack();
         dialogo.setLocationRelativeTo(this);
         dialogo.setVisible(true);
     }
-
-    
 
     @Override
     public void actionPerformed(ActionEvent e) {

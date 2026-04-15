@@ -157,6 +157,23 @@ public class ProductoDAO implements IProductoDAO {
 
         return mensaje;
     }
+    public void restarStock(String cod, int cantidad) throws SQLException {
+        String sql = "UPDATE producto SET Stock = Stock - ? WHERE Cod_Pro = ?";
+        try (PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(sql)) {
+            ps.setInt(1, cantidad);
+            ps.setString(2, cod);
+            ps.executeUpdate();
+        }
+    }
+
+    public void sumarStock(String cod, int cantidad) throws SQLException {
+        String sql = "UPDATE producto SET Stock = Stock + ? WHERE Cod_Pro = ?";
+        try (PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(sql)) {
+            ps.setInt(1, cantidad);
+            ps.setString(2, cod);
+            ps.executeUpdate();
+        }
+    }
 
     // -------------------------------------------------------
     // Mapeo

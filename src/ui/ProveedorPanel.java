@@ -149,12 +149,30 @@ public class ProveedorPanel extends PanelMontealcohol implements ActionListener 
     }
 
     private JPanel crearBotones() {
-        JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 8));
+        JPanel p = new JPanel(new GridBagLayout());
         p.setBackground(MenuPrincipal.COLOR_FONDO);
-        for (JButton b : new JButton[]{btnInsertar, btnBuscar, btnActualizar,
-                                        btnEliminar, btnListar, btnLimpiar}) p.add(b);
+
+        GridBagConstraints g = new GridBagConstraints();
+        g.insets = new Insets(5, 8, 5, 8);
+        g.gridy = 0;
+
+        JButton[] botones = {
+            btnInsertar,
+            btnBuscar,
+            btnActualizar,
+            btnEliminar,
+            btnListar,
+            btnLimpiar
+        };
+
+        for (int i = 0; i < botones.length; i++) {
+            g.gridx = i;
+            p.add(botones[i], g);
+        }
+
         return p;
     }
+
 
     private void configurarEventos() {
         btnInsertar.addActionListener(this);
@@ -221,15 +239,32 @@ public class ProveedorPanel extends PanelMontealcohol implements ActionListener 
         }
 
         int op = JOptionPane.showConfirmDialog(
-        	    this,
-        	    "¿Eliminar proveedor con NIF " + nif + "?",
-        	    "Confirmar",
-        	    JOptionPane.YES_NO_OPTION,
-        	    JOptionPane.WARNING_MESSAGE
-        	);
+                this,
+                "¿Eliminar proveedor con NIF " + nif + "?",
+                "Confirmar",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+        );
 
-        	if (op != JOptionPane.YES_OPTION) return;
+        if (op != JOptionPane.YES_OPTION) return;
+
+        if (dao.eliminar(nif)) {
+
+            try {
+                xml.generarXML();   // ⭐ GENERAR XML SIEMPRE QUE SE MODIFICA BD
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            info("Proveedor eliminado correctamente.");
+            limpiar();
+            cargarTodos();
+
+        } else {
+            info("No existe proveedor con ese NIF.");
+        }
     }
+
 
 
     private void cargarTodos() throws SQLException{
@@ -271,6 +306,8 @@ public class ProveedorPanel extends PanelMontealcohol implements ActionListener 
         txtEmail.setText(valorOVacio(fila, 4));
         
         txtNif.setEditable(false);
+        estilizarNoEditable(txtNif);
+
 
     }
 
@@ -281,6 +318,9 @@ public class ProveedorPanel extends PanelMontealcohol implements ActionListener 
 
     private void rellenarCampos(Proveedor pv) {
         txtNif.setText(pv.getNif_Prove());
+        txtNif.setEditable(false);
+        estilizarNoEditable(txtNif);
+
         txtNombre.setText(pv.getNombre());
         txtLocalidad.setText(pv.getLocalidad());
         txtTelefono.setText(pv.getTelefono());
@@ -292,6 +332,8 @@ public class ProveedorPanel extends PanelMontealcohol implements ActionListener 
             tf.setText("");
         
         txtNif.setEditable(true);
+        estilizar(txtNif);   // vuelve al estilo editable normal
+
 
         
         modelo.setRowCount(0);  // ← AÑADIR ESTO

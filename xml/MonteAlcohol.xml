@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<montealcohol xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" xsi:noNamespaceSchemaLocation="C://Users//1dam//Downloads/montealcohol.xsd">
+<montealcohol xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="C://Users//1dam//Downloads/montealcohol.xsd">
     <clientes>
         <cliente nif="11730743F">
             <nombre>Oier</nombre>
@@ -160,7 +160,7 @@
         <producto codigo="F0109">
             <nombre>Lobo de Malta</nombre>
             <precio moneda="EUR">18.0</precio>
-            <stock>126</stock>
+            <stock>120</stock>
             <tipo>Fermentadas</tipo>
             <proveedor ref="64694667Z"/>
             <imagen ruta="img/F0109.png"/>
@@ -367,19 +367,6 @@
         </producto>
     </productos>
     <pedidos>
-        <pedido numero="92">
-            <fecha_ped>2026-07-19</fecha_ped>
-            <fecha_ent>2029-08-20</fecha_ent>
-            <precio_total>36.0</precio_total>
-            <cliente ref="11730743F"/>
-            <lineas>
-                <linea unidad="uds">
-                    <producto ref="F0109"/>
-                    <cantidad>2</cantidad>
-                    <precio_linea>36.0</precio_linea>
-                </linea>
-            </lineas>
-        </pedido>
         <pedido numero="90">
             <fecha_ped>2026-05-31</fecha_ped>
             <fecha_ent>2026-06-05</fecha_ent>
@@ -396,7 +383,7 @@
         <pedido numero="89">
             <fecha_ped>2026-05-29</fecha_ped>
             <fecha_ent>2026-06-03</fecha_ent>
-            <precio_total>79.0</precio_total>
+            <precio_total>78.0</precio_total>
             <cliente ref="11730743F"/>
             <lineas>
                 <linea unidad="uds">

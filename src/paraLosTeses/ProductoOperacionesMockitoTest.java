@@ -4,30 +4,27 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 
 class ProductoOperacionesMockitoTest {
 
     @Test
-    void testCalcularEnvioConMock() {
+    void testPedidoConEnvioMock() {
 
         Producto p = new Producto(1, "A", "desc", 50);
 
-        // Mock de la clase EnvioService
+        // Crear mock del servicio
         EnvioService servicioMock = mock(EnvioService.class);
 
+        // Definir comportamiento del mock
         when(servicioMock.obtenerCosteEnvio("Madrid")).thenReturn(5.0);
 
         ProductoOperaciones op = new ProductoOperaciones();
 
-        double resultado = op.calcularEnvio(p, "Madrid", servicioMock);
+        // Llamar al método que usa el mock
+        double resultado = op.pedidoConEnvio(p, "Madrid", servicioMock);
 
+        // Comprobaciones
         assertEquals(55.0, resultado);
-        assertNotEquals(50.0, resultado);
-        assertTrue(resultado > p.getPrecio());
-        assertFalse(resultado < p.getPrecio());
-        assertNotNull(servicioMock);
-
         verify(servicioMock).obtenerCosteEnvio("Madrid");
     }
 
@@ -36,12 +33,8 @@ class ProductoOperacionesMockitoTest {
         Producto p = new Producto(1, "A", "desc", 50);
         ProductoOperaciones op = new ProductoOperaciones();
 
-        assertThrows(NullPointerException.class, new Executable() {
-            @Override
-            public void execute() throws Throwable {
-                op.calcularEnvio(p, "Madrid", null);
-            }
-        });
+        assertThrows(NullPointerException.class,
+                () -> op.pedidoConEnvio(p, "Madrid", null));
     }
 
     @Test
@@ -49,11 +42,7 @@ class ProductoOperacionesMockitoTest {
         EnvioService servicioMock = mock(EnvioService.class);
         ProductoOperaciones op = new ProductoOperaciones();
 
-        assertThrows(NullPointerException.class, new Executable() {
-            @Override
-            public void execute() throws Throwable {
-                op.calcularEnvio(null, "Madrid", servicioMock);
-            }
-        });
+        assertThrows(NullPointerException.class,
+                () -> op.pedidoConEnvio(null, "Madrid", servicioMock));
     }
 }

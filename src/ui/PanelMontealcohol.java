@@ -24,7 +24,19 @@ public class PanelMontealcohol extends JPanel {
         return ventana;
     }
    
-    
+ 
+
+    // ⭐⭐⭐ ESTILO MONTEALCOHOL PARA CAMPOS NO EDITABLES
+    public void estilizarNoEditable(JTextField tf) {
+        tf.setBackground(new Color(30, 22, 12)); // más oscuro
+        tf.setForeground(new Color(180, 150, 110)); // texto apagado
+        tf.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(90, 60, 20)), // borde más tenue
+                BorderFactory.createEmptyBorder(3, 6, 3, 6)
+        ));
+        tf.setFont(new Font("SansSerif", Font.PLAIN, 13));
+    }
+
 
 
     @Override

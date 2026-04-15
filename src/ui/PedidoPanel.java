@@ -151,6 +151,15 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
                 recalcularPrecioLinea();
             }
         });
+     // ⭐ Recalcular precio de línea cuando cambia la cantidad
+        txtCantidad.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            @Override
+            public void insertUpdate(javax.swing.event.DocumentEvent e) { recalcularPrecioLinea(); }
+            @Override
+            public void removeUpdate(javax.swing.event.DocumentEvent e) { recalcularPrecioLinea(); }
+            @Override
+            public void changedUpdate(javax.swing.event.DocumentEvent e) { recalcularPrecioLinea(); }
+        });
 
 
         // cargarTodos SÍ lanza SQLException → mantener try/catch
@@ -196,9 +205,12 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
         estilizar(txtNumero, txtFechaPedido, txtFechaEntrega, txtPrecioTotal);
         estilizarCombo(cmbCliente);
 
-        txtNumero.setEditable(false);
+       
+
         txtPrecioTotal.setEditable(false);
-        txtNumero.setBackground(new Color(35, 24, 10));
+        estilizarNoEditable(txtPrecioTotal);
+
+       
 
         // Fila 0
         g.gridx=0; g.gridy=0; g.weightx=0; p.add(etiqueta("Nº Pedido"),         g);
@@ -241,7 +253,10 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
 
         estilizar(txtCantidad, txtPrecioLinea);
         estilizarCombo(cmbProducto);
+
         txtPrecioLinea.setEditable(false);
+        estilizarNoEditable(txtPrecioLinea);   // ⭐ AÑADIR ESTA LÍNEA
+
 
 
         fLinea.add(etiqueta("Producto:"));   fLinea.add(cmbProducto);
@@ -298,12 +313,30 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
     }
 
     private JPanel crearBotones() {
-        JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 8));
+        JPanel p = new JPanel(new GridBagLayout());
         p.setBackground(MenuPrincipal.COLOR_FONDO);
-        for (JButton b : new JButton[]{btnInsertar, btnBuscar, btnActualizar,
-                                        btnEliminar, btnListar, btnLimpiar}) p.add(b);
+
+        GridBagConstraints g = new GridBagConstraints();
+        g.insets = new Insets(5, 8, 5, 8);
+        g.gridy = 0;
+
+        JButton[] botones = {
+            btnInsertar,
+            btnBuscar,
+            btnActualizar,
+            btnEliminar,
+            btnListar,
+            btnLimpiar
+        };
+
+        for (int i = 0; i < botones.length; i++) {
+            g.gridx = i;
+            p.add(botones[i], g);
+        }
+
         return p;
     }
+
 
     // ── Eventos ───────────────────────────────────────────────
     private void configurarEventos() {
@@ -337,6 +370,9 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
                 return;
             }
 
+            // ⭐ RESTAR STOCK EN BD
+            daoProducto.restarStock(cod, cantidad);
+
             float precioUnit = getPrecioProductoSeleccionado();
             float precioLinea = cantidad * precioUnit;
 
@@ -347,7 +383,7 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
                 false,
                 cod,
                 cantidad,
-                String.format("%.2f", precioLinea)  // también String aquí
+                String.format("%.2f", precioLinea)
             });
 
             txtCantidad.setText("");
@@ -355,20 +391,35 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
 
             recalcularPrecioTotalPedido();
 
-        } catch (NumberFormatException ex) {
-            error("La cantidad debe ser numérica.");
+        } catch (Exception ex) {
+            error("Error al añadir línea o actualizar stock.");
         }
     }
+
 
 
 
     private void delLinea() {
         int fila = tablaLineas.getSelectedRow();
         if (fila < 0) { error("Selecciona una línea para eliminar."); return; }
+
+        String cod = modeloLineas.getValueAt(fila, 1).toString();
+        int cantidad = Integer.parseInt(modeloLineas.getValueAt(fila, 2).toString());
+
+        try {
+            // ⭐ SUMAR STOCK EN BD
+            daoProducto.sumarStock(cod, cantidad);
+        } catch (Exception ex) {
+            error("Error al devolver stock.");
+            return;
+        }
+
         lineasActuales.remove(fila);
         modeloLineas.removeRow(fila);
+
         recalcularPrecioTotalPedido();
     }
+
 
     // ── CRUD ──────────────────────────────────────────────────
     private void insertar() throws SQLException {
@@ -479,11 +530,12 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
             if (marcado == null || !marcado) continue;
 
             int cantidad = Integer.parseInt(modeloLineas.getValueAt(i, 2).toString());
-            float precioLinea = Float.parseFloat(modeloLineas.getValueAt(i, 3).toString());
+            String precioStr = modeloLineas.getValueAt(i, 3).toString().replace(",", ".");
+            float precioLinea = Float.parseFloat(precioStr);
 
             if (cantidad >= 6) {
-                float nuevoPrecio = precioLinea * 0.90f; // 10% descuento
-                modeloLineas.setValueAt(String.format("%.2f", nuevoPrecio), i, 3);
+            	float nuevoPrecio = precioLinea * 0.90f;
+            	modeloLineas.setValueAt(String.format("%.2f", nuevoPrecio).replace(".", ","), i, 3);
 
                 lineasActuales.get(i).setPrecio_Total(nuevoPrecio);
             }
@@ -577,9 +629,13 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
             }
         } catch (SQLException ex) { error("Error al cargar líneas."); }
 
-        // ⭐ BLOQUEAR CAMPOS
+     // ⭐ BLOQUEAR CAMPOS + ESTILO NO EDITABLE
         txtNumero.setEditable(false);
+        estilizarNoEditable(txtNumero);
+
         txtFechaPedido.setEditable(false);
+        estilizarNoEditable(txtFechaPedido);
+
     }
 
 
@@ -731,6 +787,10 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
         // ⭐ DESBLOQUEAR CAMPOS
         txtNumero.setEditable(true);
         txtFechaPedido.setEditable(true);
+        estilizar(txtNumero);
+        estilizar(txtFechaPedido);
+        estilizar(txtPrecioTotal);
+
     }
 
 

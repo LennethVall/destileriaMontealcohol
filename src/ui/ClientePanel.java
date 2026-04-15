@@ -173,12 +173,23 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
 
     // ── Botones ───────────────────────────────────────────────
     private JPanel crearPanelBotones() {
-        JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 8));
+        JPanel p = new JPanel(new GridBagLayout());
         p.setBackground(MenuPrincipal.COLOR_FONDO);
-        for (JButton b : new JButton[]{btnInsertar, btnBuscar, btnActualizar,
-                                        btnEliminar, btnListar, btnLimpiar}) {
-            p.add(b);
+
+        GridBagConstraints g = new GridBagConstraints();
+        g.insets = new Insets(5, 8, 5, 8);
+        g.gridy = 0;
+
+        JButton[] botones = {
+            btnInsertar, btnBuscar, btnActualizar,
+            btnEliminar, btnListar, btnLimpiar
+        };
+
+        for (int i = 0; i < botones.length; i++) {
+            g.gridx = i;
+            p.add(botones[i], g);
         }
+
         return p;
     }
 
@@ -360,8 +371,10 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
         txtTelefono.setText(valorOVacio(fila, 8));
         txtEmail.setText(valorOVacio(fila, 9));
 
-        // ⭐ BLOQUEAR NIF
+     // ⭐ BLOQUEAR NIF + ESTILO NO EDITABLE
         txtNif.setEditable(false);
+        estilizarNoEditable(txtNif);
+
     }
 
 
@@ -372,6 +385,9 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
     }
     private void rellenarCampos(Cliente c) {
         txtNif.setText(c.getNif_Cli());
+        txtNif.setEditable(false);
+        estilizarNoEditable(txtNif);
+
         txtNombre.setText(c.getNombre());
         txtApellido.setText(c.getApellido());
         txtCalle.setText(c.getCalle());
@@ -392,6 +408,7 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
 
         // ⭐ DESBLOQUEAR NIF
         txtNif.setEditable(true);
+        estilizarCampos(txtNif);
 
         modelo.setRowCount(0);
         tabla.clearSelection();
