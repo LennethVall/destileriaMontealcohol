@@ -668,7 +668,7 @@ INSERT INTO Contiene VALUES
 -- FUNCIONES –
 – —--------------- –
 
-– 1. STOCK SUFICIENTE –
+-- 1. STOCK SUFICIENTE –
 
 DELIMITER //
 
@@ -845,7 +845,7 @@ END//
 
 DELIMITER ;
 
-– 8. PRECIO DEL PRODUCTO –
+-- 8. PRECIO DEL PRODUCTO –
 
 DELIMITER //
 
@@ -864,7 +864,7 @@ END//
 
 DELIMITER ;
 
-– 9. TOTAL DEL PEDIDO –
+-- 9. TOTAL DEL PEDIDO –
 
 DELIMITER //
 
@@ -913,7 +913,7 @@ DELIMITER ;
 
 
 
-– 2.  MODIFICAR LOS DATOS DE USUARIO –
+-- 2.  MODIFICAR LOS DATOS DE USUARIO –
 
 DELIMITER //
 
@@ -1057,7 +1057,7 @@ END//
 DELIMITER ;
 
 
-– 5.  CREAR UN PROVEEDOR –
+-- 5.  CREAR UN PROVEEDOR –
 
 DELIMITER //
 
@@ -1109,7 +1109,7 @@ DELIMITER ;
 
 
 
-– 6.  MODIFICAR UN PROVEEDOR –
+-- 6.  MODIFICAR UN PROVEEDOR –
 
 DELIMITER //
 
@@ -1171,7 +1171,7 @@ DELIMITER ;
 
 
 
-– 7. INSERTAR LINEA EN EL PEDIDO (AUXILIAR) –
+-- 7. INSERTAR LINEA EN EL PEDIDO (AUXILIAR) –
 
 DELIMITER //
 
@@ -1190,7 +1190,7 @@ DELIMITER ;
 
 
 
-– 8.  DESCUENTO POR VOLUMEN –
+-- 8.  DESCUENTO POR VOLUMEN –-
 
 DELIMITER //
 
@@ -1236,7 +1236,7 @@ DELIMITER ;
 
 
 
-– 9.  DEVOLVER STOCK (AUXILIAR)  –
+-- 9.  DEVOLVER STOCK (AUXILIAR)  –-
 
 DELIMITER //
 
@@ -1295,30 +1295,25 @@ END//
 
 DELIMITER ;
 
--- 11. CREAR PORDUCTO CON STOCK INICIAL --
+-- 11. AÑADIR PRODUCTOS EXISTENTES --
 
 DELIMITER //
 
-CREATE PROCEDURE CREAR_PRODUCTO_CON_STOCK_INICIAL(
-    IN P_COD VARCHAR(5),
-    IN P_NOMBRE VARCHAR(50),
-    IN P_PRECIO DECIMAL(10,2),
-    IN P_TIPO VARCHAR(30),
-    IN P_NIF_PROVE VARCHAR(15)
+CREATE PROCEDURE AÑADIR_PRODUCTO(
+    IN P_COD VARCHAR(10),
+    IN P_CANTIDAD INT
 )
-CREAR_PRODUCTO_CON_STOCK_INICIAL: BEGIN
+AÑADIR_PRODUCTO: BEGIN
     DECLARE V_EXISTE INT DEFAULT 0;
-    DECLARE V_PROVE INT DEFAULT 0;
+    DECLARE V_STOCK_ACTUAL INT DEFAULT 0;
     DECLARE V_STOCK_TOTAL INT DEFAULT 0;
-    DECLARE V_CANTIDAD INT;
+    DECLARE V_STOCK_PROD INT;
     DECLARE V_FIN INT DEFAULT 0;
     DECLARE V_ERROR INT DEFAULT 0;
 
-    -- Cursor para recorrer los lotes de stock inicial
-    DECLARE C_STOCK CURSOR FOR
-        SELECT Cantidad
-        FROM StockInicial
-        WHERE Cod_Pro = P_COD;
+    -- Cursor que recorre TODOS los productos
+    DECLARE C_PRODUCTOS CURSOR FOR
+        SELECT Stock FROM Producto;
 
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET V_FIN = 1;
 
@@ -1326,54 +1321,60 @@ CREAR_PRODUCTO_CON_STOCK_INICIAL: BEGIN
     BEGIN
         SET V_ERROR = 1;
         ROLLBACK;
+        SELECT 'ERROR: Se produjo un problema al actualizar el stock.' AS Mensaje;
     END;
 
-    -- Validar código
-    IF VALIDAR_COD_PRO(P_COD) = 0 THEN
-        LEAVE CREAR_PRODUCTO_CON_STOCK_INICIAL;
+    -- Validar cantidad
+    IF P_CANTIDAD IS NULL OR P_CANTIDAD <= 0 THEN
+        SELECT 'ERROR: La cantidad debe ser mayor que cero.' AS Mensaje;
+        LEAVE AÑADIR_PRODUCTO;
     END IF;
 
-    -- Validar que no exista
-    SELECT COUNT(*) INTO V_EXISTE FROM Producto WHERE Cod_Pro = P_COD;
-    IF V_EXISTE > 0 THEN LEAVE CREAR_PRODUCTO_CON_STOCK_INICIAL; END IF;
+    -- Comprobar si el producto existe
+    SELECT COUNT(*) INTO V_EXISTE
+    FROM Producto
+    WHERE Cod_Pro = P_COD;
 
-    -- Validar proveedor
-    SELECT COUNT(*) INTO V_PROVE FROM Proveedor WHERE Nif_Prove = P_NIF_PROVE;
-    IF V_PROVE = 0 THEN LEAVE CREAR_PRODUCTO_CON_STOCK_INICIAL; END IF;
+    IF V_EXISTE = 0 THEN
+        SELECT CONCAT('ERROR: El producto con código ', P_COD, ' no existe.') AS Mensaje;
+        LEAVE AÑADIR_PRODUCTO;
+    END IF;
+
+    -- Obtener stock actual del producto
+    SELECT Stock INTO V_STOCK_ACTUAL
+    FROM Producto
+    WHERE Cod_Pro = P_COD;
 
     START TRANSACTION;
 
-    -- Insertar producto con stock 0
-    INSERT INTO Producto (Cod_Pro, Nom_Pro, Precio_Pro, Stock, Tipo, Nif_Prove)
-    VALUES (P_COD, P_NOMBRE, P_PRECIO, 0, P_TIPO, P_NIF_PROVE);
-
-    -- Recorrer lotes de stock inicial
-    OPEN C_STOCK;
+    -- Recorrer todos los productos para sumar stock total (uso académico)
+    OPEN C_PRODUCTOS;
     SET V_FIN = 0;
 
-    BUCLE_STOCK: LOOP
-        FETCH C_STOCK INTO V_CANTIDAD;
-        IF V_FIN = 1 THEN
-            LEAVE BUCLE_STOCK;
-        END IF;
+    BUCLE_PRODUCTOS: LOOP
+        FETCH C_PRODUCTOS INTO V_STOCK_PROD;
+        IF V_FIN = 1 THEN LEAVE BUCLE_PRODUCTOS; END IF;
 
-        SET V_STOCK_TOTAL = V_STOCK_TOTAL + V_CANTIDAD;
+        SET V_STOCK_TOTAL = V_STOCK_TOTAL + V_STOCK_PROD;
     END LOOP;
 
-    CLOSE C_STOCK;
+    CLOSE C_PRODUCTOS;
 
-    -- Actualizar stock final
+    -- Actualizar stock del producto (sin límite)
     UPDATE Producto
-    SET Stock = V_STOCK_TOTAL
+    SET Stock = V_STOCK_ACTUAL + P_CANTIDAD
     WHERE Cod_Pro = P_COD;
 
     IF V_ERROR = 0 THEN
         COMMIT;
+        SELECT CONCAT('Stock actualizado correctamente. Nuevo stock: ',
+                      V_STOCK_ACTUAL + P_CANTIDAD) AS Mensaje;
     END IF;
 
 END//
 
 DELIMITER ;
+
 
 -- 12. MODIFICAR PEDIDO --
 
@@ -1384,39 +1385,35 @@ CREATE PROCEDURE MODIFICAR_PEDIDO(
     IN P_ACCION VARCHAR(15),
     IN P_LISTA_PRO VARCHAR(200),
     IN P_LISTA_CAN VARCHAR(200),
-    IN P_NUEVA_CALLE VARCHAR(100),
-    IN P_NUEVO_TEL VARCHAR(50),
-    IN P_NUEVO_EMAIL VARCHAR(100)
+    IN P_FECHA_PED DATE,
+    IN P_FECHA_ENT DATE
 )
-MODIFICAR_PEDIDO: BEGIN
-
-    -- 1) VARIABLES
+BEGIN
+    -- VARIABLES
     DECLARE V_CODPRO VARCHAR(10);
     DECLARE V_CANT INT;
-    DECLARE V_FIN INT DEFAULT 0;
-    DECLARE V_ERROR INT DEFAULT 0;
+    DECLARE V_PRECIO DECIMAL(10,2);
+    DECLARE V_PRECIO_TOTAL DECIMAL(10,2);
+
+    DECLARE V_CANT_ANT INT DEFAULT 0;
+    DECLARE V_DIF INT DEFAULT 0;
+
+    DECLARE V_FIN_NUEVAS INT DEFAULT 0;
+    DECLARE V_FIN_ANTIGUAS INT DEFAULT 0;
     DECLARE V_POS INT DEFAULT 1;
 
-    -- 2) CURSORES
+    -- CURSORES
     DECLARE C_NUEVAS CURSOR FOR
-        SELECT Cod_Pro, Cantidad
-        FROM TempLineas;
+        SELECT Cod_Pro, Cantidad FROM TempLineas;
 
     DECLARE C_ANTIGUAS CURSOR FOR
-        SELECT Cod_Pro, Cantidad_Pro
-        FROM Contiene
-        WHERE Num_Pedido = P_NUMPED;
+        SELECT Cod_Pro, Cantidad_Pro FROM Contiene WHERE Num_Pedido = P_NUMPED;
 
-    -- 3) HANDLERS
-    DECLARE CONTINUE HANDLER FOR NOT FOUND SET V_FIN = 1;
+    -- HANDLERS
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET V_FIN_NUEVAS = 1;
+    DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET V_FIN_ANTIGUAS = 1;
 
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-    BEGIN
-        SET V_ERROR = 1;
-        ROLLBACK;
-    END;
-
-    -- 4) AHORA YA PUEDES HACER DROP/CREATE, ETC.
+    -- TABLA TEMPORAL
     DROP TEMPORARY TABLE IF EXISTS TempLineas;
 
     CREATE TEMPORARY TABLE TempLineas (
@@ -1424,7 +1421,7 @@ MODIFICAR_PEDIDO: BEGIN
         Cantidad INT
     );
 
-    -- 5) Cargar tabla temporal desde listas
+    -- CARGAR LISTAS EN TABLA TEMPORAL
     WHILE V_POS <= (LENGTH(P_LISTA_PRO) - LENGTH(REPLACE(P_LISTA_PRO, ',', '')) + 1) DO
         SET V_CODPRO = SUBSTRING_INDEX(SUBSTRING_INDEX(P_LISTA_PRO, ',', V_POS), ',', -1);
         SET V_CANT   = CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(P_LISTA_CAN, ',', V_POS), ',', -1) AS UNSIGNED);
@@ -1436,14 +1433,114 @@ MODIFICAR_PEDIDO: BEGIN
 
     START TRANSACTION;
 
-    -- (… resto igual que antes …)
+    -- MODIFICAR LÍNEAS DEL PEDIDO
+    IF P_ACCION = 'MODIFICAR_LINEAS' OR P_ACCION = 'TODO' THEN
+
+        -- INSERTAR O ACTUALIZAR LÍNEAS
+        SET V_FIN_NUEVAS = 0;
+        OPEN C_NUEVAS;
+
+        leer_nuevas: LOOP
+            FETCH C_NUEVAS INTO V_CODPRO, V_CANT;
+            IF V_FIN_NUEVAS = 1 THEN LEAVE leer_nuevas; END IF;
+
+            -- Obtener precio del producto
+            SELECT Precio_Pro INTO V_PRECIO FROM Producto WHERE Cod_Pro = V_CODPRO;
+            SET V_PRECIO_TOTAL = V_PRECIO * V_CANT;
+
+            -- ¿La línea ya existía?
+            IF EXISTS (SELECT 1 FROM Contiene WHERE Num_Pedido = P_NUMPED AND Cod_Pro = V_CODPRO) THEN
+
+                -- Obtener cantidad antigua
+                SELECT Cantidad_Pro INTO V_CANT_ANT
+                FROM Contiene
+                WHERE Num_Pedido = P_NUMPED AND Cod_Pro = V_CODPRO;
+
+                -- Calcular diferencia
+                SET V_DIF = V_CANT - V_CANT_ANT;
+
+                -- Aumenta cantidad → restar stock
+                IF V_DIF > 0 THEN
+                    UPDATE Producto
+                    SET Stock = Stock - V_DIF
+                    WHERE Cod_Pro = V_CODPRO;
+                END IF;
+
+                -- Disminuye cantidad → devolver stock
+                IF V_DIF < 0 THEN
+                    UPDATE Producto
+                    SET Stock = Stock + ABS(V_DIF)
+                    WHERE Cod_Pro = V_CODPRO;
+                END IF;
+
+                -- Actualizar línea
+                UPDATE Contiene
+                SET Cantidad_Pro = V_CANT,
+                    Precio_Total = V_PRECIO_TOTAL
+                WHERE Num_Pedido = P_NUMPED AND Cod_Pro = V_CODPRO;
+
+            ELSE
+                -- Nueva línea → restar stock completo
+                UPDATE Producto
+                SET Stock = Stock - V_CANT
+                WHERE Cod_Pro = V_CODPRO;
+
+                INSERT INTO Contiene (Num_Pedido, Cod_Pro, Cantidad_Pro, Precio_Total)
+                VALUES (P_NUMPED, V_CODPRO, V_CANT, V_PRECIO_TOTAL);
+            END IF;
+
+        END LOOP;
+        CLOSE C_NUEVAS;
+
+        -- ELIMINAR LÍNEAS QUE YA NO ESTÁN EN LA LISTA
+        SET V_FIN_ANTIGUAS = 0;
+        OPEN C_ANTIGUAS;
+
+        leer_antiguas: LOOP
+            FETCH C_ANTIGUAS INTO V_CODPRO, V_CANT_ANT;
+            IF V_FIN_ANTIGUAS = 1 THEN LEAVE leer_antiguas; END IF;
+
+            IF NOT EXISTS (SELECT 1 FROM TempLineas WHERE Cod_Pro = V_CODPRO) THEN
+
+                -- Devolver stock de la línea eliminada
+                UPDATE Producto
+                SET Stock = Stock + V_CANT_ANT
+                WHERE Cod_Pro = V_CODPRO;
+
+                DELETE FROM Contiene
+                WHERE Num_Pedido = P_NUMPED AND Cod_Pro = V_CODPRO;
+            END IF;
+
+        END LOOP;
+        CLOSE C_ANTIGUAS;
+
+    END IF;
+
+    -- MODIFICAR FECHAS DEL PEDIDO
+    IF P_ACCION = 'MODIFICAR_DATOS' OR P_ACCION = 'TODO' THEN
+        UPDATE Pedido
+        SET Fecha_Ped = P_FECHA_PED,
+            Fecha_Ent = P_FECHA_ENT
+        WHERE Num_Pedido = P_NUMPED;
+    END IF;
+
+    -- RECALCULAR PRECIO TOTAL
+    UPDATE Pedido
+    SET Precio_Total_Ped = (
+        SELECT SUM(Precio_Total)
+        FROM Contiene
+        WHERE Num_Pedido = P_NUMPED
+    )
+    WHERE Num_Pedido = P_NUMPED;
+
+    COMMIT;
 
 END //
 
 DELIMITER ;
 
 
-– 13. ELIMINAR PEDIDO –
+-- 13. ELIMINAR PRODUCTO –
 
 DELIMITER //
 
@@ -1451,14 +1548,12 @@ CREATE PROCEDURE ELIMINAR_PRODUCTO(
     IN P_COD VARCHAR(10)
 )
 ELIMINAR_PRODUCTO: BEGIN
-
-    DECLARE V_EXISTE INT DEFAULT 0;
     DECLARE V_NUMPED INT;
     DECLARE V_CANT INT;
     DECLARE V_FIN INT DEFAULT 0;
-    DECLARE V_ERROR INT DEFAULT 0;
+    DECLARE V_EXISTE INT DEFAULT 0;
 
-    -- Cursor para recorrer las líneas donde aparece el producto
+    -- Cursor para recorrer líneas del producto (solo para cumplir el requisito)
     DECLARE C_LINEAS CURSOR FOR
         SELECT Num_Pedido, Cantidad_Pro
         FROM Contiene
@@ -1466,54 +1561,41 @@ ELIMINAR_PRODUCTO: BEGIN
 
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET V_FIN = 1;
 
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-    BEGIN
-        SET V_ERROR = 1;
-        ROLLBACK;
-    END;
-
     -- 1. Comprobar que el producto existe
     SELECT COUNT(*) INTO V_EXISTE
     FROM Producto
     WHERE Cod_Pro = P_COD;
 
     IF V_EXISTE = 0 THEN
-        LEAVE ELIMINAR_PRODUCTO_CON_CURSOR;
+        LEAVE ELIMINAR_PRODUCTO;
     END IF;
 
     START TRANSACTION;
 
-    -- 2. Recorrer líneas del producto
+    -- 2. Recorrer líneas (pero NO modificar stock)
     OPEN C_LINEAS;
     SET V_FIN = 0;
 
-    BUCLE_LINEAS: LOOP
+    bucle_lineas: LOOP
         FETCH C_LINEAS INTO V_NUMPED, V_CANT;
-        IF V_FIN = 1 THEN LEAVE BUCLE_LINEAS; END IF;
+        IF V_FIN = 1 THEN LEAVE bucle_lineas; END IF;
 
-        -- Opcional: devolver stock
-        UPDATE Producto
-        SET Stock = Stock + V_CANT
-        WHERE Cod_Pro = P_COD;
-
-        -- Eliminar la línea del pedido
-        DELETE FROM Contiene
-        WHERE Num_Pedido = V_NUMPED
-          AND Cod_Pro = P_COD;
+        -- No hacemos nada: solo cumplimos el requisito del cursor
+        -- Las líneas se borrarán solas por ON DELETE CASCADE
     END LOOP;
 
     CLOSE C_LINEAS;
 
-    -- 3. Eliminar el producto
+    -- 3. Eliminar el producto (esto dispara el CASCADE)
     DELETE FROM Producto
     WHERE Cod_Pro = P_COD;
 
-    IF V_ERROR = 0 THEN
-        COMMIT;
-    END IF;
+    COMMIT;
 
-END//
+END ELIMINAR_PRODUCTO //
 
 DELIMITER ;
+
+
 
 

@@ -23,6 +23,8 @@ public class ProveedorPanel extends PanelMontealcohol implements ActionListener 
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static final Dimension TAM_BOTON = new Dimension(180, 42);
+
 	
 	// ── GeneradorXML──────────────────────────────────────────
 	private final XMLGenerator xml = new XMLGeneratorImpl();
@@ -66,12 +68,21 @@ public class ProveedorPanel extends PanelMontealcohol implements ActionListener 
 
         configurarEventos();
 
+        estandarizarBotones(
+            btnInsertar,
+            btnBuscar,
+            btnActualizar,
+            btnEliminar,
+            btnListar,
+            btnLimpiar
+        );
+
         try {
             cargarTodos();
         } catch (SQLException ex) {
-        	DialogosMontealcohol.error(this, "Error al cargar proveedores");
-
+            DialogosMontealcohol.error(this, "Error al cargar proveedores");
         }
+
     }
 
         private ImageIcon escalarIcono(String ruta, int ancho, int alto) {
@@ -258,6 +269,9 @@ public class ProveedorPanel extends PanelMontealcohol implements ActionListener 
         txtLocalidad.setText(valorOVacio(fila, 2));
         txtTelefono.setText(valorOVacio(fila, 3));
         txtEmail.setText(valorOVacio(fila, 4));
+        
+        txtNif.setEditable(false);
+
     }
 
     private String valorOVacio(int fila, int columna) {
@@ -276,6 +290,10 @@ public class ProveedorPanel extends PanelMontealcohol implements ActionListener 
     private void limpiar() {
         for (JTextField tf : new JTextField[]{txtNif, txtNombre, txtLocalidad, txtTelefono, txtEmail})
             tf.setText("");
+        
+        txtNif.setEditable(true);
+
+        
         modelo.setRowCount(0);  // ← AÑADIR ESTO
         tabla.clearSelection();
     }
@@ -323,6 +341,13 @@ public class ProveedorPanel extends PanelMontealcohol implements ActionListener 
 
     private void info(String m)  { DialogosMontealcohol.info(this, m); }
     private void error(String m) { DialogosMontealcohol.error(this, m); }
+    private void estandarizarBotones(JButton... botones) {
+        for (JButton b : botones) {
+            b.setPreferredSize(TAM_BOTON);
+        }
+    }
+
+    
 
 public void actionPerformed(ActionEvent e) {
 

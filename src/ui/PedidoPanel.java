@@ -35,6 +35,8 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static final Dimension TAM_BOTON = new Dimension(180, 42);
+
 	
 	// ── GeneradorXML──────────────────────────────────────────
 	private final XMLGenerator xml = new XMLGeneratorImpl();
@@ -59,15 +61,20 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
     private final JTable tablaPedidos = new JTable(modeloPedidos);
 
     // ── Tabla de líneas ───────────────────────────────────────
-    private final String[] COL_LINEAS = {"Código Producto", "Cantidad", "Precio Línea (€)"};
-    private final DefaultTableModel modeloLineas = new DefaultTableModel(COL_LINEAS, 0) {
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
+    private final String[] COL_LINEAS = {"✔", "Código Producto", "Cantidad", "Precio Línea (€)"};
 
-		@Override public boolean isCellEditable(int r, int c) { return false; }
+    private final DefaultTableModel modeloLineas = new DefaultTableModel(COL_LINEAS, 0) {
+        @Override
+        public Class<?> getColumnClass(int columnIndex) {
+            return columnIndex == 0 ? Boolean.class : Object.class;
+        }
+
+        @Override
+        public boolean isCellEditable(int row, int col) {
+            return col == 0; // solo el check es editable
+        }
     };
+
     private final JTable tablaLineas = new JTable(modeloLineas);
 
     // ── Campos cabecera ───────────────────────────────────────
@@ -92,8 +99,16 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
     private final JButton btnLimpiar   = crearBtn(" Limpiar",   new Color(200, 170, 120), "iconos/limpiar.png");
 
     // ── Botones línea ─────────────────────────────────────────
+ // ── Botones línea ─────────────────────────────────────────
     private final JButton btnAddLinea = crearBtn("Añadir línea",   new Color(200, 170, 120), "iconos/ok.png");
     private final JButton btnDelLinea = crearBtn("Quitar línea",   new Color(200, 170, 120), "iconos/error.png");
+    private final JButton btnDescuento = crearBtn("Descuento", new Color(200,170,120), "iconos/descuento.png");
+
+   
+    {
+        btnDescuento.setPreferredSize(new Dimension(120, 36));
+    }
+
     public PedidoPanel(VentanaMontealcohol ventana) {
         super(ventana);
 
@@ -116,12 +131,19 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
 
         configurarEventos();
 
-        txtCantidad.addFocusListener(new java.awt.event.FocusAdapter() {
-            @Override
-            public void focusLost(java.awt.event.FocusEvent e) {
-                recalcularPrecioLinea();
-            }
-        });
+        estandarizarBotones(
+            btnInsertar,
+            btnBuscar,
+            btnActualizar,
+            btnEliminar,
+            btnListar,
+            btnLimpiar,
+            btnAddLinea,
+            btnDelLinea,
+            btnDescuento
+        );
+    
+        
 
         cmbProducto.addActionListener(new ActionListener() {
             @Override
@@ -212,9 +234,11 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
         ));
 
         // Formulario de nueva línea
+     // Formulario de nueva línea
         JPanel fLinea = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 4));
         fLinea.setBackground(MenuPrincipal.COLOR_BOTON_BG);
-        fLinea.setPreferredSize(null);
+        fLinea.setPreferredSize(new Dimension(0, 90));
+
         estilizar(txtCantidad, txtPrecioLinea);
         estilizarCombo(cmbProducto);
         txtPrecioLinea.setEditable(false);
@@ -225,6 +249,8 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
         fLinea.add(etiqueta("Precio línea:")); fLinea.add(txtPrecioLinea);
         fLinea.add(btnAddLinea);
         fLinea.add(btnDelLinea);
+        fLinea.add(btnDescuento);
+
 
         // Mini-tabla de líneas
         tablaLineas.setBackground(new Color(40, 28, 15));
@@ -289,6 +315,8 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
 
         btnAddLinea.addActionListener(this);
         btnDelLinea.addActionListener(this);
+        btnDescuento.addActionListener(this);
+
     }
     
 
@@ -314,11 +342,8 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
             LineaPedido lp = new LineaPedido(0, cod, cantidad, precioLinea);
             lineasActuales.add(lp);
 
-            modeloLineas.addRow(new Object[]{
-                cod,
-                cantidad,
-                String.format("%.2f", precioLinea)
-            });
+            modeloLineas.addRow(new Object[]{ false, cod, cantidad, String.format("%.2f", precioLinea) });
+
 
             txtCantidad.setText("");
             txtPrecioLinea.setText("");
@@ -441,7 +466,28 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
         }
     }
 
+    private void aplicarDescuento() {
+        for (int i = 0; i < modeloLineas.getRowCount(); i++) {
 
+            Boolean marcado = (Boolean) modeloLineas.getValueAt(i, 0);
+            if (marcado == null || !marcado) continue;
+
+            int cantidad = Integer.parseInt(modeloLineas.getValueAt(i, 2).toString());
+            double precioLinea = Double.parseDouble(modeloLineas.getValueAt(i, 3).toString());
+
+            if (cantidad >= 6) {
+                double nuevoPrecio = precioLinea * 0.90; // 10% descuento
+                modeloLineas.setValueAt(String.format("%.2f", nuevoPrecio), i, 3);
+
+                // actualizar también en lineasActuales
+                lineasActuales.get(i).setPrecio_Total(nuevoPrecio);
+            }
+        }
+
+        recalcularPrecioTotalPedido();
+        info("Descuento aplicado a las líneas marcadas.");
+    }
+ 
     private void cargarTodos()throws SQLException{
         
             List<Pedido> lista = daoPedido.listarTodos();
@@ -505,7 +551,12 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
                 if (p != null) mostrarLineas(p);
             }
         } catch (SQLException ex) { error("Error al cargar líneas."); }
+
+        // ⭐ BLOQUEAR CAMPOS
+        txtNumero.setEditable(false);
+        txtFechaPedido.setEditable(false);
     }
+
 
     private String valorOVacio(DefaultTableModel m, int fila, int columna) {
         Object val = m.getValueAt(fila, columna);
@@ -514,16 +565,26 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
     private void mostrarLineas(Pedido p) {
         modeloLineas.setRowCount(0);
         lineasActuales.clear();
+
         for (LineaPedido l : p.getLineas()) {
             lineasActuales.add(l);
+
             modeloLineas.addRow(new Object[]{
-                l.getCod_Pro(), l.getCantidad_Pro(),
+                false,
+                l.getCod_Pro(),
+                l.getCantidad_Pro(),
                 String.format("%.2f", l.getPrecio_Total())
             });
         }
-        
+
+        tablaLineas.getColumnModel().getColumn(0).setPreferredWidth(40);
+        tablaLineas.getColumnModel().getColumn(1).setPreferredWidth(150);
+        tablaLineas.getColumnModel().getColumn(2).setPreferredWidth(80);
+        tablaLineas.getColumnModel().getColumn(3).setPreferredWidth(120);
+
         recalcularPrecioTotalPedido();
     }
+
 
     private void agregarFilaPedido(Pedido p) {
         modeloPedidos.addRow(new Object[]{
@@ -626,15 +687,26 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
     }
 
     private void limpiar() {
-        txtNumero.setText(""); txtFechaPedido.setText(""); txtFechaEntrega.setText("");
-        txtPrecioTotal.setText(""); txtCantidad.setText(""); txtPrecioLinea.setText("");
+        txtNumero.setText("");
+        txtFechaPedido.setText("");
+        txtFechaEntrega.setText("");
+        txtPrecioTotal.setText("");
+        txtCantidad.setText("");
+        txtPrecioLinea.setText("");
+
         if (cmbCliente.getItemCount() > 0)  cmbCliente.setSelectedIndex(0);
         if (cmbProducto.getItemCount() > 0) cmbProducto.setSelectedIndex(0);
+
         modeloLineas.setRowCount(0);
-        modeloPedidos.setRowCount(0);  // ← AÑADIR ESTO
+        modeloPedidos.setRowCount(0);
         lineasActuales.clear();
         tablaPedidos.clearSelection();
+
+        // ⭐ DESBLOQUEAR CAMPOS
+        txtNumero.setEditable(true);
+        txtFechaPedido.setEditable(true);
     }
+
 
     // ── Estilos ───────────────────────────────────────────────
     private JLabel etiqueta(String t) {
@@ -695,6 +767,11 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
     private void info(String m)  { DialogosMontealcohol.info(this, m); }
     private void error(String m) { DialogosMontealcohol.error(this, m); }
 
+    private void estandarizarBotones(JButton... botones) {
+        for (JButton b : botones) {
+            b.setPreferredSize(TAM_BOTON);
+        }
+    }
 
 
 public void actionPerformed(ActionEvent e) {
@@ -716,7 +793,9 @@ public void actionPerformed(ActionEvent e) {
 			addLinea();
 		else if (e.getSource() == btnDelLinea)
 			delLinea();
-		
+		else if (e.getSource() == btnDescuento)
+		    aplicarDescuento();
+
 	 } catch (SQLException ex) {
 		 error ("proceso fallido");
 }

@@ -5,6 +5,7 @@ import model.Pedido;
 import model.LineaPedido;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -237,18 +238,18 @@ public class PedidoDAO implements IPedidoDAO {
     // -------------------------------------------------------
     // PROCEDIMIENTO ALMACENADO: MODIFICAR_PEDIDO
     // -------------------------------------------------------
+   
     @Override
     public boolean modificarPedidoProcedimiento(
             int numPedido,
             String accion,
             String listaProductos,
             String listaCantidades,
-            String nuevaCalle,
-            String nuevoTelefono,
-            String nuevoEmail
+            LocalDate fechaPed,
+            LocalDate fechaEnt
     ) throws SQLException {
 
-        String sql = "{ CALL MODIFICAR_PEDIDO(?, ?, ?, ?, ?, ?, ?) }";
+        String sql = "{ CALL MODIFICAR_PEDIDO(?, ?, ?, ?, ?, ?) }";
 
         try (Connection conn = DatabaseConnection.getConnection();
              CallableStatement cs = conn.prepareCall(sql)) {
@@ -257,9 +258,8 @@ public class PedidoDAO implements IPedidoDAO {
             cs.setString(2, accion);
             cs.setString(3, listaProductos);
             cs.setString(4, listaCantidades);
-            cs.setString(5, nuevaCalle);
-            cs.setString(6, nuevoTelefono);
-            cs.setString(7, nuevoEmail);
+            cs.setDate(5, Date.valueOf(fechaPed));
+            cs.setDate(6, Date.valueOf(fechaEnt));
 
             cs.execute();
             return true;
@@ -286,4 +286,10 @@ public class PedidoDAO implements IPedidoDAO {
         sb.deleteCharAt(sb.length() - 1);
         return sb.toString();
     }
+
+	public void modificarPedidoProcedimiento(int num_Pedido, String string, String listaPro, String listaCan,
+			String string2, String string3, String string4) {
+		// TODO Auto-generated method stub
+		
+	}
 }

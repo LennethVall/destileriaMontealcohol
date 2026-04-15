@@ -3,6 +3,7 @@ package dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 import model.LineaPedido;
@@ -31,9 +32,9 @@ public interface IPedidoDAO {
 	        String accion,
 	        String listaProductos,
 	        String listaCantidades,
-	        String nuevaCalle,
-	        String nuevoTelefono,
-	        String nuevoEmail
+	        LocalDate fechaPed,
+	        LocalDate fechaEnt
 	) throws SQLException;
+
 
 }

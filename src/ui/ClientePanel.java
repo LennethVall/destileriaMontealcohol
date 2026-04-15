@@ -26,6 +26,8 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static final Dimension TAM_BOTON = new Dimension(180, 42);
+
 	
 	// ── GeneradorXML──────────────────────────────────────────
 	private final XMLGenerator xml = new XMLGeneratorImpl();
@@ -81,14 +83,21 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
 
         configurarEventos();
 
+        estandarizarBotones(
+            btnInsertar,
+            btnBuscar,
+            btnActualizar,
+            btnEliminar,
+            btnListar,
+            btnLimpiar
+        );
+
         try {
-            cargarTodos();   // ← aquí manejas la excepción
+            cargarTodos();
         } catch (SQLException ex) {
-        	DialogosMontealcohol.error(
-        		    this,
-        		    "Error al cargar los clientes: " + ex.getMessage()
-        		);
+            DialogosMontealcohol.error(this, "Error al cargar los clientes: " + ex.getMessage());
         }
+
     }
 
         
@@ -183,6 +192,8 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
         btnLimpiar.addActionListener(this);
     }
 
+    
+    
     private void insertar() throws SQLException {
 
         Cliente c = obtenerClienteFormulario();
@@ -348,7 +359,11 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
         txtProvincia.setText(valorOVacio(fila, 7));
         txtTelefono.setText(valorOVacio(fila, 8));
         txtEmail.setText(valorOVacio(fila, 9));
+
+        // ⭐ BLOQUEAR NIF
+        txtNif.setEditable(false);
     }
+
 
     // Método auxiliar para evitar NullPointerException
     private String valorOVacio(int fila, int columna) {
@@ -374,9 +389,14 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
                 txtNumero, txtPiso, txtLocalidad, txtProvincia, txtTelefono, txtEmail}) {
             tf.setText("");
         }
+
+        // ⭐ DESBLOQUEAR NIF
+        txtNif.setEditable(true);
+
         modelo.setRowCount(0);
         tabla.clearSelection();
     }
+
 
     // ── Estilos ───────────────────────────────────────────────
     private JLabel etiqueta(String texto) {
@@ -426,6 +446,11 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
 
     private void mostrarError(String msg) {
         DialogosMontealcohol.error(this, msg);
+    }
+    private void estandarizarBotones(JButton... botones) {
+        for (JButton b : botones) {
+            b.setPreferredSize(TAM_BOTON);
+        }
     }
 
     

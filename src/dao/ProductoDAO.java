@@ -1,4 +1,3 @@
-
 package dao;
 
 import config.DatabaseConnection;
@@ -9,38 +8,36 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * DAO para la entidad Producto.
- * El código tiene formato: 1 letra + 4 dígitos.
- */
-public class ProductoDAO implements IProductoDAO{
+public class ProductoDAO implements IProductoDAO {
 
     // -------------------------------------------------------
     // CREATE
     // -------------------------------------------------------
+    @Override
     public boolean insertar(Producto p) throws SQLException {
         if (!Producto.codigoValido(p.getCod_Pro())) {
             throw new IllegalArgumentException(
                 "Código de producto inválido. Formato: 1 letra + 4 dígitos (ej: D0001)");
         }
+
         String sql = "INSERT INTO producto (Cod_Pro, Nom_Pro, Precio_Pro, Stock, Tipo, Nif_Prove) "
-                + "VALUES (?, ?, ?, ?, ?, ?)";
+                   + "VALUES (?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(sql)) {
-        	ps.setString(1, p.getCod_Pro());
-        	ps.setString(2, p.getNom_Pro());   // ← FALTABA
-        	ps.setDouble(3, p.getPrecio_Pro());
-        	ps.setInt(4, p.getStock());
-        	ps.setString(5, p.getTipo().getLabel());
-        	ps.setString(6, p.getNif_Prove());
-
+            ps.setString(1, p.getCod_Pro());
+            ps.setString(2, p.getNom_Pro());
+            ps.setDouble(3, p.getPrecio_Pro());
+            ps.setInt(4, p.getStock());
+            ps.setString(5, p.getTipo().getLabel());
+            ps.setString(6, p.getNif_Prove());
             return ps.executeUpdate() > 0;
         }
     }
 
     // -------------------------------------------------------
-    // READ - Buscar por código (PK)
+    // READ - Buscar por código
     // -------------------------------------------------------
+    @Override
     public Producto buscarPorCodigo(String codigo) throws SQLException {
         String sql = "SELECT * FROM producto WHERE Cod_Pro = ?";
         try (PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(sql)) {
@@ -55,11 +52,14 @@ public class ProductoDAO implements IProductoDAO{
     // -------------------------------------------------------
     // READ - Listado completo
     // -------------------------------------------------------
+    @Override
     public List<Producto> listarTodos() throws SQLException {
         String sql = "SELECT * FROM producto ORDER BY Tipo, Cod_Pro";
         List<Producto> lista = new ArrayList<>();
+
         try (Statement st = DatabaseConnection.getConnection().createStatement();
              ResultSet rs = st.executeQuery(sql)) {
+
             while (rs.next()) lista.add(mapear(rs));
         }
         return lista;
@@ -68,9 +68,11 @@ public class ProductoDAO implements IProductoDAO{
     // -------------------------------------------------------
     // READ - Listar por tipo
     // -------------------------------------------------------
+    @Override
     public List<Producto> listarPorTipo(String tipo) throws SQLException {
-        String sql = "SELECT * FROM producto WHERE Tipo = ? ORDER BY cod_Pro";
+        String sql = "SELECT * FROM producto WHERE Tipo = ? ORDER BY Cod_Pro";
         List<Producto> lista = new ArrayList<>();
+
         try (PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(sql)) {
             ps.setString(1, tipo);
             try (ResultSet rs = ps.executeQuery()) {
@@ -83,8 +85,10 @@ public class ProductoDAO implements IProductoDAO{
     // -------------------------------------------------------
     // UPDATE
     // -------------------------------------------------------
+    @Override
     public boolean actualizar(Producto p) throws SQLException {
         String sql = "UPDATE producto SET Precio_Pro=?, Stock=?, Tipo=?, Nif_Prove=? WHERE Cod_Pro=?";
+
         try (PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(sql)) {
             ps.setDouble(1, p.getPrecio_Pro());
             ps.setInt(2, p.getStock());
@@ -98,16 +102,21 @@ public class ProductoDAO implements IProductoDAO{
     // -------------------------------------------------------
     // DELETE
     // -------------------------------------------------------
+    @Override
     public boolean eliminar(String codigo) throws SQLException {
         String sql = "DELETE FROM producto WHERE Cod_Pro = ?";
+
         try (PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(sql)) {
             ps.setString(1, codigo);
             return ps.executeUpdate() > 0;
         }
     }
+
+    // -------------------------------------------------------
+    // DELETE con procedimiento
+    // -------------------------------------------------------
     @Override
     public boolean eliminarProductoProcedimiento(String codProducto) throws SQLException {
-
         String sql = "{ CALL ELIMINAR_PRODUCTO(?) }";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -117,32 +126,36 @@ public class ProductoDAO implements IProductoDAO{
             cs.execute();
             return true;
         }
-        
-        @Override
-        public boolean crearProductoConStockInicial(
-                String cod,
-                String nombre,
-                double precio,
-                String tipo,
-                String nifProveedor
-        ) throws SQLException {
+    }
 
-            String sql = "{ CALL CREAR_PRODUCTO_CON_STOCK_INICIAL(?, ?, ?, ?, ?) }";
+    // -------------------------------------------------------
+    // AÑADIR STOCK con procedimiento (AÑADIR_PRODUCTO)
+    // -------------------------------------------------------
+    @Override
+    public String añadirProductoProcedimiento(String cod, int cantidad) {
+        String mensaje = "";
 
-            try (Connection conn = DatabaseConnection.getConnection();
-                 CallableStatement cs = conn.prepareCall(sql)) {
+        try (Connection con = DatabaseConnection.getConnection();
+             CallableStatement cs = con.prepareCall("{CALL AÑADIR_PRODUCTO(?, ?)}")) {
 
-                cs.setString(1, cod);
-                cs.setString(2, nombre);
-                cs.setDouble(3, precio);
-                cs.setString(4, tipo);
-                cs.setString(5, nifProveedor);
+            cs.setString(1, cod);
+            cs.setInt(2, cantidad);
 
-                cs.execute();
-                return true;
+            boolean tieneResultado = cs.execute();
+
+            if (tieneResultado) {
+                try (ResultSet rs = cs.getResultSet()) {
+                    if (rs.next()) {
+                        mensaje = rs.getString(1);
+                    }
+                }
             }
+
+        } catch (SQLException e) {
+            mensaje = "ERROR: No se pudo ejecutar el procedimiento.";
         }
-    
+
+        return mensaje;
     }
 
     // -------------------------------------------------------
@@ -151,14 +164,11 @@ public class ProductoDAO implements IProductoDAO{
     private Producto mapear(ResultSet rs) throws SQLException {
         return new Producto(
             rs.getString("Cod_Pro"),
-            rs.getString("Nom_Pro"),      
-            rs.getDouble("Precio_Pro"),   
+            rs.getString("Nom_Pro"),
+            rs.getDouble("Precio_Pro"),
             rs.getInt("Stock"),
-            Tipo.fromLabel(rs.getString("Tipo")),  
+            Tipo.fromLabel(rs.getString("Tipo")),
             rs.getString("Nif_Prove")
         );
     }
-    
-    
-
 }
