@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<montealcohol>
+<montealcohol xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" xsi:noNamespaceSchemaLocation="C://Users//1dam//Downloads/montealcohol.xsd">
     <clientes>
         <cliente nif="11730743F">
             <nombre>Oier</nombre>
@@ -9,6 +9,7 @@
             <piso>BA</piso>
             <localidad>Irun</localidad>
             <provincia>Gipuzkoa</provincia>
+            <telefono>oier.crispin@correo.es</telefono>
             <email>oier.crispin@correo.es</email>
         </cliente>
         <cliente nif="16974082J">
@@ -21,16 +22,6 @@
             <provincia>Bizkaia</provincia>
             <telefono>747465821</telefono>
             <email>ines.fernandez@correo.es</email>
-        </cliente>
-        <cliente nif="78546221P">
-            <nombre>Alberta</nombre>
-            <apellido>Fuentecilla</apellido>
-            <calle>Las Hermanas</calle>
-            <numero>23</numero>
-            <piso>0</piso>
-            <localidad>Lanuzca</localidad>
-            <provincia>Huesca</provincia>
-            <telefono>944562110</telefono>
         </cliente>
         <cliente nif="12345678A">
             <nombre>Ana</nombre>
@@ -50,13 +41,14 @@
             <piso>4Izq</piso>
             <localidad>Barakaldo</localidad>
             <provincia>Bizkaia</provincia>
+            <telefono>alvaro.jauregui@correo.es</telefono>
             <email>alvaro.jauregui@correo.es</email>
         </cliente>
         <cliente nif="17465505H">
             <nombre>Mario</nombre>
             <apellido>Lira</apellido>
             <calle>Av. Eguzkilore</calle>
-            <numero>23</numero>
+            <numero>21</numero>
             <piso>5B</piso>
             <localidad>Amurrio</localidad>
             <provincia>Álava</provincia>
@@ -79,6 +71,7 @@
             <piso>2Der</piso>
             <localidad>Sopelana</localidad>
             <provincia>Bizkaia</provincia>
+            <telefono>bujarrita43@gmail.com</telefono>
             <email>bujarrita43@gmail.com</email>
         </cliente>
         <cliente nif="87654321B">
@@ -89,6 +82,7 @@
             <piso>1A</piso>
             <localidad>Donostia</localidad>
             <provincia>Gipuzkoa</provincia>
+            <telefono>lmartinez@gmail.com</telefono>
             <email>lmartinez@gmail.com</email>
         </cliente>
         <cliente nif="56096353C">
@@ -101,16 +95,6 @@
             <provincia>Gipuzkoa</provincia>
             <telefono>654876231</telefono>
         </cliente>
-        <cliente nif="74254668C">
-            <nombre>Alberta</nombre>
-            <apellido>Rodriguez</apellido>
-            <calle>La Santeña</calle>
-            <numero>45</numero>
-            <piso>2I</piso>
-            <localidad>Amurrio</localidad>
-            <provincia>Vizcaya</provincia>
-            <telefono>655844522</telefono>
-        </cliente>
         <cliente nif="19163153J">
             <nombre>Irati</nombre>
             <apellido>Santobeña</apellido>
@@ -119,7 +103,7 @@
             <piso>4B</piso>
             <localidad>Bilbao</localidad>
             <provincia>Bizakaia</provincia>
-            <telefono>653958468</telefono>
+            <telefono>iratipersonal@gmail.com</telefono>
             <email>iratipersonal@gmail.com</email>
         </cliente>
     </clientes>
@@ -176,7 +160,7 @@
         <producto codigo="F0109">
             <nombre>Lobo de Malta</nombre>
             <precio moneda="EUR">18.0</precio>
-            <stock>120</stock>
+            <stock>126</stock>
             <tipo>Fermentadas</tipo>
             <proveedor ref="64694667Z"/>
             <imagen ruta="img/F0109.png"/>
@@ -381,24 +365,21 @@
             <proveedor ref="49315429W"/>
             <imagen ruta="img/N0126.png"/>
         </producto>
-        <producto codigo="N0127">
-            <nombre>Aguardiente Centenario</nombre>
-            <precio moneda="EUR">120.0</precio>
-            <stock>450</stock>
-            <tipo>NuestraSelección</tipo>
-            <proveedor ref="85597644Q"/>
-            <imagen ruta="img/N0127.png"/>
-        </producto>
-        <producto codigo="N0128">
-            <nombre>Ginebra Botánica Alpina</nombre>
-            <precio moneda="EUR">75.5</precio>
-            <stock>410</stock>
-            <tipo>NuestraSelección</tipo>
-            <proveedor ref="76607064K"/>
-            <imagen ruta="img/N0128.png"/>
-        </producto>
     </productos>
     <pedidos>
+        <pedido numero="92">
+            <fecha_ped>2026-07-19</fecha_ped>
+            <fecha_ent>2029-08-20</fecha_ent>
+            <precio_total>36.0</precio_total>
+            <cliente ref="11730743F"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="F0109"/>
+                    <cantidad>2</cantidad>
+                    <precio_linea>36.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
         <pedido numero="90">
             <fecha_ped>2026-05-31</fecha_ped>
             <fecha_ent>2026-06-05</fecha_ent>
@@ -415,7 +396,7 @@
         <pedido numero="89">
             <fecha_ped>2026-05-29</fecha_ped>
             <fecha_ent>2026-06-03</fecha_ent>
-            <precio_total>78.0</precio_total>
+            <precio_total>79.0</precio_total>
             <cliente ref="11730743F"/>
             <lineas>
                 <linea unidad="uds">

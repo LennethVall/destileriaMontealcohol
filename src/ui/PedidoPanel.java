@@ -262,6 +262,7 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
         tablaLineas.getTableHeader().setBackground(MenuPrincipal.COLOR_BOTON_BG);
         tablaLineas.getTableHeader().setForeground(MenuPrincipal.COLOR_PRIMARIO);
         tablaLineas.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 11));
+        
 
         JScrollPane spLineas = new JScrollPane(tablaLineas);
         spLineas.setPreferredSize(new Dimension(0, 100));
@@ -336,14 +337,18 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
                 return;
             }
 
-            double precioUnit = getPrecioProductoSeleccionado();
-            double precioLinea = cantidad * precioUnit;
+            float precioUnit = getPrecioProductoSeleccionado();
+            float precioLinea = cantidad * precioUnit;
 
             LineaPedido lp = new LineaPedido(0, cod, cantidad, precioLinea);
             lineasActuales.add(lp);
 
-            modeloLineas.addRow(new Object[]{ false, cod, cantidad, String.format("%.2f", precioLinea) });
-
+            modeloLineas.addRow(new Object[]{
+                false,
+                cod,
+                cantidad,
+                String.format("%.2f", precioLinea)  // también String aquí
+            });
 
             txtCantidad.setText("");
             txtPrecioLinea.setText("");
@@ -354,6 +359,7 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
             error("La cantidad debe ser numérica.");
         }
     }
+
 
 
     private void delLinea() {
@@ -413,9 +419,9 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
                 "MODIFICAR",
                 listaPro,
                 listaCan,
-                "",   // nueva calle (si no la usas, pon "")
-                "",   // nuevo teléfono
-                ""    // nuevo email
+                p.getFecha_ped(),
+                p.getFecha_ent()
+
         );
 
         // Si llega aquí, no hubo excepción
@@ -473,13 +479,12 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
             if (marcado == null || !marcado) continue;
 
             int cantidad = Integer.parseInt(modeloLineas.getValueAt(i, 2).toString());
-            double precioLinea = Double.parseDouble(modeloLineas.getValueAt(i, 3).toString());
+            float precioLinea = Float.parseFloat(modeloLineas.getValueAt(i, 3).toString());
 
             if (cantidad >= 6) {
-                double nuevoPrecio = precioLinea * 0.90; // 10% descuento
+                float nuevoPrecio = precioLinea * 0.90f; // 10% descuento
                 modeloLineas.setValueAt(String.format("%.2f", nuevoPrecio), i, 3);
 
-                // actualizar también en lineasActuales
                 lineasActuales.get(i).setPrecio_Total(nuevoPrecio);
             }
         }
@@ -487,6 +492,7 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
         recalcularPrecioTotalPedido();
         info("Descuento aplicado a las líneas marcadas.");
     }
+
  
     private void cargarTodos()throws SQLException{
         
@@ -504,7 +510,8 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
         String precStr = txtPrecioTotal.getText().trim();
 
         if (fp.isEmpty() || fe.isEmpty() || precStr.isEmpty()) {
-            error("Fecha pedido, fecha entrega y precio total son obligatorios."); return null;
+            error("Fecha pedido, fecha entrega y precio total son obligatorios.");
+            return null;
         }
 
         LocalDate fechaPedido, fechaEntrega;
@@ -512,28 +519,46 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
             fechaPedido  = LocalDate.parse(fp, FMT);
             fechaEntrega = LocalDate.parse(fe, FMT);
         } catch (DateTimeParseException ex) {
-            error("Formato de fecha incorrecto. Usa dd/MM/yyyy"); return null;
+            error("Formato de fecha incorrecto. Usa dd/MM/yyyy");
+            return null;
         }
 
         if (!fechaEntrega.isAfter(fechaPedido)) {
-            error("La fecha de entrega debe ser posterior a la fecha del pedido."); return null;
+            error("La fecha de entrega debe ser posterior a la fecha del pedido.");
+            return null;
         }
 
-        double precioTotal;
+        // ⭐ NORMALIZAR PRECIO TOTAL
+        precStr = precStr.replace("€", "").replace(",", ".").trim();
+
+        float precioTotal;
         try {
-            precioTotal = Double.parseDouble(precStr);
-            if (precioTotal == 0) { error("El precio total no puede ser 0."); return null; }
+            precioTotal = Float.parseFloat(precStr);
+            if (precioTotal == 0) {
+                error("El precio total no puede ser 0.");
+                return null;
+            }
         } catch (NumberFormatException ex) {
-            error("El precio total debe ser un número."); return null;
+            error("El precio total debe ser un número.");
+            return null;
         }
 
         String nifCliente = getNifClienteSeleccionado();
-        if (nifCliente.isEmpty()) { error("Selecciona un cliente."); return null; }
-        if (lineasActuales.isEmpty()) { error("El pedido debe tener al menos una línea de producto."); return null; }
+        if (nifCliente.isEmpty()) {
+            error("Selecciona un cliente.");
+            return null;
+        }
+
+        if (lineasActuales.isEmpty()) {
+            error("El pedido debe tener al menos una línea de producto.");
+            return null;
+        }
 
         int numPedido = numStr.isEmpty() ? 0 : Integer.parseInt(numStr);
+
         Pedido p = new Pedido(numPedido, fechaPedido, fechaEntrega, precioTotal, nifCliente);
         p.setLineas(new ArrayList<>(lineasActuales));
+
         return p;
     }
 
@@ -562,28 +587,29 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
         Object val = m.getValueAt(fila, columna);
         return val != null ? val.toString() : "";
     }
+    
     private void mostrarLineas(Pedido p) {
-        modeloLineas.setRowCount(0);
-        lineasActuales.clear();
+    modeloLineas.setRowCount(0);
+    lineasActuales.clear();
 
-        for (LineaPedido l : p.getLineas()) {
-            lineasActuales.add(l);
+    for (LineaPedido l : p.getLineas()) {
+        lineasActuales.add(l);
 
-            modeloLineas.addRow(new Object[]{
-                false,
-                l.getCod_Pro(),
-                l.getCantidad_Pro(),
-                String.format("%.2f", l.getPrecio_Total())
-            });
-        }
-
-        tablaLineas.getColumnModel().getColumn(0).setPreferredWidth(40);
-        tablaLineas.getColumnModel().getColumn(1).setPreferredWidth(150);
-        tablaLineas.getColumnModel().getColumn(2).setPreferredWidth(80);
-        tablaLineas.getColumnModel().getColumn(3).setPreferredWidth(120);
-
-        recalcularPrecioTotalPedido();
+        modeloLineas.addRow(new Object[]{
+            false,
+            l.getCod_Pro(),
+            l.getCantidad_Pro(),
+            String.format("%.2f", l.getPrecio_Total())  // String en la tabla
+        });
     }
+
+    tablaLineas.getColumnModel().getColumn(0).setPreferredWidth(40);
+    tablaLineas.getColumnModel().getColumn(1).setPreferredWidth(150);
+    tablaLineas.getColumnModel().getColumn(2).setPreferredWidth(80);
+    tablaLineas.getColumnModel().getColumn(3).setPreferredWidth(120);
+
+    recalcularPrecioTotalPedido();
+}
 
 
     private void agregarFilaPedido(Pedido p) {
@@ -612,7 +638,7 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
             error("Error al cargar combos: " + ex.getMessage());
         }
     }
-    private double getPrecioProductoSeleccionado() {
+    private float getPrecioProductoSeleccionado() {
         String item = (String) cmbProducto.getSelectedItem();
         if (item == null) return 0;
 
@@ -625,7 +651,7 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
                                    .replace(",", ".")
                                    .trim();
 
-            return Double.parseDouble(precioStr);
+            return Float.parseFloat(precioStr);
         } catch (Exception e) {
             return 0;
         }
@@ -646,8 +672,8 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
                 return;
             }
 
-            double precioUnit = getPrecioProductoSeleccionado();
-            double total = cantidad * precioUnit;
+            float precioUnit = getPrecioProductoSeleccionado();
+            float total = cantidad * precioUnit;
 
             txtPrecioLinea.setText(String.format("%.2f", total));
 
@@ -658,7 +684,7 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
 
 
     private void recalcularPrecioTotalPedido() {
-        double total = 0;
+        float total = 0;
 
         for (LineaPedido lp : lineasActuales) {
             total += lp.getPrecio_Total();

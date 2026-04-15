@@ -29,7 +29,7 @@ public class PedidoDAO implements IPedidoDAO {
             try (PreparedStatement ps = conn.prepareStatement(sqlPedido, Statement.RETURN_GENERATED_KEYS)) {
                 ps.setDate(1, Date.valueOf(pedido.getFecha_ped()));
                 ps.setDate(2, Date.valueOf(pedido.getFecha_ent()));
-                ps.setDouble(3, pedido.getPrecio_Total_Ped());
+                ps.setFloat(3, pedido.getPrecio_Total_Ped());
                 ps.setString(4, pedido.getNif_Cli());
                 ps.executeUpdate();
 
@@ -48,7 +48,7 @@ public class PedidoDAO implements IPedidoDAO {
                     ps.setInt(1, numeroPedido);
                     ps.setString(2, linea.getCod_Pro());
                     ps.setInt(3, linea.getCantidad_Pro());
-                    ps.setDouble(4, linea.getPrecio_Total());
+                    ps.setFloat(4, linea.getPrecio_Total());
                     ps.addBatch();
                 }
                 ps.executeBatch();
@@ -144,7 +144,7 @@ public class PedidoDAO implements IPedidoDAO {
             try (PreparedStatement ps = conn.prepareStatement(sqlPedido)) {
                 ps.setDate(1, Date.valueOf(pedido.getFecha_ped()));
                 ps.setDate(2, Date.valueOf(pedido.getFecha_ent()));
-                ps.setDouble(3, pedido.getPrecio_Total_Ped());
+                ps.setFloat(3, pedido.getPrecio_Total_Ped());
                 ps.setString(4, pedido.getNif_Cli());
                 ps.setInt(5, pedido.getNum_Pedido());
                 ps.executeUpdate();
@@ -166,7 +166,7 @@ public class PedidoDAO implements IPedidoDAO {
                     ps.setInt(1, pedido.getNum_Pedido());
                     ps.setString(2, linea.getCod_Pro());
                     ps.setInt(3, linea.getCantidad_Pro());
-                    ps.setDouble(4, linea.getPrecio_Total());
+                    ps.setFloat(4, linea.getPrecio_Total());
                     ps.addBatch();
                 }
                 ps.executeBatch();
@@ -213,7 +213,7 @@ public class PedidoDAO implements IPedidoDAO {
                             rs.getInt("Num_Pedido"),
                             rs.getString("Cod_Pro"),
                             rs.getInt("Cantidad_Pro"),
-                            rs.getDouble("Precio_Total")
+                            rs.getFloat("Precio_Total")
                     ));
                 }
             }
@@ -230,7 +230,7 @@ public class PedidoDAO implements IPedidoDAO {
                 rs.getInt("Num_Pedido"),
                 rs.getDate("Fecha_Ped").toLocalDate(),
                 rs.getDate("Fecha_Ent").toLocalDate(),
-                rs.getDouble("Precio_Total_Ped"),
+                rs.getFloat("Precio_Total_Ped"),
                 rs.getString("Nif_Cli")
         );
     }
@@ -287,9 +287,5 @@ public class PedidoDAO implements IPedidoDAO {
         return sb.toString();
     }
 
-	public void modificarPedidoProcedimiento(int num_Pedido, String string, String listaPro, String listaCan,
-			String string2, String string3, String string4) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 }

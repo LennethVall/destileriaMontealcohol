@@ -49,6 +49,8 @@ public class XMLGeneratorImpl implements XMLGenerator {
 
         // Raíz
         Element root = doc.createElement("montealcohol");
+        root.setAttribute("xmlns:xsi","http://www.w3.org/2001/XMLSchema-instance");
+        root.setAttribute("xsi:noNamespaceSchemaLocation","C://Users//1dam//Downloads/montealcohol.xsd");
         doc.appendChild(root);
 
         // ============================

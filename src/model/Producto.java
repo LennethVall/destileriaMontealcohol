@@ -15,7 +15,7 @@ public class Producto implements Serializable, Comparable<Producto> {
 	// Atributos según el diagrama E-R
     private String Cod_Pro;      // Clave Primaria
     private String Nom_Pro;
-    private double Precio_Pro;
+    private float Precio_Pro;
     private int Stock;
     private Tipo tipo;
     private String Nif_Prove;    // Clave Ajena (Relación con Proveedor)
@@ -24,7 +24,7 @@ public class Producto implements Serializable, Comparable<Producto> {
     public Producto() {}
 
     // Constructor completo (Para crear productos nuevos)
-    public Producto(String cod, String nom, double precio, int stock, Tipo tipo, String nifProv) {
+    public Producto(String cod, String nom, float precio, int stock, Tipo tipo, String nifProv) {
         this.Cod_Pro = cod;
         this.Nom_Pro = nom;
         this.Precio_Pro = precio;
@@ -55,8 +55,8 @@ public class Producto implements Serializable, Comparable<Producto> {
     public String getNom_Pro() { return Nom_Pro; }
     public void setNom_Pro(String nom_Pro) { this.Nom_Pro = nom_Pro; }
 
-    public double getPrecio_Pro() { return Precio_Pro; }
-    public void setPrecio_Pro(double precio_Pro) { this.Precio_Pro = precio_Pro; }
+    public float getPrecio_Pro() { return Precio_Pro; }
+    public void setPrecio_Pro(float precio_Pro) { this.Precio_Pro = precio_Pro; }
 
     public int getStock() { return Stock; }
     public void setStock(int stock) { this.Stock = stock; }

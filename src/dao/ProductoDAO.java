@@ -26,7 +26,7 @@ public class ProductoDAO implements IProductoDAO {
         try (PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(sql)) {
             ps.setString(1, p.getCod_Pro());
             ps.setString(2, p.getNom_Pro());
-            ps.setDouble(3, p.getPrecio_Pro());
+            ps.setFloat(3, p.getPrecio_Pro());
             ps.setInt(4, p.getStock());
             ps.setString(5, p.getTipo().getLabel());
             ps.setString(6, p.getNif_Prove());
@@ -90,7 +90,7 @@ public class ProductoDAO implements IProductoDAO {
         String sql = "UPDATE producto SET Precio_Pro=?, Stock=?, Tipo=?, Nif_Prove=? WHERE Cod_Pro=?";
 
         try (PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(sql)) {
-            ps.setDouble(1, p.getPrecio_Pro());
+            ps.setFloat(1, p.getPrecio_Pro());
             ps.setInt(2, p.getStock());
             ps.setString(3, p.getTipo().getLabel());
             ps.setString(4, p.getNif_Prove());
@@ -165,7 +165,7 @@ public class ProductoDAO implements IProductoDAO {
         return new Producto(
             rs.getString("Cod_Pro"),
             rs.getString("Nom_Pro"),
-            rs.getDouble("Precio_Pro"),
+            rs.getFloat("Precio_Pro"),
             rs.getInt("Stock"),
             Tipo.fromLabel(rs.getString("Tipo")),
             rs.getString("Nif_Prove")

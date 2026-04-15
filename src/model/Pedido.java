@@ -14,11 +14,11 @@ public class Pedido implements Serializable{
 	private int Num_Pedido;
     private LocalDate Fecha_ped;
     private LocalDate Fecha_ent;
-    private double Precio_Total_Ped;
+    private float Precio_Total_Ped;
     private String Nif_Cli;
     private List<LineaPedido> lineas = new ArrayList<>();
 
-    public Pedido(int numPedido, LocalDate fechaPed, LocalDate fechaEnt, double precioTotal, String nifCli) {
+    public Pedido(int numPedido, LocalDate fechaPed, LocalDate fechaEnt, float precioTotal, String nifCli) {
     		this.Num_Pedido = numPedido;
     		this.Fecha_ped = fechaPed;
     		this.Fecha_ent = fechaEnt;
@@ -36,8 +36,8 @@ public class Pedido implements Serializable{
     public void setFecha_ped(LocalDate fecha) { this.Fecha_ped = fecha; }
     public LocalDate getFecha_ent() { return Fecha_ent; }
     public void setFecha_ent(LocalDate fecha) { this.Fecha_ent = fecha; }
-    public double getPrecio_Total_Ped() { return Precio_Total_Ped; }
-    public void setPrecio_Total_Ped(double total) { this.Precio_Total_Ped = total; }
+    public float getPrecio_Total_Ped() { return Precio_Total_Ped; }
+    public void setPrecio_Total_Ped(float total) { this.Precio_Total_Ped = total; }
     public String getNif_Cli() { return Nif_Cli; }
     public void setNif_Cli(String nif) { this.Nif_Cli = nif; }
     public List<LineaPedido> getLineas() { return lineas; }

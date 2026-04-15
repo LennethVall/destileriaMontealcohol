@@ -49,7 +49,7 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
     // BOTONES
     private final JButton btnInsertar   = crearBtn(" Añadir stock", new Color(200,170,120), "iconos/añadir.png");
     private final JButton btnBuscar     = crearBtn(" Buscar",       new Color(200,170,120), "iconos/buscar.png");
-    private final JButton btnActualizar = crearBtn(" Actualizar",   new Color(200,170,120), "iconos/actualizar.png");
+    
     private final JButton btnEliminar   = crearBtn(" Eliminar",     new Color(200,170,120), "iconos/borrar.png");
     private final JButton btnListar     = crearBtn(" Listar todos", new Color(200,170,120), "iconos/cargarDatos.png");
     private final JButton btnLimpiar    = crearBtn(" Limpiar",      new Color(200,170,120), "iconos/limpiar.png");
@@ -74,7 +74,7 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
         configurarEventos();
 
         estandarizarBotones(
-                btnInsertar, btnBuscar, btnActualizar,
+                btnInsertar, btnBuscar, 
                 btnEliminar, btnListar, btnLimpiar
         );
     }
@@ -182,7 +182,7 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
         p.setBackground(MenuPrincipal.COLOR_FONDO);
 
         for (JButton b : new JButton[]{
-                btnInsertar, btnBuscar, btnActualizar,
+                btnInsertar, btnBuscar, 
                 btnEliminar, btnListar, btnLimpiar
         }) p.add(b);
 
@@ -192,7 +192,7 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
     private void configurarEventos() {
         btnInsertar.addActionListener(this);
         btnBuscar.addActionListener(this);
-        btnActualizar.addActionListener(this);
+        
         btnEliminar.addActionListener(this);
         btnListar.addActionListener(this);
         btnLimpiar.addActionListener(this);
@@ -285,7 +285,7 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
         }
 
         try {
-            double p = Double.parseDouble(precio);
+            float p = Float.parseFloat(precio);
             if (p <= 0) {
                 error("El precio debe ser mayor que 0.");
                 return null;
@@ -461,8 +461,7 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
             else if (e.getSource() == btnBuscar)
                 buscar();
 
-            else if (e.getSource() == btnActualizar)
-                actualizar();
+            
 
             else if (e.getSource() == btnEliminar)
                 eliminar();
