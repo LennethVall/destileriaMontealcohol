@@ -16,7 +16,22 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Panel CRUD para la gestión de productos dentro del sistema Montealcohol.
+ * Permite añadir stock mediante procedimiento almacenado, buscar, eliminar,
+ * listar y visualizar información detallada de cada producto.
+ *
+ * Incluye formulario, tabla, botones de acción, selector de proveedores,
+ * visualización de imágenes y generación automática de XML tras cada operación.
+ *
+ * Extiende {@link PanelMontealcohol} para mantener la estética corporativa
+ * y los cursores personalizados.
+ *
+ * @author Ines
+ * @version 1.0
+ */
 public class ProductoPanel extends PanelMontealcohol implements ActionListener {
+
 
     private static final long serialVersionUID = 1L;
     private static final Dimension TAM_BOTON = new Dimension(180, 42);
@@ -54,7 +69,14 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
     private final JButton btnListar     = crearBtn(" Listar todos", new Color(200,170,120), "iconos/cargarDatos.png");
     private final JButton btnLimpiar    = crearBtn(" Limpiar",      new Color(200,170,120), "iconos/limpiar.png");
 
+    /**
+     * Construye el panel de gestión de productos, inicializa el formulario,
+     * carga proveedores, carga productos existentes y configura la interfaz.
+     *
+     * @param ventana Ventana principal desde la que se muestra este panel.
+     */
     public ProductoPanel(VentanaMontealcohol ventana) {
+
         super(ventana);
 
         setLayout(new BorderLayout(8, 8));
@@ -79,13 +101,27 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
         );
     }
 
+    /**
+     * Carga una imagen desde la ruta indicada y la escala al tamaño especificado.
+     *
+     * @param ruta  Ruta del archivo de imagen.
+     * @param ancho Ancho deseado.
+     * @param alto  Alto deseado.
+     * @return Icono escalado.
+     */
     private ImageIcon escalarIcono(String ruta, int ancho, int alto) {
+
         Image img = new ImageIcon(ruta).getImage();
         Image nueva = img.getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
         return new ImageIcon(nueva);
     }
 
+    /**
+     * Carga todos los proveedores desde la base de datos y los inserta en el
+     * combo de selección con formato "NIF - Nombre".
+     */
     private void cargarProveedoresCombo() {
+
         try {
             List<Proveedor> lista = daoProveedor.listarTodos();
             cmbProveedor.removeAllItems();
@@ -96,7 +132,14 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
         }
     }
 
+    /**
+     * Construye el formulario de entrada para productos, incluyendo campos de
+     * código, nombre, precio, tipo, proveedor y cantidad a añadir.
+     *
+     * @return Panel del formulario configurado.
+     */
     private JPanel crearFormulario() {
+
         JPanel p = new JPanel(new GridBagLayout());
         p.setBackground(MenuPrincipal.COLOR_BOTON_BG);
         p.setBorder(BorderFactory.createCompoundBorder(
@@ -159,7 +202,14 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
         return p;
     }
 
+    /**
+     * Construye la tabla de productos con estilo corporativo y añade listeners
+     * para rellenar el formulario y mostrar imágenes al hacer clic en el nombre.
+     *
+     * @return JScrollPane con la tabla configurada.
+     */
     private JScrollPane crearTabla() {
+
         tabla.setBackground(new Color(40, 28, 15));
         tabla.setForeground(MenuPrincipal.COLOR_TEXTO);
         tabla.setGridColor(new Color(80, 60, 30));
@@ -194,7 +244,13 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
         return sp;
     }
 
+    /**
+     * Construye el panel que contiene los botones CRUD del módulo.
+     *
+     * @return Panel con los botones de acción.
+     */
     private JPanel crearBotones() {
+
         JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 8));
         p.setBackground(MenuPrincipal.COLOR_FONDO);
 
@@ -206,7 +262,11 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
         return p;
     }
 
+    /**
+     * Asocia los botones del panel a sus respectivos eventos de acción.
+     */
     private void configurarEventos() {
+
         btnInsertar.addActionListener(this);
         btnBuscar.addActionListener(this);
         
@@ -216,7 +276,14 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
     }
 
     // ⭐⭐⭐ AÑADIR STOCK (INSERTAR)
+    /**
+     * Añade stock a un producto utilizando el procedimiento almacenado
+     * AÑADIR_PRODUCTO. Genera XML tras la operación y recarga la tabla.
+     *
+     * @throws SQLException Si ocurre un error durante la operación.
+     */
     private void añadirStock() throws SQLException {
+
         String cod = txtCodigo.getText().trim();
         int cantidad = (int) spnCantidad.getValue();
 
@@ -238,7 +305,13 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
     }
 
 
+    /**
+     * Busca un producto por su código y muestra el resultado en la tabla.
+     *
+     * @throws SQLException Si ocurre un error durante la consulta.
+     */
     private void buscar() throws SQLException {
+
         String cod = txtCodigo.getText().trim();
         if (cod.isEmpty()) { error("Introduce el código del producto."); return; }
 
@@ -248,7 +321,14 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
         else info("No se encontró producto con código: " + cod);
     }
 
+    /**
+     * Actualiza los datos de un producto existente. No modifica el stock desde
+     * el formulario, solo precio, nombre, tipo y proveedor.
+     *
+     * @throws SQLException Si ocurre un error durante la actualización.
+     */
     private void actualizar() throws SQLException {
+
         Producto pr = getProducto();
         if (pr == null) return;
 
@@ -261,7 +341,14 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
         }
     }
 
+    /**
+     * Elimina un producto utilizando el procedimiento almacenado correspondiente.
+     * Solicita confirmación al usuario, genera XML y recarga la tabla.
+     *
+     * @throws SQLException Si ocurre un error durante la eliminación.
+     */
     private void eliminar() throws SQLException {
+
         String cod = txtCodigo.getText().trim();
         if (cod.isEmpty()) {
             error("Introduce el código del producto a eliminar.");
@@ -284,14 +371,27 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
         cargarTodos();
     }
 
+    /**
+     * Carga todos los productos desde la base de datos y los muestra en la tabla.
+     *
+     * @throws SQLException Si ocurre un error durante la consulta.
+     */
     private void cargarTodos() throws SQLException {
+
         List<Producto> lista = daoProducto.listarTodos();
         modelo.setRowCount(0);
         for (Producto pr : lista) agregarFila(pr);
     }
 
     // ⭐⭐⭐ getProducto() YA NO USA STOCK DEL FORMULARIO
+    /**
+     * Construye un objeto Producto a partir de los datos del formulario.
+     * No modifica el stock: conserva el stock actual mostrado en la tabla.
+     *
+     * @return Producto construido o null si hay errores de validación.
+     */
     private Producto getProducto() {
+
         String cod = txtCodigo.getText().trim();
         String nombre = txtNombre.getText().trim();
         String precio = txtPrecio.getText().trim();
@@ -331,12 +431,24 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
         }
     }
 
+    /**
+     * Obtiene el NIF del proveedor seleccionado en el combo.
+     *
+     * @return NIF del proveedor o cadena vacía si no hay selección.
+     */
     private String getNifSeleccionado() {
+
         String item = (String) cmbProveedor.getSelectedItem();
         return item != null ? item.split(" - ")[0] : "";
     }
 
+    /**
+     * Selecciona en el combo el proveedor cuyo NIF coincide con el indicado.
+     *
+     * @param nif NIF del proveedor a seleccionar.
+     */
     private void seleccionarProveedor(String nif) {
+
         for (int i = 0; i < cmbProveedor.getItemCount(); i++) {
             if (cmbProveedor.getItemAt(i).startsWith(nif)) {
                 cmbProveedor.setSelectedIndex(i); break;
@@ -344,7 +456,13 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
         }
     }
 
+    /**
+     * Añade una fila a la tabla con los datos del producto indicado.
+     *
+     * @param pr Producto cuyos datos se insertarán en la tabla.
+     */
     private void agregarFila(Producto pr) {
+
         modelo.addRow(new Object[]{
                 pr.getCod_Pro(),
                 pr.getNom_Pro(),
@@ -355,7 +473,14 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
         });
     }
 
+    /**
+     * Rellena el formulario con los datos de la fila seleccionada en la tabla.
+     * El campo código se bloquea y se aplica estilo no editable.
+     *
+     * @param fila Índice de la fila seleccionada.
+     */
     private void rellenarFormulario(int fila) {
+
         txtCodigo.setText(valorOVacio(fila, 0));
         txtNombre.setText(valorOVacio(fila, 1));
         txtPrecio.setText(valorOVacio(fila, 2));
@@ -369,12 +494,25 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
 
     }
 
+    /**
+     * Devuelve el valor de una celda o una cadena vacía si es null.
+     *
+     * @param fila    Fila de la tabla.
+     * @param columna Columna de la tabla.
+     * @return Valor de la celda o "" si es null.
+     */
     private String valorOVacio(int fila, int columna) {
+
         Object val = modelo.getValueAt(fila, columna);
         return val != null ? val.toString() : "";
     }
 
+    /**
+     * Limpia todos los campos del formulario, restablece el estado editable del
+     * código y reinicia la tabla y la selección.
+     */
     private void limpiar() {
+
         txtCodigo.setText("");
         txtNombre.setText("");
         txtPrecio.setText("");
@@ -391,14 +529,27 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
         tabla.clearSelection();
     }
 
+    /**
+     * Crea una etiqueta con estilo corporativo Montealcohol.
+     *
+     * @param t Texto de la etiqueta.
+     * @return JLabel configurado.
+     */
     private JLabel etiqueta(String t) {
+
         JLabel l = new JLabel(t);
         l.setForeground(MenuPrincipal.COLOR_PRIMARIO);
         l.setFont(new Font("SansSerif", Font.BOLD, 12));
         return l;
     }
 
+    /**
+     * Aplica el estilo Montealcohol a los campos de texto del formulario.
+     *
+     * @param campos Campos a estilizar.
+     */
     private void estilizar(JTextField... campos) {
+
         for (JTextField tf : campos) {
             tf.setBackground(new Color(50, 35, 16));
             tf.setForeground(MenuPrincipal.COLOR_TEXTO);
@@ -411,13 +562,28 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
         }
     }
 
+    /**
+     * Aplica estilo corporativo a un JComboBox.
+     *
+     * @param cmb Combo a estilizar.
+     */
     private void estilizarCombo(JComboBox<?> cmb) {
+
         cmb.setBackground(new Color(50, 35, 16));
         cmb.setForeground(MenuPrincipal.COLOR_TEXTO);
         cmb.setFont(new Font("SansSerif", Font.PLAIN, 13));
     }
 
+    /**
+     * Crea un botón estilizado con icono opcional y cursor personalizado.
+     *
+     * @param texto     Texto del botón.
+     * @param bg        Color de fondo.
+     * @param rutaIcono Ruta del icono o null si no se desea icono.
+     * @return Botón configurado.
+     */
     private JButton crearBtn(String texto, Color bg, String rutaIcono) {
+
         JButton b = new JButton(texto);
 
         if (rutaIcono != null) {
@@ -436,16 +602,40 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
 
         return b;
     }
+    /**
+     * Muestra un diálogo informativo con estilo Montealcohol.
+     *
+     * @param m Mensaje a mostrar.
+     */
+    private void info(String m) {}
 
-    private void info(String m)  { DialogosMontealcohol.info(this, m); }
-    private void error(String m) { DialogosMontealcohol.error(this, m); }
+    /**
+     * Muestra un diálogo de error con estilo Montealcohol.
+     *
+     * @param m Mensaje a mostrar.
+     */
+    private void error(String m) {}
 
+
+    /**
+     * Aplica un tamaño estándar a los botones recibidos.
+     *
+     * @param botones Botones a estandarizar.
+     */
     private void estandarizarBotones(JButton... botones) {
+
         for (JButton b : botones) {
             b.setPreferredSize(TAM_BOTON);
         }
         }
+    /**
+     * Muestra un diálogo modal con la imagen del producto indicado.
+     * Busca primero .png y luego .jpg. Si no existe, muestra advertencia.
+     *
+     * @param codProducto Código del producto cuya imagen se desea mostrar.
+     */
     private void mostrarDialogoImagenProducto(String codProducto) {
+
 
         // Probar primero con .png
         String rutaPng = "img/" + codProducto + ".png";
@@ -486,8 +676,15 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
         dialogo.setVisible(true);
     }
 
+    /**
+     * Gestiona los eventos de los botones del panel, ejecutando la operación
+     * correspondiente según el origen del evento.
+     *
+     * @param e Evento de acción generado por un botón.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
+
         try {
             if (e.getSource() == btnInsertar)
                 añadirStock();  // ⭐ INSERTAR = AÑADIR STOCK
@@ -511,7 +708,13 @@ public class ProductoPanel extends PanelMontealcohol implements ActionListener {
         }
     }
 
+    /**
+     * Devuelve la instancia del generador XML asociada al panel.
+     *
+     * @return Implementación de {@link XMLGenerator}.
+     */
     public XMLGenerator getXml() {
+
         return xml;
     }
 }

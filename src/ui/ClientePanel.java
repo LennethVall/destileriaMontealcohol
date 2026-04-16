@@ -19,7 +19,23 @@ import javax.swing.ImageIcon;
 /**
  * Panel CRUD completo para la gestión de Clientes.
  */
+/**
+ * Panel CRUD completo para la gestión de clientes dentro del sistema
+ * Montealcohol. Permite insertar, buscar, actualizar, eliminar y listar
+ * clientes, además de generar automáticamente el archivo XML tras cada
+ * operación exitosa.
+ *
+ * Incluye formulario, tabla de resultados, botones de acción y estilos
+ * visuales coherentes con la estética corporativa.
+ *
+ * Extiende {@link PanelMontealcohol} para mantener la integración con la
+ * ventana principal y los cursores personalizados.
+ *
+ * @author Ines
+ * @version 1.0
+ */
 public class ClientePanel extends PanelMontealcohol implements ActionListener {
+
 
 
     /**
@@ -72,7 +88,14 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
     private final JButton btnListar    = crearBtn(" Listar todos", new Color(200, 170, 120),"iconos/cargarDatos.png");
     private final JButton btnLimpiar   = crearBtn(" Limpiar",   new Color(200, 170, 120), "iconos/limpiar.png");
 
+    /**
+     * Construye el panel de gestión de clientes, inicializa el formulario,
+     * la tabla, los botones y carga los datos existentes desde la base de datos.
+     *
+     * @param ventana Ventana principal desde la que se muestra este panel.
+     */
     public ClientePanel(VentanaMontealcohol ventana) {
+
         super(ventana);
 
         setLayout(new BorderLayout(8, 8));
@@ -101,7 +124,16 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
     }
 
         
-        private ImageIcon escalarIcono(String ruta, int ancho, int alto) {
+    /**
+     * Carga una imagen desde la ruta indicada y la escala al tamaño especificado.
+     *
+     * @param ruta  Ruta del archivo de imagen.
+     * @param ancho Ancho deseado en píxeles.
+     * @param alto  Alto deseado en píxeles.
+     * @return      Icono escalado listo para usar en botones u otros componentes.
+     */
+    private ImageIcon escalarIcono(String ruta, int ancho, int alto) {
+
             Image img = new ImageIcon(ruta).getImage();
             Image nueva = img.getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
             return new ImageIcon(nueva);
@@ -110,7 +142,14 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
     }
 
     // ── Formulario ────────────────────────────────────────────
-    private JPanel crearPanelFormulario() {
+        /**
+         * Construye el panel del formulario con etiquetas y campos organizados
+         * mediante GridBagLayout, aplicando el estilo corporativo.
+         *
+         * @return Panel del formulario.
+         */
+        private JPanel crearPanelFormulario() {
+
         JPanel p = new JPanel(new GridBagLayout());
         p.setBackground(MenuPrincipal.COLOR_BOTON_BG);
         p.setBorder(BorderFactory.createCompoundBorder(
@@ -147,7 +186,14 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
     }
 
     // ── Tabla ─────────────────────────────────────────────────
-    private JScrollPane crearPanelTabla() {
+        /**
+         * Construye el panel que contiene la tabla de clientes, aplicando colores,
+         * fuentes y comportamiento de selección.
+         *
+         * @return JScrollPane con la tabla configurada.
+         */
+        private JScrollPane crearPanelTabla() {
+
         tabla.setBackground(new Color(40, 28, 15));
         tabla.setForeground(MenuPrincipal.COLOR_TEXTO);
         tabla.setGridColor(new Color(80, 60, 30));
@@ -172,7 +218,14 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
     }
 
     // ── Botones ───────────────────────────────────────────────
-    private JPanel crearPanelBotones() {
+        /**
+         * Construye el panel que contiene los botones CRUD, organizados en una
+         * cuadrícula horizontal.
+         *
+         * @return Panel con los botones de acción.
+         */
+        private JPanel crearPanelBotones() {
+
         JPanel p = new JPanel(new GridBagLayout());
         p.setBackground(MenuPrincipal.COLOR_FONDO);
 
@@ -194,7 +247,11 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
     }
 
     // ── Eventos ───────────────────────────────────────────────
-    private void configurarEventos() {
+        /**
+         * Asocia los botones del panel a sus respectivos eventos de acción.
+         */
+        private void configurarEventos() {
+
         btnInsertar.addActionListener(this);
         btnBuscar.addActionListener(this);
         btnActualizar.addActionListener(this);
@@ -205,6 +262,12 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
 
     
     
+    /**
+     * Inserta un nuevo cliente utilizando los datos del formulario. Si la operación
+     * es exitosa, actualiza el XML, muestra un mensaje informativo y recarga la tabla.
+     *
+     * @throws SQLException Si ocurre un error al insertar en la base de datos.
+     */
     private void insertar() throws SQLException {
 
         Cliente c = obtenerClienteFormulario();
@@ -226,7 +289,14 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
 
     
 
+    /**
+     * Busca un cliente por su NIF y muestra el resultado en la tabla y en el
+     * formulario. Si no existe, muestra un mensaje informativo.
+     *
+     * @throws SQLException Si ocurre un error durante la consulta.
+     */
     private void buscar() throws SQLException {
+
         String nif = txtNif.getText().trim();
         if (nif.isEmpty()) { mostrarError("Introduce el NIF para buscar."); return; }
         
@@ -241,7 +311,14 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
         
     }
 
+    /**
+     * Actualiza los datos de un cliente existente utilizando la información del
+     * formulario. Si la operación tiene éxito, actualiza el XML y recarga la tabla.
+     *
+     * @throws SQLException Si ocurre un error al actualizar en la base de datos.
+     */
     private void actualizar() throws SQLException {
+
 
         Cliente c = obtenerClienteFormulario();
         if (c == null) return;
@@ -263,7 +340,15 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
     }
 
 
+    /**
+     * Elimina un cliente por su NIF tras confirmar la acción con el usuario.
+     * Si la eliminación es exitosa, actualiza el XML, limpia el formulario
+     * y recarga la tabla.
+     *
+     * @throws SQLException Si ocurre un error al eliminar en la base de datos.
+     */
     private void eliminar() throws SQLException {
+
         String nif = txtNif.getText().trim();
         if (nif.isEmpty()) {
             mostrarError("Introduce el NIF del cliente a eliminar.");
@@ -296,7 +381,13 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
     }
 
 
-    private void cargarTodos() throws SQLException{
+    /**
+     * Carga todos los clientes desde la base de datos y los muestra en la tabla.
+     *
+     * @throws SQLException Si ocurre un error al obtener los datos.
+     */
+    private void cargarTodos() throws SQLException {
+
        
             List<Cliente> lista = dao.listarTodos();
             modelo.setRowCount(0);
@@ -305,7 +396,14 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
     }
 
     // ── Helpers ───────────────────────────────────────────────
+    /**
+     * Obtiene los datos del formulario y construye un objeto {@link Cliente}.
+     * Valida los campos obligatorios y el formato del número.
+     *
+     * @return Cliente construido o null si hay errores de validación.
+     */
     private Cliente obtenerClienteFormulario() {
+
         String Nif_Cli       = txtNif.getText().trim();
         String Nombre    = txtNombre.getText().trim();
         String Apellido  = txtApellido.getText().trim();
@@ -340,7 +438,13 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
     }
     
  
+    /**
+     * Añade una fila a la tabla con los datos del cliente indicado.
+     *
+     * @param c Cliente cuyos datos se insertarán en la tabla.
+     */
     private void agregarFila(Cliente c) {
+
         modelo.addRow(new Object[]{
             c.getNif_Cli(),
             c.getNombre(),
@@ -359,7 +463,14 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
 
 
 
+    /**
+     * Rellena el formulario con los datos de la fila seleccionada en la tabla.
+     * El campo NIF se bloquea y se aplica estilo de campo no editable.
+     *
+     * @param fila Índice de la fila seleccionada.
+     */
     private void rellenarFormulario(int fila) {
+
         txtNif.setText(valorOVacio(fila, 0));
         txtNombre.setText(valorOVacio(fila, 1));
         txtApellido.setText(valorOVacio(fila, 2));
@@ -379,11 +490,26 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
 
 
     // Método auxiliar para evitar NullPointerException
+    /**
+     * Devuelve el valor de una celda de la tabla o una cadena vacía si es null.
+     *
+     * @param fila    Fila de la tabla.
+     * @param columna Columna de la tabla.
+     * @return Valor de la celda o "" si es null.
+     */
     private String valorOVacio(int fila, int columna) {
+
         Object val = modelo.getValueAt(fila, columna);
         return val != null ? val.toString() : "";
     }
+    /**
+     * Rellena el formulario con los datos del cliente proporcionado.
+     * El NIF se bloquea y se estiliza como campo no editable.
+     *
+     * @param c Cliente cuyos datos se mostrarán en el formulario.
+     */
     private void rellenarCampos(Cliente c) {
+
         txtNif.setText(c.getNif_Cli());
         txtNif.setEditable(false);
         estilizarNoEditable(txtNif);
@@ -400,7 +526,12 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
     }
 
 
+    /**
+     * Limpia todos los campos del formulario, desbloquea el NIF y restablece
+     * los estilos estándar. También limpia la tabla y la selección.
+     */
     private void limpiarFormulario() {
+
         for (JTextField tf : new JTextField[]{txtNif, txtNombre, txtApellido, txtCalle,
                 txtNumero, txtPiso, txtLocalidad, txtProvincia, txtTelefono, txtEmail}) {
             tf.setText("");
@@ -416,14 +547,27 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
 
 
     // ── Estilos ───────────────────────────────────────────────
+    /**
+     * Crea una etiqueta con el estilo corporativo Montealcohol para el formulario.
+     *
+     * @param texto Texto que mostrará la etiqueta.
+     * @return      JLabel configurado con fuente y color corporativos.
+     */
     private JLabel etiqueta(String texto) {
+
         JLabel l = new JLabel(texto);
         l.setForeground(MenuPrincipal.COLOR_PRIMARIO);
         l.setFont(new Font("SansSerif", Font.BOLD, 12));
         return l;
     }
 
+    /**
+     * Aplica el estilo Montealcohol a los campos de texto del formulario.
+     *
+     * @param campos Campos a estilizar.
+     */
     private void estilizarCampos(JTextField... campos) {
+
         for (JTextField tf : campos) {
             tf.setBackground(new Color(50, 35, 16));
             tf.setForeground(MenuPrincipal.COLOR_TEXTO);
@@ -438,7 +582,16 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
         }
     }
 
-    private JButton crearBtn(String texto, Color bg,  String rutaIcono) {
+    /**
+     * Crea un botón estilizado con icono opcional y cursor personalizado.
+     *
+     * @param texto     Texto del botón.
+     * @param bg        Color de fondo.
+     * @param rutaIcono Ruta del icono o null si no se desea icono.
+     * @return Botón configurado.
+     */
+    private JButton crearBtn(String texto, Color bg, String rutaIcono) {
+
         JButton b = new JButton(texto);
         
          if (rutaIcono != null) {
@@ -457,20 +610,45 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
         return b;
     }
 
-    private void mostrarInfo(String msg)  {
+    /**
+     * Muestra un diálogo informativo con estilo Montealcohol.
+     *
+     * @param msg Mensaje a mostrar.
+     */
+    private void mostrarInfo(String msg) {
         DialogosMontealcohol.info(this, msg);
     }
 
+    /**
+     * Muestra un diálogo de error con estilo Montealcohol.
+     *
+     * @param msg Mensaje a mostrar.
+     */
     private void mostrarError(String msg) {
         DialogosMontealcohol.error(this, msg);
     }
-    private void estandarizarBotones(JButton... botones) {
+
+        /**
+         * Aplica un tamaño estándar a todos los botones recibidos para mantener
+         * una apariencia uniforme en la interfaz.
+         *
+         * @param botones Botones a los que se les aplicará el tamaño estándar.
+         */
+        private void estandarizarBotones(JButton... botones) {
+
         for (JButton b : botones) {
             b.setPreferredSize(TAM_BOTON);
         }
     }
 
     
+    /**
+     * Gestiona los eventos de los botones del panel, ejecutando la operación
+     * correspondiente según el origen del evento.
+     *
+     * @param e Evento de acción generado por un botón.
+     */
+    @Override
     public void actionPerformed(ActionEvent e) {
 
     	try {
@@ -492,7 +670,13 @@ public class ClientePanel extends PanelMontealcohol implements ActionListener {
 }
 }
 
-	public XMLGenerator getXml() {
+    /**
+     * Devuelve la instancia del generador XML asociada a este panel.
+     *
+     * @return Implementación de {@link XMLGenerator} utilizada por el panel.
+     */
+    public XMLGenerator getXml() {
+
 		return xml;
 	}
 }

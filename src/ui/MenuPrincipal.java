@@ -8,7 +8,21 @@ import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * Menú principal del sistema Montealcohol. Actúa como pantalla inicial desde la
+ * que se accede a los distintos módulos de gestión: clientes, proveedores,
+ * productos y pedidos.
+ *
+ * Extiende la ventana base personalizada {@link VentanaMontealcohol} para
+ * mantener la estética corporativa y los cursores temáticos.
+ *
+ * Incluye cabecera, botones de navegación y pie informativo.
+ *
+ * @author Ines Carrasco
+ * @version 1.0
+ */
 public class MenuPrincipal extends VentanaMontealcohol {
+
 
     private static final long serialVersionUID = 1L;
 
@@ -22,7 +36,12 @@ public class MenuPrincipal extends VentanaMontealcohol {
     static final Font  FUENTE_BTN     = new Font("SansSerif", Font.BOLD,   14);
     static final Font  FUENTE_SUB     = new Font("Serif",     Font.ITALIC, 14);
 
+    /**
+     * Construye el menú principal, configura el comportamiento al cerrar la ventana
+     * y genera toda la interfaz gráfica del menú.
+     */
     public MenuPrincipal() {
+
     	 super();
         // ❌ ELIMINADO: new MenuPrincipal().setVisible(true);
 
@@ -42,6 +61,11 @@ public class MenuPrincipal extends VentanaMontealcohol {
         construirUI();
     }
 
+    /**
+     * Construye la interfaz del menú principal: cabecera, botones de acceso a los
+     * módulos y pie de información. Utiliza el panel de contenido heredado de
+     * {@link VentanaMontealcohol}.
+     */
     private void construirUI() {
 
         // ✔️ Usar SIEMPRE el panel contenido de VentanaMontealcohol
@@ -95,7 +119,16 @@ public class MenuPrincipal extends VentanaMontealcohol {
         getContenido().add(pie, BorderLayout.SOUTH);
     }
 
+    /**
+     * Crea un botón estilizado para acceder a un módulo del sistema. Aplica la
+     * paleta corporativa, efectos hover y el cursor personalizado.
+     *
+     * @param titulo Texto que se mostrará en el botón.
+     * @param al     Acción que se ejecutará al pulsar el botón.
+     * @return       Botón configurado y listo para añadir a la interfaz.
+     */
     private JButton crearBotonModulo(String titulo, ActionListener al) {
+
         JButton btn = new JButton("<html><center>" + titulo + "</center></html>") {
             private static final long serialVersionUID = 1L;
 
@@ -140,14 +173,28 @@ public class MenuPrincipal extends VentanaMontealcohol {
         return btn;
     }
 
+    /**
+     * Abre un módulo en una nueva ventana de tipo {@link VentanaMontealcohol}.
+     * Inserta el panel recibido dentro del área de contenido de la nueva ventana.
+     *
+     * @param panel Panel correspondiente al módulo que se desea mostrar.
+     */
     private void abrirModulo(JPanel panel) {
+
         VentanaMontealcohol ventana = new VentanaMontealcohol();
         panel.setBounds(20, 20, 1000, 600);
         ventana.getContenido().add(panel);
         ventana.setVisible(true);
     }
 
+    /**
+     * Punto de entrada de la aplicación. Inicia el menú principal dentro del hilo
+     * de eventos de Swing.
+     *
+     * @param args Argumentos de línea de comandos (no utilizados).
+     */
     public static void main(String[] args) {
+
         SwingUtilities.invokeLater(() -> {
             MenuPrincipal menu = new MenuPrincipal();
             menu.setVisible(true);
