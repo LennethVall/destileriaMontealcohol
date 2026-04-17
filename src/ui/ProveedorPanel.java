@@ -15,30 +15,45 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * Panel CRUD para la gestión de Proveedores.
+ * Panel gráfico (Swing) para la gestión de proveedores.
+ * 
+ * <p>Este panel permite realizar operaciones CRUD sobre la entidad {@link Proveedor}:
+ * insertar, buscar, actualizar y eliminar proveedores.</p>
+ * 
+ * <p>También incluye funcionalidades adicionales como la consulta del producto
+ * más vendido asociado a un proveedor.</p>
+ * 
+ * <p>Se conecta con la base de datos a través de {@link ProveedorDAO} y genera
+ * automáticamente un archivo XML tras cada modificación mediante {@link XMLGenerator}.</p>
+ * 
+ * <p>Componentes principales:</p>
+ * <ul>
+ *   <li>Formulario de entrada de datos</li>
+ *   <li>Tabla de visualización de proveedores</li>
+ *   <li>Botones de acción (CRUD y consultas)</li>
+ * </ul>
+ * 
+ * @author Anartz
+ * @version 1.0
  */
 public class ProveedorPanel extends PanelMontealcohol implements ActionListener {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private static final Dimension TAM_BOTON = new Dimension(180, 42);
 
 	
-	// ── GeneradorXML──────────────────────────────────────────
+	// Generador XML → se ejecuta tras cambios en la BD
 	private final XMLGenerator xml = new XMLGeneratorImpl();
-
+	// DAO → acceso a base de datos
 	private final ProveedorDAO dao = new ProveedorDAO();
 
-    private final String[] COLUMNAS = {"NIF", "Nombre/Empresa", "Localidad", "Teléfono", "Email"};
-    private final DefaultTableModel modelo = new DefaultTableModel(COLUMNAS, 0) {
-        /**
-		 * 
-		 */
+   private final String[] COLUMNAS = {"NIF", "Nombre/Empresa", "Localidad", "Teléfono", "Email"};
+   // Modelo de tabla (no editable por el usuario)
+   private final DefaultTableModel modelo = new DefaultTableModel(COLUMNAS, 0) {
+
 		private static final long serialVersionUID = 1L;
 
-		@Override public boolean isCellEditable(int r, int c) { return false; }
+		@Override public boolean isCellEditable(int r, int c) { return false; } // evita edición directa en la tabla
     };
     private final JTable tabla = new JTable(modelo);
 
@@ -54,29 +69,30 @@ public class ProveedorPanel extends PanelMontealcohol implements ActionListener 
     private final JButton btnEliminar  = crearBtn(" Eliminar",  new Color(200, 170, 120), "iconos/borrar.png");
     private final JButton btnListar    = crearBtn(" Listar todos", new Color(200, 170, 120),"iconos/cargarDatos.png");
     private final JButton btnLimpiar   = crearBtn(" Limpiar",   new Color(200, 170, 120), "iconos/limpiar.png");
-
+    private final JButton btnMasVendido = crearBtn("<html><center>Producto más<br>vendido</center></html>",new Color(200, 170, 120),"iconos/estrella.png");
 
     public ProveedorPanel(VentanaMontealcohol ventana) {
         super(ventana);
-
+        // Layout principal
         setLayout(new BorderLayout(8, 8));
         setOpaque(false);
-
+        // Añadir secciones al panel
         add(crearFormulario(), BorderLayout.NORTH);
         add(crearTabla(),      BorderLayout.CENTER);
         add(crearBotones(),    BorderLayout.SOUTH);
-
+        // Eventos de botones
         configurarEventos();
-
+        // Tamaño uniforme de botones
         estandarizarBotones(
             btnInsertar,
             btnBuscar,
             btnActualizar,
             btnEliminar,
             btnListar,
-            btnLimpiar
+            btnLimpiar,
+            btnMasVendido
         );
-
+        // Cargar datos al iniciar
         try {
             cargarTodos();
         } catch (SQLException ex) {
@@ -92,7 +108,7 @@ public class ProveedorPanel extends PanelMontealcohol implements ActionListener 
         
     }
 
-
+    // Creacion del formulario en donde vamos a insertar todos los datos para las operaciones crud
     private JPanel crearFormulario() {
         JPanel p = new JPanel(new GridBagLayout());
         p.setBackground(MenuPrincipal.COLOR_BOTON_BG);
@@ -125,7 +141,7 @@ public class ProveedorPanel extends PanelMontealcohol implements ActionListener 
         }
         return p;
     }
-
+    // Creaccion de la table con sus dichas caracteristicas
     private JScrollPane crearTabla() {
         tabla.setBackground(new Color(40, 28, 15));
         tabla.setForeground(MenuPrincipal.COLOR_TEXTO);
@@ -147,7 +163,7 @@ public class ProveedorPanel extends PanelMontealcohol implements ActionListener 
         sp.getViewport().setBackground(new Color(40, 28, 15));
         return sp;
     }
-
+    // creacion de botones
     private JPanel crearBotones() {
         JPanel p = new JPanel(new GridBagLayout());
         p.setBackground(MenuPrincipal.COLOR_FONDO);
@@ -157,13 +173,14 @@ public class ProveedorPanel extends PanelMontealcohol implements ActionListener 
         g.gridy = 0;
 
         JButton[] botones = {
-            btnInsertar,
-            btnBuscar,
-            btnActualizar,
-            btnEliminar,
-            btnListar,
-            btnLimpiar
-        };
+        	    btnInsertar,
+        	    btnBuscar,
+        	    btnActualizar,
+        	    btnEliminar,
+        	    btnListar,
+        	    btnLimpiar,
+        	    btnMasVendido
+        	};
 
         for (int i = 0; i < botones.length; i++) {
             g.gridx = i;
@@ -173,7 +190,7 @@ public class ProveedorPanel extends PanelMontealcohol implements ActionListener 
         return p;
     }
 
-
+    // Hacer que los botones tengan efecto
     private void configurarEventos() {
         btnInsertar.addActionListener(this);
         btnBuscar.addActionListener(this);
@@ -181,8 +198,20 @@ public class ProveedorPanel extends PanelMontealcohol implements ActionListener 
         btnEliminar.addActionListener(this);
         btnListar.addActionListener(this);
         btnLimpiar.addActionListener(this);
+        btnMasVendido.addActionListener(this);
     }
-
+    /**
+     * Inserta un nuevo proveedor en la base de datos.
+     * 
+     * <p>Tras la inserción:</p>
+     * <ul>
+     *   <li>Se genera automáticamente el XML actualizado</li>
+     *   <li>Se limpia el formulario</li>
+     *   <li>Se recarga la tabla de proveedores</li>
+     * </ul>
+     * 
+     * @throws SQLException si ocurre un error en la base de datos
+     */
     private void insertar() throws SQLException {
         Proveedor pv = getProveedor();
         if (pv == null) return;
@@ -200,7 +229,14 @@ public class ProveedorPanel extends PanelMontealcohol implements ActionListener 
         }
     }
 
-
+    /**
+     * Busca un proveedor por su NIF.
+     * 
+     * <p>Si lo encuentra, muestra sus datos en la tabla y en el formulario.</p>
+     * <p>Si no existe, muestra un mensaje informativo.</p>
+     * 
+     * @throws SQLException si ocurre un error en la consulta
+     */
     private void buscar() throws SQLException{
         String nif = txtNif.getText().trim();
         if (nif.isEmpty()) { error("Introduce el NIF para buscar."); return; }
@@ -211,14 +247,24 @@ public class ProveedorPanel extends PanelMontealcohol implements ActionListener 
             else info("No se encontró proveedor con NIF: " + nif);
        
     }
-
+    /**
+     * Actualiza los datos de un proveedor existente.
+     * 
+     * <p>Si la actualización es correcta:</p>
+     * <ul>
+     *   <li>Se genera el XML actualizado</li>
+     *   <li>Se refresca la tabla</li>
+     * </ul>
+     * 
+     * @throws SQLException si ocurre un error en la base de datos
+     */
     private void actualizar() throws SQLException {
         Proveedor pv = getProveedor();
         if (pv == null) return;
 
         if (dao.actualizar(pv)) {
             try {
-                xml.generarXML();   // ← AQUÍ, solo si se actualizó correctamente
+                xml.generarXML();   
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -230,7 +276,65 @@ public class ProveedorPanel extends PanelMontealcohol implements ActionListener 
         }
     }
 
+    /**
+     * Muestra en un cuadro de diálogo el producto más vendido
+     * asociado al proveedor indicado por su NIF.
+     * 
+     * <p>Utiliza un procedimiento almacenado en la base de datos.</p>
+     * 
+     * @throws SQLException si ocurre un error en la consulta
+     */
+    private void mostrarProductoMasVendido() throws SQLException {
+	ProveedorDAO dao=new ProveedorDAO();
+	
+	String prdouctomasvendido=dao.ProductoMasVendido(txtNif.getText());
+    String mensaje = "Producto más vendido: "+prdouctomasvendido;
 
+    JDialog dialog = new JDialog(
+        (Frame) SwingUtilities.getWindowAncestor(this),"Producto más vendido",true
+    );
+    dialog.setSize(350, 200);
+    dialog.setLocationRelativeTo(this);
+    dialog.setLayout(new BorderLayout());
+
+    JPanel panel = new JPanel(new BorderLayout());
+    panel.setBackground(new Color(40, 28, 15));
+    panel.setBorder(BorderFactory.createLineBorder(MenuPrincipal.COLOR_PRIMARIO, 2));
+
+    JLabel lbl = new JLabel("<html><center>" + mensaje.replace("\n", "<br>") + "</center></html>");
+    lbl.setForeground(MenuPrincipal.COLOR_TEXTO);
+    lbl.setHorizontalAlignment(SwingConstants.CENTER);
+    lbl.setFont(new Font("SansSerif", Font.PLAIN, 14));
+
+    panel.add(lbl, BorderLayout.CENTER);
+
+    JButton btnCerrar = crearBtn("Cerrar", new Color(200, 170, 120), null);
+    btnCerrar.addActionListener(e -> dialog.dispose());
+
+    JPanel sur = new JPanel();
+    sur.setBackground(MenuPrincipal.COLOR_FONDO);
+    sur.add(btnCerrar);
+
+    dialog.add(panel, BorderLayout.CENTER);
+    dialog.add(sur, BorderLayout.SOUTH);
+
+    dialog.setVisible(true);
+}
+
+    /**
+     * Elimina un proveedor de la base de datos según su NIF.
+     * 
+     * <p>Solicita confirmación antes de eliminar.</p>
+     * 
+     * <p>Si se elimina correctamente:</p>
+     * <ul>
+     *   <li>Se genera el XML actualizado</li>
+     *   <li>Se limpia el formulario</li>
+     *   <li>Se recarga la tabla</li>
+     * </ul>
+     * 
+     * @throws SQLException si ocurre un error en la base de datos
+     */
     private void eliminar() throws SQLException {
         String nif = txtNif.getText().trim();
         if (nif.isEmpty()) {
@@ -266,7 +370,12 @@ public class ProveedorPanel extends PanelMontealcohol implements ActionListener 
     }
 
 
-
+    /**
+     * Carga todos los proveedores desde la base de datos
+     * y los muestra en la tabla.
+     * 
+     * @throws SQLException si ocurre un error en la consulta
+     */ 
     private void cargarTodos() throws SQLException{
         
             List<Proveedor> lista = dao.listarTodos();
@@ -287,7 +396,8 @@ public class ProveedorPanel extends PanelMontealcohol implements ActionListener 
         }
         return new Proveedor(nif, nombre, localidad, telefono, email.isEmpty() ? null : email);
     }
-
+    
+    /**Agregacion de linea en la tabla*/
     private void agregarFila(Proveedor pv) {
         modelo.addRow(new Object[]{
             pv.getNif_Prove(),
@@ -297,7 +407,7 @@ public class ProveedorPanel extends PanelMontealcohol implements ActionListener 
             pv.getEmail()    != null ? pv.getEmail()    : ""
         });
     }
-
+    
     private void rellenarFormulario(int fila) {
         txtNif.setText(valorOVacio(fila, 0));
         txtNombre.setText(valorOVacio(fila, 1));
@@ -326,7 +436,12 @@ public class ProveedorPanel extends PanelMontealcohol implements ActionListener 
         txtTelefono.setText(pv.getTelefono());
         txtEmail.setText(pv.getEmail() != null ? pv.getEmail() : "");
     }
-
+    /**
+     * Limpia todos los campos del formulario y la tabla.
+     * 
+     * <p>También restablece el estado editable del campo NIF
+     * para permitir introducir nuevos datos.</p>
+     */
     private void limpiar() {
         for (JTextField tf : new JTextField[]{txtNif, txtNombre, txtLocalidad, txtTelefono, txtEmail})
             tf.setText("");
@@ -339,14 +454,15 @@ public class ProveedorPanel extends PanelMontealcohol implements ActionListener 
         modelo.setRowCount(0);  // ← AÑADIR ESTO
         tabla.clearSelection();
     }
-
+    
+    
     private JLabel etiqueta(String t) {
         JLabel l = new JLabel(t);
         l.setForeground(MenuPrincipal.COLOR_PRIMARIO);
         l.setFont(new Font("SansSerif", Font.BOLD, 12));
         return l;
     }
-
+    // Estilizacion
     private void estilizar(JTextField... campos) {
         for (JTextField tf : campos) {
             tf.setBackground(new Color(50, 35, 16));
@@ -361,7 +477,7 @@ public class ProveedorPanel extends PanelMontealcohol implements ActionListener 
 
         }
     }
-
+    /**Creacion del boton con su estilo*/
     private JButton crearBtn(String texto, Color bg,  String rutaIcono) {
         JButton b = new JButton(texto);
         
@@ -390,7 +506,22 @@ public class ProveedorPanel extends PanelMontealcohol implements ActionListener 
     }
 
     
-
+    /**
+     * Gestiona los eventos de los botones del panel.
+     * 
+     * <p>Dependiendo del botón pulsado, ejecuta la acción correspondiente:</p>
+     * <ul>
+     *   <li>Insertar</li>
+     *   <li>Buscar</li>
+     *   <li>Actualizar</li>
+     *   <li>Eliminar</li>
+     *   <li>Listar</li>
+     *   <li>Limpiar</li>
+     *   <li>Producto más vendido</li>
+     * </ul>
+     * 
+     * @param e evento de acción generado por un botón
+     */
 public void actionPerformed(ActionEvent e) {
 
 	try {
@@ -406,7 +537,8 @@ public void actionPerformed(ActionEvent e) {
 			cargarTodos();
 		else if (e.getSource() == btnLimpiar)
 			limpiar();
-		
+		else if (e.getSource() == btnMasVendido)
+		    mostrarProductoMasVendido();
 		
 	 } catch (SQLException ex) {
 		 error ("proceso fallido");

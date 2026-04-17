@@ -1,3 +1,5 @@
+/* Alvaro */
+
 package dao;
 
 import config.DatabaseConnection;
@@ -9,99 +11,82 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Implementación del patrón DAO para la entidad {@link Pedido}.
- * <p>
- * Proporciona todas las operaciones de acceso a datos sobre la tabla {@code pedido}
- * y la tabla de líneas {@code contiene}, incluyendo transacciones, consultas,
- * inserciones en batch y llamadas a procedimientos almacenados.
- * </p>
- *
- * @author Alvaro
- * @version 1.0
- * @see IPedidoDAO
- */
+// Clase que implementa las operaciones de acceso a datos para los pedidos
 public class PedidoDAO implements IPedidoDAO {
 
     // -------------------------------------------------------
-    // CREATE
+    // CREATE - Inserta pedido y sus lineas usando una transaccion
     // -------------------------------------------------------
-
-    /**
-     * Inserta un nuevo pedido junto con todas sus líneas en la base de datos,
-     * utilizando una transacción manual para garantizar la atomicidad.
-     * <p>
-     * Primero inserta la cabecera del pedido y recupera el número generado;
-     * a continuación inserta todas las líneas en batch dentro de la misma transacción.
-     * Si ocurre cualquier error, se realiza un {@code rollback} completo.
-     * </p>
-     *
-     * @param pedido Objeto {@link Pedido} con los datos a insertar, incluidas sus líneas.
-     * @return Número de pedido generado automáticamente por la base de datos.
-     * @throws SQLException Si ocurre un error durante la inserción o la transacción.
-     */
     @Override
     public int insertar(Pedido pedido) throws SQLException {
 
+        // Obtiene la conexion activa a la base de datos
         Connection conn = DatabaseConnection.getConnection();
+
+        // Desactiva el autocommit para gestionar la transaccion manualmente
         conn.setAutoCommit(false);
 
         try {
+            // Define la sentencia SQL para insertar la cabecera del pedido
             String sqlPedido = "INSERT INTO pedido (Fecha_Ped, Fecha_Ent, Precio_Total_Ped, Nif_Cli) "
                     + "VALUES (?, ?, ?, ?)";
 
+            // Almacena el numero de pedido generado automaticamente por la BD
             int numeroPedido;
 
+            // Prepara la sentencia solicitando que se devuelvan las claves generadas
             try (PreparedStatement ps = conn.prepareStatement(sqlPedido, Statement.RETURN_GENERATED_KEYS)) {
+
+                // Asigna los valores del pedido a los parametros de la sentencia
                 ps.setDate(1, Date.valueOf(pedido.getFecha_ped()));
                 ps.setDate(2, Date.valueOf(pedido.getFecha_ent()));
                 ps.setFloat(3, pedido.getPrecio_Total_Ped());
                 ps.setString(4, pedido.getNif_Cli());
                 ps.executeUpdate();
 
+                // Recupera el numero de pedido generado por la base de datos
                 try (ResultSet rs = ps.getGeneratedKeys()) {
                     rs.next();
                     numeroPedido = rs.getInt(1);
                 }
             }
 
+            // Define la sentencia SQL para insertar cada linea del pedido
             String sqlLinea = "INSERT INTO contiene (Num_Pedido, Cod_Pro, Cantidad_Pro, Precio_Total) "
                     + "VALUES (?, ?, ?, ?)";
 
+            // Prepara la insercion en batch de todas las lineas del pedido
             try (PreparedStatement ps = conn.prepareStatement(sqlLinea)) {
                 for (LineaPedido linea : pedido.getLineas()) {
+
+                    // Asigna los valores de cada linea al batch
                     ps.setInt(1, numeroPedido);
                     ps.setString(2, linea.getCod_Pro());
                     ps.setInt(3, linea.getCantidad_Pro());
                     ps.setFloat(4, linea.getPrecio_Total());
                     ps.addBatch();
                 }
+                // Ejecuta todas las inserciones de lineas de una sola vez
                 ps.executeBatch();
             }
 
+            // Confirma la transaccion si todo fue correcto
             conn.commit();
             return numeroPedido;
 
         } catch (SQLException e) {
+            // Deshace todos los cambios si ocurre algun error durante la insercion
             conn.rollback();
             throw e;
         } finally {
+            // Restaura el autocommit a su estado original
             conn.setAutoCommit(true);
         }
     }
 
     // -------------------------------------------------------
-    // READ - Por número
+    // READ - Busca un pedido concreto por su numero
     // -------------------------------------------------------
-
-    /**
-     * Busca y devuelve un pedido concreto a partir de su número identificador,
-     * cargando también todas sus líneas de producto asociadas.
-     *
-     * @param numeroPedido Número identificador del pedido a buscar.
-     * @return El objeto {@link Pedido} encontrado con sus líneas, o {@code null} si no existe.
-     * @throws SQLException Si ocurre un error durante la consulta.
-     */
     @Override
     public Pedido buscarPorNumero(int numeroPedido) throws SQLException {
         String sql = "SELECT * FROM pedido WHERE Num_Pedido = ?";
@@ -111,8 +96,11 @@ public class PedidoDAO implements IPedidoDAO {
             ps.setInt(1, numeroPedido);
 
             try (ResultSet rs = ps.executeQuery()) {
+                // Comprueba si existe un resultado y lo convierte en objeto Pedido
                 if (rs.next()) {
                     pedido = mapearPedido(rs);
+
+                    // Carga las lineas de productos asociadas a este pedido
                     pedido.setLineas(buscarLineas(numeroPedido));
                 }
             }
@@ -121,16 +109,8 @@ public class PedidoDAO implements IPedidoDAO {
     }
 
     // -------------------------------------------------------
-    // READ - Todos los pedidos
+    // READ - Devuelve todos los pedidos ordenados por fecha descendente
     // -------------------------------------------------------
-
-    /**
-     * Devuelve todos los pedidos existentes en la base de datos ordenados
-     * por fecha de pedido de forma descendente, con sus líneas cargadas.
-     *
-     * @return Lista de {@link Pedido} con todos los registros encontrados.
-     * @throws SQLException Si ocurre un error durante la consulta.
-     */
     @Override
     public List<Pedido> listarTodos() throws SQLException {
         String sql = "SELECT * FROM pedido ORDER BY Fecha_Ped DESC";
@@ -139,8 +119,11 @@ public class PedidoDAO implements IPedidoDAO {
         try (Statement st = DatabaseConnection.getConnection().createStatement();
              ResultSet rs = st.executeQuery(sql)) {
 
+            // Recorre cada fila del resultado y la convierte en un objeto Pedido
             while (rs.next()) {
                 Pedido p = mapearPedido(rs);
+
+                // Carga las lineas asociadas a cada pedido
                 p.setLineas(buscarLineas(p.getNum_Pedido()));
                 lista.add(p);
             }
@@ -149,17 +132,8 @@ public class PedidoDAO implements IPedidoDAO {
     }
 
     // -------------------------------------------------------
-    // READ - Por cliente
+    // READ - Devuelve todos los pedidos de un cliente concreto
     // -------------------------------------------------------
-
-    /**
-     * Devuelve todos los pedidos de un cliente concreto, identificado por su NIF,
-     * ordenados por fecha de pedido de forma descendente, con sus líneas cargadas.
-     *
-     * @param nifCliente NIF del cliente cuyos pedidos se desean obtener.
-     * @return Lista de {@link Pedido} pertenecientes al cliente indicado.
-     * @throws SQLException Si ocurre un error durante la consulta.
-     */
     @Override
     public List<Pedido> listarPorCliente(String nifCliente) throws SQLException {
         String sql = "SELECT * FROM pedido WHERE Nif_Cli = ? ORDER BY Fecha_Ped DESC";
@@ -169,8 +143,11 @@ public class PedidoDAO implements IPedidoDAO {
             ps.setString(1, nifCliente);
 
             try (ResultSet rs = ps.executeQuery()) {
+                // Recorre los pedidos del cliente y los convierte en objetos Pedido
                 while (rs.next()) {
                     Pedido p = mapearPedido(rs);
+
+                    // Carga las lineas de cada pedido del cliente
                     p.setLineas(buscarLineas(p.getNum_Pedido()));
                     lista.add(p);
                 }
@@ -180,27 +157,21 @@ public class PedidoDAO implements IPedidoDAO {
     }
 
     // -------------------------------------------------------
-    // UPDATE
+    // UPDATE - Actualiza la cabecera y las lineas de un pedido existente
     // -------------------------------------------------------
-
-    /**
-     * Actualiza la cabecera de un pedido existente y reemplaza todas sus líneas
-     * eliminando las antiguas e insertando las nuevas, usando una transacción atómica.
-     * Si ocurre cualquier error, se realiza un {@code rollback} completo.
-     *
-     * @param pedido Objeto {@link Pedido} con los datos actualizados y sus nuevas líneas.
-     * @return {@code true} si la actualización se realizó correctamente.
-     * @throws SQLException Si ocurre un error durante la actualización o la transacción.
-     */
     @Override
     public boolean actualizar(Pedido pedido) throws SQLException {
         Connection conn = DatabaseConnection.getConnection();
+
+        // Desactiva el autocommit para gestionar la transaccion manualmente
         conn.setAutoCommit(false);
 
         try {
+            // Define la sentencia SQL para actualizar los datos de la cabecera
             String sqlPedido = "UPDATE pedido SET Fecha_Ped=?, Fecha_ent=?, "
                     + "Precio_Total_Ped=?, Nif_Cli=? WHERE Num_Pedido=?";
 
+            // Ejecuta la actualizacion de la cabecera del pedido
             try (PreparedStatement ps = conn.prepareStatement(sqlPedido)) {
                 ps.setDate(1, Date.valueOf(pedido.getFecha_ped()));
                 ps.setDate(2, Date.valueOf(pedido.getFecha_ent()));
@@ -210,15 +181,18 @@ public class PedidoDAO implements IPedidoDAO {
                 ps.executeUpdate();
             }
 
+            // Elimina las lineas antiguas del pedido antes de insertar las nuevas
             try (PreparedStatement ps = conn.prepareStatement(
                     "DELETE FROM contiene WHERE Num_Pedido = ?")) {
                 ps.setInt(1, pedido.getNum_Pedido());
                 ps.executeUpdate();
             }
 
+            // Define la sentencia SQL para insertar las lineas actualizadas
             String sqlLinea = "INSERT INTO contiene (Num_Pedido, Cod_Pro, Cantidad_Pro, Precio_Total) "
                     + "VALUES (?, ?, ?, ?)";
 
+            // Inserta en batch todas las nuevas lineas del pedido actualizado
             try (PreparedStatement ps = conn.prepareStatement(sqlLinea)) {
                 for (LineaPedido linea : pedido.getLineas()) {
                     ps.setInt(1, pedido.getNum_Pedido());
@@ -230,50 +204,38 @@ public class PedidoDAO implements IPedidoDAO {
                 ps.executeBatch();
             }
 
+            // Confirma la transaccion si todo fue correcto
             conn.commit();
             return true;
 
         } catch (SQLException e) {
+            // Deshace todos los cambios si ocurre algun error durante la actualizacion
             conn.rollback();
             throw e;
         } finally {
+            // Restaura el autocommit a su estado original
             conn.setAutoCommit(true);
         }
     }
 
     // -------------------------------------------------------
-    // DELETE
+    // DELETE - Elimina un pedido de la base de datos por su numero
     // -------------------------------------------------------
-
-    /**
-     * Elimina un pedido de la base de datos a partir de su número identificador.
-     *
-     * @param numeroPedido Número del pedido a eliminar.
-     * @return {@code true} si se eliminó al menos una fila; {@code false} en caso contrario.
-     * @throws SQLException Si ocurre un error durante la eliminación.
-     */
     @Override
     public boolean eliminar(int numeroPedido) throws SQLException {
         String sql = "DELETE FROM pedido WHERE Num_Pedido = ?";
 
         try (PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(sql)) {
             ps.setInt(1, numeroPedido);
+
+            // Devuelve true si se elimino al menos una fila
             return ps.executeUpdate() > 0;
         }
     }
 
     // -------------------------------------------------------
-    // Auxiliar: líneas del pedido
+    // Auxiliar: obtiene todas las lineas de un pedido concreto
     // -------------------------------------------------------
-
-    /**
-     * Obtiene todas las líneas de productos pertenecientes a un pedido concreto,
-     * consultando la tabla {@code contiene} de la base de datos.
-     *
-     * @param numeroPedido Número del pedido cuyas líneas se desean obtener.
-     * @return Lista de {@link LineaPedido} asociadas al pedido indicado.
-     * @throws SQLException Si ocurre un error durante la consulta.
-     */
     @Override
     public List<LineaPedido> buscarLineas(int numeroPedido) throws SQLException {
         String sql = "SELECT * FROM contiene WHERE Num_Pedido = ?";
@@ -283,6 +245,7 @@ public class PedidoDAO implements IPedidoDAO {
             ps.setInt(1, numeroPedido);
 
             try (ResultSet rs = ps.executeQuery()) {
+                // Recorre cada fila y construye un objeto LineaPedido por cada una
                 while (rs.next()) {
                     lineas.add(new LineaPedido(
                             rs.getInt("Num_Pedido"),
@@ -297,17 +260,8 @@ public class PedidoDAO implements IPedidoDAO {
     }
 
     // -------------------------------------------------------
-    // Mapeo de ResultSet
+    // Convierte una fila del ResultSet en un objeto Pedido
     // -------------------------------------------------------
-
-    /**
-     * Convierte la fila actual de un {@link ResultSet} en un objeto {@link Pedido},
-     * mapeando cada columna al atributo correspondiente del modelo.
-     *
-     * @param rs {@link ResultSet} posicionado en la fila a mapear.
-     * @return Objeto {@link Pedido} construido con los datos de la fila actual.
-     * @throws SQLException Si ocurre un error al leer el {@link ResultSet}.
-     */
     @Override
     public Pedido mapearPedido(ResultSet rs) throws SQLException {
         return new Pedido(
@@ -320,88 +274,67 @@ public class PedidoDAO implements IPedidoDAO {
     }
 
     // -------------------------------------------------------
-    // Procedimiento almacenado
+    // PROCEDIMIENTO ALMACENADO: llama a MODIFICAR_PEDIDO en la base de datos
     // -------------------------------------------------------
-
     /**
-     * Invoca el procedimiento almacenado {@code MODIFICAR_PEDIDO} en la base de datos
-     * pasando los seis parámetros necesarios para realizar la modificación.
+     * Modifica un pedido existente utilizando el procedimiento almacenado
+     * MODIFICAR_PEDIDO. Permite actualizar líneas, stock y fechas.
      *
-     * @param numPedido       Número del pedido a modificar.
-     * @param accion          Acción a ejecutar dentro del procedimiento almacenado.
-     * @param listaProductos  Cadena con los códigos de producto separados por comas.
-     * @param listaCantidades Cadena con las cantidades de cada producto separadas por comas.
-     * @param fechaPed        Nueva fecha de realización del pedido.
-     * @param fechaEnt        Nueva fecha de entrega del pedido.
-     * @return {@code true} si el procedimiento se ejecutó sin errores.
-     * @throws SQLException Si ocurre un error durante la llamada al procedimiento.
+     * @param numPedido   Número del pedido a modificar.
+     * @param listaPro    Lista de códigos de producto separados por comas (ej: "A0001,B0002,C0003").
+     * @param listaCan    Lista de cantidades separadas por comas (ej: "2,5,1").
+     * @param fechaPed    Nueva fecha de pedido.
+     * @param fechaEnt    Nueva fecha de entrega.
+     * @return true si el procedimiento se ejecutó correctamente.
+     * @throws SQLException Si ocurre un error durante la ejecución.
      */
-    @Override
-    public boolean modificarPedidoProcedimiento(
-            int numPedido,
-            String accion,
-            String listaProductos,
-            String listaCantidades,
-            LocalDate fechaPed,
-            LocalDate fechaEnt
-    ) throws SQLException {
+    public boolean modificarPedidoProcedimiento(int numPedido,
+                                                String listaPro,
+                                                String listaCan,
+                                                Date fechaPed,
+                                                Date fechaEnt) throws SQLException {
 
-        String sql = "{ CALL MODIFICAR_PEDIDO(?, ?, ?, ?, ?, ?) }";
+        String sql = "{ CALL MODIFICAR_PEDIDO(?, ?, ?, ?, ?) }";
 
         try (Connection conn = DatabaseConnection.getConnection();
              CallableStatement cs = conn.prepareCall(sql)) {
 
             cs.setInt(1, numPedido);
-            cs.setString(2, accion);
-            cs.setString(3, listaProductos);
-            cs.setString(4, listaCantidades);
-            cs.setDate(5, Date.valueOf(fechaPed));
-            cs.setDate(6, Date.valueOf(fechaEnt));
+            cs.setString(2, listaPro);
+            cs.setString(3, listaCan);
+            cs.setDate(4, fechaPed);
+            cs.setDate(5, fechaEnt);
 
             cs.execute();
             return true;
         }
     }
-
-    // -------------------------------------------------------
-    // Auxiliares de generación de listas
-    // -------------------------------------------------------
-
-    /**
-     * Genera una cadena de texto con los códigos de producto de todas las líneas
-     * del pedido, separados por comas, para su uso como parámetro del procedimiento almacenado.
-     * <p>
-     * Ejemplo de resultado: {@code "PRD001,PRD002,PRD003"}
-     * </p>
-     *
-     * @param pedido Objeto {@link Pedido} cuyas líneas se desean procesar.
-     * @return Cadena de códigos de producto separados por comas.
-     */
-    public String generarListaProductos(Pedido pedido) {
+    public String generarListaProductos(Pedido p) {
         StringBuilder sb = new StringBuilder();
-        for (LineaPedido lp : pedido.getLineas()) {
-            sb.append(lp.getCod_Pro()).append(",");
+        for (LineaPedido l : p.getLineas()) {
+            if (sb.length() > 0) sb.append(",");
+            sb.append(l.getCod_Pro());
         }
-        sb.deleteCharAt(sb.length() - 1);
         return sb.toString();
     }
 
-    /**
-     * Genera una cadena de texto con las cantidades de cada línea del pedido,
-     * separadas por comas, para su uso como parámetro del procedimiento almacenado.
-     * <p>
-     * Ejemplo de resultado: {@code "2,5,1"}
-     * </p>
-     *
-     * @param pedido Objeto {@link Pedido} cuyas líneas se desean procesar.
-     * @return Cadena de cantidades separadas por comas.
-     */
-    public String generarListaCantidades(Pedido pedido) {
+    public String generarListaCantidades(Pedido p) {
         StringBuilder sb = new StringBuilder();
-        for (LineaPedido lp : pedido.getLineas()) {
-            sb.append(lp.getCantidad_Pro()).append(",");
+        for (LineaPedido l : p.getLineas()) {
+            if (sb.length() > 0) sb.append(",");
+            sb.append(l.getCantidad_Pro());
         }
-        sb.deleteCharAt(sb.length() - 1);
         return sb.toString();
     }
+
+	@Override
+	public boolean modificarPedidoProcedimiento(int numPedido, String accion, String listaProductos,
+			String listaCantidades, LocalDate fechaPed, LocalDate fechaEnt) throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
+
+
+/* Alvaro */

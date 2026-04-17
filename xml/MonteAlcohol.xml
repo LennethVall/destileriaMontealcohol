@@ -125,8 +125,9 @@
             <email>info@forjaliquida.es</email>
         </proveedor>
         <proveedor nif="64694667Z">
-            <nombre>Gran Reserva Aurea</nombre>
+            <nombre>Gran Reserva Aureo</nombre>
             <localidad>Madrid</localidad>
+            <telefono/>
             <email>GRAcontacto@gmail.com</email>
         </proveedor>
         <proveedor nif="43970291H">
@@ -134,21 +135,22 @@
             <localidad>Granada</localidad>
             <email>contacto@alquimista.es</email>
         </proveedor>
+        <proveedor nif="55915694A">
+            <nombre>La Cuarta Esencia</nombre>
+            <localidad>Alicante</localidad>
+            <telefono>717109417</telefono>
+        </proveedor>
         <proveedor nif="49315429W">
             <nombre>La Destilería Montealcohol</nombre>
             <localidad>Bilbao</localidad>
             <telefono>727189541</telefono>
             <email>info@montealcohol.es</email>
         </proveedor>
-        <proveedor nif="55915694A">
-            <nombre>La Quinta Esencia</nombre>
-            <localidad>Alicante</localidad>
-            <telefono>717109417</telefono>
-        </proveedor>
         <proveedor nif="85597644Q">
             <nombre>Licores del Sur</nombre>
             <localidad>Sevilla</localidad>
             <telefono>955112233</telefono>
+            <email>licordelsur@gmail.com</email>
         </proveedor>
         <proveedor nif="36129978Z">
             <nombre>Sierra Alquimia</nombre>
@@ -160,7 +162,7 @@
         <producto codigo="F0109">
             <nombre>Lobo de Malta</nombre>
             <precio moneda="EUR">18.0</precio>
-            <stock>120</stock>
+            <stock>76</stock>
             <tipo>Fermentadas</tipo>
             <proveedor ref="64694667Z"/>
             <imagen ruta="img/F0109.png"/>
@@ -168,7 +170,7 @@
         <producto codigo="F0116">
             <nombre>Sidra del Norte</nombre>
             <precio moneda="EUR">17.0</precio>
-            <stock>150</stock>
+            <stock>147</stock>
             <tipo>Fermentadas</tipo>
             <proveedor ref="76607064K"/>
             <imagen ruta="img/F0116.png"/>
@@ -184,7 +186,7 @@
         <producto codigo="D0101">
             <nombre>Whisky Roble</nombre>
             <precio moneda="EUR">25.5</precio>
-            <stock>120</stock>
+            <stock>122</stock>
             <tipo>Destiladas</tipo>
             <proveedor ref="76607064K"/>
             <imagen ruta="img/D0101.png"/>
@@ -288,7 +290,7 @@
         <producto codigo="L0114">
             <nombre>Grand Marnier</nombre>
             <precio moneda="EUR">28.0</precio>
-            <stock>70</stock>
+            <stock>66</stock>
             <tipo>Licores</tipo>
             <proveedor ref="64694667Z"/>
             <imagen ruta="img/L0114.png"/>
@@ -383,7 +385,7 @@
         <pedido numero="89">
             <fecha_ped>2026-05-29</fecha_ped>
             <fecha_ent>2026-06-03</fecha_ent>
-            <precio_total>78.0</precio_total>
+            <precio_total>79.0</precio_total>
             <cliente ref="11730743F"/>
             <lineas>
                 <linea unidad="uds">
@@ -768,6 +770,24 @@
                     <producto ref="L0115"/>
                     <cantidad>1</cantidad>
                     <precio_linea>24.0</precio_linea>
+                </linea>
+            </lineas>
+        </pedido>
+        <pedido numero="91">
+            <fecha_ped>2026-04-15</fecha_ped>
+            <fecha_ent>2027-04-15</fecha_ent>
+            <precio_total>166.0</precio_total>
+            <cliente ref="11730743F"/>
+            <lineas>
+                <linea unidad="uds">
+                    <producto ref="F0109"/>
+                    <cantidad>3</cantidad>
+                    <precio_linea>54.0</precio_linea>
+                </linea>
+                <linea unidad="uds">
+                    <producto ref="L0114"/>
+                    <cantidad>4</cantidad>
+                    <precio_linea>112.0</precio_linea>
                 </linea>
             </lineas>
         </pedido>
