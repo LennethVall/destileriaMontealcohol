@@ -505,12 +505,13 @@ public class PedidoPanel extends PanelMontealcohol implements ActionListener {
         // Llama al procedimiento almacenado para realizar la modificacion en BD
         daoPedido.modificarPedidoProcedimiento(
                 p.getNum_Pedido(),
-                "MODIFICAR",
                 listaPro,
                 listaCan,
-                p.getFecha_ped(),
-                p.getFecha_ent()
+                java.sql.Date.valueOf(p.getFecha_ped()),
+                java.sql.Date.valueOf(p.getFecha_ent())
         );
+
+
 
         // Regenera el XML tras la actualizacion para mantenerlo sincronizado
         try {
