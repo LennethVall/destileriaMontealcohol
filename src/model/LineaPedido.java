@@ -1,31 +1,51 @@
-/* Alvaro */
-
 package model;
 
 import java.io.Serializable;
 
-// Clase que representa una linea del pedido, equivalente a la tabla "Contiene" del diagrama E-R
+/**
+ * Clase que representa una línea de pedido dentro del sistema.
+ * <p>
+ * Equivale a la tabla {@code Contiene} del diagrama Entidad-Relación.
+ * Cada instancia almacena el producto, la cantidad y el precio total
+ * correspondientes a una entrada concreta de un pedido.
+ * Implementa {@link Serializable} para permitir la persistencia del objeto.
+ * </p>
+ *
+ * @author Alvaro
+ * @version 1.0
+ */
 public class LineaPedido implements Serializable {
 
-    // Identificador de version para la serializacion del objeto
+    /**
+     * Identificador de versión para la serialización del objeto.
+     */
     private static final long serialVersionUID = 1L;
 
-    // Numero del pedido al que pertenece esta linea
+    /** Número del pedido al que pertenece esta línea. */
     private int Num_Pedido;
 
-    // Codigo del producto incluido en esta linea
+    /** Código del producto incluido en esta línea. */
     private String Cod_Pro;
 
-    // Cantidad de unidades del producto pedidas
+    /** Cantidad de unidades del producto pedidas. */
     private int Cantidad_Pro;
 
-    // Precio total de esta linea (cantidad x precio unitario)
+    /** Precio total de esta línea, calculado como cantidad × precio unitario. */
     private float Precio_Total;
 
-    // Constructor vacio necesario para instanciar sin datos iniciales
+    /**
+     * Constructor vacío necesario para instanciar el objeto sin datos iniciales.
+     */
     public LineaPedido() {}
 
-    // Constructor que inicializa todos los campos de la linea del pedido
+    /**
+     * Constructor completo que inicializa todos los campos de la línea de pedido.
+     *
+     * @param numPedido Número del pedido al que pertenece esta línea.
+     * @param cod       Código del producto incluido en la línea.
+     * @param cant      Cantidad de unidades pedidas.
+     * @param precio    Precio total calculado para esta línea.
+     */
     public LineaPedido(int numPedido, String cod, int cant, float precio) {
         this.Num_Pedido = numPedido;
         this.Cod_Pro = cod;
@@ -33,29 +53,59 @@ public class LineaPedido implements Serializable {
         this.Precio_Total = precio;
     }
 
-    // Devuelve el numero del pedido al que pertenece esta linea
+    /**
+     * Obtiene el número del pedido al que pertenece esta línea.
+     *
+     * @return Número del pedido.
+     */
     public int getNum_Pedido() { return Num_Pedido; }
 
-    // Devuelve el codigo del producto de esta linea
+    /**
+     * Obtiene el código del producto de esta línea.
+     *
+     * @return Código del producto.
+     */
     public String getCod_Pro() { return Cod_Pro; }
 
-    // Devuelve la cantidad de unidades pedidas en esta linea
+    /**
+     * Obtiene la cantidad de unidades pedidas en esta línea.
+     *
+     * @return Cantidad de unidades.
+     */
     public int getCantidad_Pro() { return Cantidad_Pro; }
 
-    // Devuelve el precio total calculado para esta linea
+    /**
+     * Obtiene el precio total calculado para esta línea.
+     *
+     * @return Precio total de la línea.
+     */
     public float getPrecio_Total() { return Precio_Total; }
 
-    // Asigna el numero del pedido al que pertenece esta linea
+    /**
+     * Asigna el número del pedido al que pertenece esta línea.
+     *
+     * @param num_Pedido Número de pedido a asignar.
+     */
     public void setNum_Pedido(int num_Pedido) { this.Num_Pedido = num_Pedido; }
 
-    // Asigna el codigo del producto de esta linea
+    /**
+     * Asigna el código del producto de esta línea.
+     *
+     * @param cod Código de producto a asignar.
+     */
     public void setCod_Pro(String cod) { this.Cod_Pro = cod; }
 
-    // Asigna la cantidad de unidades pedidas en esta linea
+    /**
+     * Asigna la cantidad de unidades pedidas en esta línea.
+     *
+     * @param cant Cantidad a asignar.
+     */
     public void setCantidad_Pro(int cant) { this.Cantidad_Pro = cant; }
 
-    // Asigna el precio total de esta linea
+    /**
+     * Asigna el precio total de esta línea.
+     *
+     * @param precio Precio total a asignar.
+     */
     public void setPrecio_Total(float precio) { this.Precio_Total = precio; }
 }
-
-/* Alvaro */
