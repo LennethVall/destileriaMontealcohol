@@ -1383,161 +1383,81 @@ DELIMITER //
 
 CREATE PROCEDURE MODIFICAR_PEDIDO(
     IN P_NUMPED INT,
-    IN P_ACCION VARCHAR(15),
     IN P_LISTA_PRO VARCHAR(200),
     IN P_LISTA_CAN VARCHAR(200),
     IN P_FECHA_PED DATE,
     IN P_FECHA_ENT DATE
 )
 BEGIN
-    -- VARIABLES
-    DECLARE V_CODPRO VARCHAR(10);
-    DECLARE V_CANT INT;
-    DECLARE V_PRECIO DECIMAL(10,2);
-    DECLARE V_PRECIO_TOTAL DECIMAL(10,2);
+    DECLARE i INT DEFAULT 1;
+    DECLARE total INT;
+    DECLARE cod VARCHAR(5);
+    DECLARE cant INT;
+    DECLARE cant_ant INT;
+    DECLARE precio FLOAT(10,2);
 
-    DECLARE V_CANT_ANT INT DEFAULT 0;
-    DECLARE V_DIF INT DEFAULT 0;
-
-    DECLARE V_FIN INT DEFAULT 0;
-    DECLARE V_POS INT DEFAULT 1;
-
-    -- CURSORES
-    DECLARE C_NUEVAS CURSOR FOR
-        SELECT Cod_Pro, Cantidad FROM TempLineas;
-
-    DECLARE C_ANTIGUAS CURSOR FOR
-        SELECT Cod_Pro, Cantidad_Pro FROM TempAntiguas;
-
-    -- HANDLER ÚNICO
-    DECLARE CONTINUE HANDLER FOR NOT FOUND SET V_FIN = 1;
-
-    -- TABLAS TEMPORALES
-    DROP TEMPORARY TABLE IF EXISTS TempLineas;
-    DROP TEMPORARY TABLE IF EXISTS TempAntiguas;
-
-    CREATE TEMPORARY TABLE TempLineas (
-        Cod_Pro VARCHAR(10),
-        Cantidad INT
-    );
-
-    CREATE TEMPORARY TABLE TempAntiguas (
-        Cod_Pro VARCHAR(10),
-        Cantidad_Pro INT
-    );
-
-    -- CARGAR LISTAS EN TABLA TEMPORAL DE NUEVAS LÍNEAS
-    IF P_LISTA_PRO IS NOT NULL AND P_LISTA_PRO <> '' THEN
-        WHILE V_POS <= (LENGTH(P_LISTA_PRO) - LENGTH(REPLACE(P_LISTA_PRO, ',', '')) + 1) DO
-            SET V_CODPRO = SUBSTRING_INDEX(SUBSTRING_INDEX(P_LISTA_PRO, ',', V_POS), ',', -1);
-            SET V_CANT   = CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(P_LISTA_CAN, ',', V_POS), ',', -1) AS UNSIGNED);
-
-            INSERT INTO TempLineas VALUES (V_CODPRO, V_CANT);
-
-            SET V_POS = V_POS + 1;
-        END WHILE;
-    END IF;
-
-    -- CARGAR LÍNEAS ANTIGUAS EN TABLA TEMPORAL
-    INSERT INTO TempAntiguas (Cod_Pro, Cantidad_Pro)
-    SELECT Cod_Pro, Cantidad_Pro
-    FROM Contiene
-    WHERE Num_Pedido = P_NUMPED;
+    -- Contar cuántos productos hay en la lista
+    SET total = LENGTH(P_LISTA_PRO) - LENGTH(REPLACE(P_LISTA_PRO, ',', '')) + 1;
 
     START TRANSACTION;
 
-    -- MODIFICAR LÍNEAS DEL PEDIDO
-    IF P_ACCION = 'MODIFICAR_LINEAS' OR P_ACCION = 'TODO' THEN
+    -- 1) Eliminar líneas que ya no están en la nueva lista
+    DELETE FROM Contiene
+    WHERE Num_Pedido = P_NUMPED
+      AND FIND_IN_SET(Cod_Pro, P_LISTA_PRO) = 0;
 
-        -- RECORRER NUEVAS LÍNEAS
-        SET V_FIN = 0;
-        OPEN C_NUEVAS;
+    -- 2) Recorrer las nuevas líneas sin cursores
+    WHILE i <= total DO
 
-        leer_nuevas: LOOP
-            FETCH C_NUEVAS INTO V_CODPRO, V_CANT;
-            IF V_FIN = 1 THEN LEAVE leer_nuevas; END IF;
+        -- Obtener código y cantidad según la posición
+        SET cod  = SUBSTRING_INDEX(SUBSTRING_INDEX(P_LISTA_PRO, ',', i), ',', -1);
+        SET cant = CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(P_LISTA_CAN, ',', i), ',', -1) AS UNSIGNED);
 
-            -- Obtener precio del producto
-            SELECT Precio_Pro INTO V_PRECIO FROM Producto WHERE Cod_Pro = V_CODPRO;
-            SET V_PRECIO_TOTAL = V_PRECIO * V_CANT;
+        -- Obtener precio del producto
+        SELECT Precio_Pro INTO precio
+        FROM Producto
+        WHERE Cod_Pro = cod;
 
-            -- ¿La línea ya existía?
-            IF EXISTS (SELECT 1 FROM Contiene WHERE Num_Pedido = P_NUMPED AND Cod_Pro = V_CODPRO) THEN
+        -- Si la línea ya existía
+        IF EXISTS(SELECT 1 FROM Contiene WHERE Num_Pedido = P_NUMPED AND Cod_Pro = cod) THEN
 
-                -- Obtener cantidad antigua
-                SELECT Cantidad_Pro INTO V_CANT_ANT
-                FROM Contiene
-                WHERE Num_Pedido = P_NUMPED AND Cod_Pro = V_CODPRO;
+            -- Obtener cantidad anterior
+            SELECT Cantidad_Pro INTO cant_ant
+            FROM Contiene
+            WHERE Num_Pedido = P_NUMPED AND Cod_Pro = cod;
 
-                -- Calcular diferencia
-                SET V_DIF = V_CANT - V_CANT_ANT;
+            -- Ajustar stock según diferencia
+            UPDATE Producto
+            SET Stock = Stock - (cant - cant_ant)
+            WHERE Cod_Pro = cod;
 
-                -- Aumenta cantidad → restar stock
-                IF V_DIF > 0 THEN
-                    UPDATE Producto
-                    SET Stock = Stock - V_DIF
-                    WHERE Cod_Pro = V_CODPRO;
-                END IF;
+            -- Actualizar línea
+            UPDATE Contiene
+            SET Cantidad_Pro = cant,
+                Precio_Total = cant * precio
+            WHERE Num_Pedido = P_NUMPED AND Cod_Pro = cod;
 
-                -- Disminuye cantidad → devolver stock
-                IF V_DIF < 0 THEN
-                    UPDATE Producto
-                    SET Stock = Stock + ABS(V_DIF)
-                    WHERE Cod_Pro = V_CODPRO;
-                END IF;
+        ELSE
+            -- Nueva línea → restar stock completo
+            UPDATE Producto
+            SET Stock = Stock - cant
+            WHERE Cod_Pro = cod;
 
-                -- Actualizar línea
-                UPDATE Contiene
-                SET Cantidad_Pro = V_CANT,
-                    Precio_Total = V_PRECIO_TOTAL
-                WHERE Num_Pedido = P_NUMPED AND Cod_Pro = V_CODPRO;
+            -- Insertar nueva línea
+            INSERT INTO Contiene (Num_Pedido, Cod_Pro, Cantidad_Pro, Precio_Total)
+            VALUES (P_NUMPED, cod, cant, cant * precio);
+        END IF;
 
-            ELSE
-                -- Nueva línea → restar stock completo
-                UPDATE Producto
-                SET Stock = Stock - V_CANT
-                WHERE Cod_Pro = V_CODPRO;
+        SET i = i + 1;
+    END WHILE;
 
-                INSERT INTO Contiene (Num_Pedido, Cod_Pro, Cantidad_Pro, Precio_Total)
-                VALUES (P_NUMPED, V_CANT, V_CANT, V_PRECIO_TOTAL);
-            END IF;
+    -- 3) Actualizar fechas del pedido
+    UPDATE Pedido
+    SET Fecha_Ped = P_FECHA_PED,
+        Fecha_Ent = P_FECHA_ENT
+    WHERE Num_Pedido = P_NUMPED;
 
-        END LOOP;
-        CLOSE C_NUEVAS;
-
-        -- ELIMINAR LÍNEAS QUE YA NO ESTÁN EN LA LISTA
-        SET V_FIN = 0;
-        OPEN C_ANTIGUAS;
-
-        leer_antiguas: LOOP
-            FETCH C_ANTIGUAS INTO V_CODPRO, V_CANT_ANT;
-            IF V_FIN = 1 THEN LEAVE leer_antiguas; END IF;
-
-            IF NOT EXISTS (SELECT 1 FROM TempLineas WHERE Cod_Pro = V_CODPRO) THEN
-
-                -- Devolver stock de la línea eliminada
-                UPDATE Producto
-                SET Stock = Stock + V_CANT_ANT
-                WHERE Cod_Pro = V_CODPRO;
-
-                DELETE FROM Contiene
-                WHERE Num_Pedido = P_NUMPED AND Cod_Pro = V_CODPRO;
-            END IF;
-
-        END LOOP;
-        CLOSE C_ANTIGUAS;
-
-    END IF;
-
-    -- MODIFICAR FECHAS DEL PEDIDO
-    IF P_ACCION = 'MODIFICAR_DATOS' OR P_ACCION = 'TODO' THEN
-        UPDATE Pedido
-        SET Fecha_Ped = P_FECHA_PED,
-            Fecha_Ent = P_FECHA_ENT
-        WHERE Num_Pedido = P_NUMPED;
-    END IF;
-
-    -- RECALCULAR PRECIO TOTAL
+    -- 4) Recalcular precio total del pedido
     UPDATE Pedido
     SET Precio_Total_Ped = (
         SELECT COALESCE(SUM(Precio_Total), 0)
@@ -1547,11 +1467,11 @@ BEGIN
     WHERE Num_Pedido = P_NUMPED;
 
     COMMIT;
-
 END //
 
 DELIMITER ;
 
+DROP PROCEDURE MODIFICAR_PEDIDO;
 
 -- 13. ELIMINAR PRODUCTO –
 
